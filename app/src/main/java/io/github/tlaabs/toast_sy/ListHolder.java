@@ -10,9 +10,13 @@ import android.widget.TextView;
 
 public class ListHolder extends RecyclerView.ViewHolder{
     TextView title;
+    TextView usageTime;
+    TextView regTime;
 
     public ListHolder(View itemView){
         super(itemView);
         title = itemView.findViewById(R.id.title);
+        usageTime = itemView.findViewById(R.id.usage_time);
+        regTime = itemView.findViewById(R.id.reg_time);
     }
 }

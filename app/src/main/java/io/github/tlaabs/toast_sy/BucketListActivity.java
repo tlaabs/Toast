@@ -21,8 +21,14 @@ public class BucketListActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private SQLiteDatabase db;
-    private ArrayList arrList;
+    private ArrayList<BucketItem> arrList;
 
+    BucketFragment frAll;
+    BucketFragment frTrip;
+    BucketFragment frRest;
+    BucketFragment frMovie;
+    BucketFragment frActivity;
+    BucketFragment frEtc;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,21 +56,54 @@ public class BucketListActivity extends AppCompatActivity {
     public void init(){
         viewPager = findViewById(R.id.pager);
         tabLayout = findViewById(R.id.tabLayout);
-        arrList = new ArrayList();
+        arrList = new ArrayList<BucketItem>();
+        frAll = new BucketFragment();
+        frTrip = new BucketFragment();
+        frRest = new BucketFragment();
+        frMovie = new BucketFragment();
+        frActivity = new BucketFragment();
+        frEtc = new BucketFragment();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        arrList.clear();
+        loadDB();
+        frAll.setTheme("ALL");
+        frTrip.setTheme("여행");
+        frRest.setTheme("식당");
+        frMovie.setTheme("영화");
+        frActivity.setTheme("활동");
+        frEtc.setTheme("기타");
+        frAll.addData(arrList);
+        frTrip.addData(arrList);
+        frRest.addData(arrList);
+        frMovie.addData(arrList);
+        frActivity.addData(arrList);
+        frEtc.addData(arrList);
+
     }
 
     public void loadDB(){
         db = openOrCreateDatabase("sim.db", MODE_PRIVATE, null);
-        String sql = "SELECT TITLE FROM simDB;";
+        String sql = "SELECT * FROM simDB;";
         Cursor cursor = db.rawQuery(sql, null);
         int count = cursor.getCount();
 
         if(cursor != null && count != 0){
             cursor.moveToFirst();
             for(int i = 0 ; i < cursor.getCount() ; i++){
-                String title = cursor.getString(0);
-                Log.i("lolo","" + cursor.getColumnCount());
-                arrList.add(title);
+                BucketItem item = new BucketItem();
+                String title = cursor.getString(1);
+                String usageTime = cursor.getString(3);
+                String regTime = cursor.getString(4);
+                String category = cursor.getString(2);
+                item.setTitle(title);
+                item.setUsageTime(usageTime);
+                item.setRegTime(regTime);
+                item.setCategory(category);
+                arrList.add(item);
 
                 cursor.moveToNext();
             }
@@ -101,11 +140,18 @@ public class BucketListActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch(position){
                 case 0:
-                    return "About";
+                    return "ALL";
                 case 1:
-                    return "Menu";
+                    return "여행";
                 case 2:
-                    return "Review";
+                    return "식당";
+                case 3:
+                    return "영화";
+                case 4:
+                    return "활동";
+                case 5:
+                    return "기타";
+
                 default:
                     return null;
             }
@@ -115,15 +161,22 @@ public class BucketListActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    TabFragment1 tabFragment1 = new TabFragment1();
-                    return tabFragment1;
+
+                    return frAll;
                 case 1:
-                    TabFragment2 tabFragment2 = new TabFragment2();
-                    tabFragment2.addData(arrList);
-                    return tabFragment2;
+
+                    return frTrip;
                 case 2:
-                    TabFragment1 tabFragment3 = new TabFragment1();
-                    return tabFragment3;
+
+                    return frRest;
+                case 3:
+
+                    return frMovie;
+                case 4:
+
+                    return frActivity;
+                case 5:
+                    return frEtc;
                 default:
                     return null;
             }
@@ -132,7 +185,7 @@ public class BucketListActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 3;
+            return 6;
         }
     }
 

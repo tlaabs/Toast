@@ -18,19 +18,22 @@ import java.util.ArrayList;
  * Created by devsimMe on 2018-05-14.
  */
 
-public class TabFragment2 extends Fragment{
+public class BucketFragment extends Fragment{
     RecyclerView recyclerView;
     private FloatingActionButton fab;
-    private ArrayList arrList;
+    private ArrayList<BucketItem> arrList;
+
+    String theme;
+    MyAdapter adapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_bucket2, container, false);
+        View v = inflater.inflate(R.layout.fragment_bucket, container, false);
 
         recyclerView = v.findViewById(R.id.listView);
         recyclerView.setHasFixedSize(true);
-        MyAdapter adapter = new MyAdapter();
+//        adapter = new MyAdapter();
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -49,8 +52,22 @@ public class TabFragment2 extends Fragment{
         return v;
     }
 
-    public void addData(ArrayList arr){
-        arrList = arr;
+    public void addData(ArrayList<BucketItem> arr){
+        //THEME 추출
+        ArrayList<BucketItem> newArr = new ArrayList();
+        for(int i = 0 ; i < arr.size(); i++){
+            BucketItem item = arr.get(i);
+            if(theme.equals(item.getCategory()) || theme.equals("ALL")){
+                newArr.add(item);
+            }
+        }
+        arrList = newArr;
+        adapter = new MyAdapter();
+        adapter.notifyDataSetChanged();
+    }
+
+    public void setTheme(String theme){
+        this.theme = theme;
     }
 
 
@@ -71,8 +88,15 @@ public class TabFragment2 extends Fragment{
 
         @Override
         public void onBindViewHolder(@NonNull ListHolder holder, int position) {
-            String str = (String)arrList.get(position);
-            holder.title.setText(str);
+            BucketItem item = arrList.get(position);
+            String title = item.getTitle();
+            holder.title.setText(title);
+
+            String usageTime = item.getUsageTime();
+            holder.usageTime.setText(usageTime);
+
+            String regTime = item.getRegTime();
+            holder.regTime.setText(regTime);
         }
 
         @Override

@@ -17,7 +17,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".BucketListActivity" />
-        <activity android:name=".AddBucketActivity"></activity>
+        <activity android:name=".AddBucketActivity"
+            android:theme="@style/DialogTheme"
+            ></activity>
     </application>
 
 </manifest>

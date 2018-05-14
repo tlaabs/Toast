@@ -26,21 +26,54 @@ public class MainActivity extends AppCompatActivity {
 
         DBThread th = new DBThread();
         th.start();
+
     }
 
     class DBThread extends Thread {
         @Override
         public void run() {
             SQLiteDatabase db = openOrCreateDatabase("sim.db", MODE_PRIVATE, null);
-
+//            db.execSQL("DROP TABLE simDB");
             db.execSQL("CREATE TABLE IF NOT EXISTS " + "simDB" + "("
                     + "ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "TITLE TEXT, "
                     + "CATEGORY TEXT, "
-                    + "USAGE_TIME INTEGER, "
+                    + "USAGE_TIME STRING, "
                     + "REG_TIME DATE, "
                     + "START_TIME DATE, "
+                    + "STATE INTEGER, " //0 , 1 , 2
                     + "END_TIME DATE);");
+
+            db.execSQL("CREATE TABLE IF NOT EXISTS " + "category" + "("
+                    + "ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + "CATEGORY TEXT);");
+
+//            db.execSQL("DROP TABLE category;");
+
+
+
+//            SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
+//
+//            int flag = pref.getInt("one", 0);
+//            if(flag == 0){
+//                ContentValues recordValues = new ContentValues();
+//                recordValues.put("CATEGORY", "여행");
+//                db.insert("category",null,recordValues);
+//                recordValues.clear();
+//                recordValues.put("CATEGORY", "식당");
+//                db.insert("category",null,recordValues);
+//                recordValues.clear();
+//                recordValues.put("CATEGORY", "영화");
+//                db.insert("category",null,recordValues);
+//                recordValues.clear();
+//                recordValues.put("CATEGORY", "활동");
+//                db.insert("category",null,recordValues);
+//                recordValues.clear();
+//
+//                SharedPreferences.Editor editor = pref.edit();
+//                editor.putInt("one", 1);
+//                editor.commit();
+//            }
 
 //            db.execSQL("DELETE FROM " + "simDB" + ";");
 
