@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:layout_gravity="center"
+        android:textSize="70sp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="30dp"/>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:stretchColumns="0,1">
+        <TableRow>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/bread"
+                android:gravity="center"
+                android:text="1.버킷리스트"
+                android:textSize="14sp"
+                android:padding="7dp"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/bread"
+                android:gravity="center"
+                android:text="2.진행중"
+                android:textSize="14sp"
+                android:padding="7dp"/>
+        </TableRow>
+        <TableRow>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/bread"
+                android:gravity="center"
+                android:text="3.완성리스트"
+                android:textSize="14sp"
+                android:padding="7dp"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/bread"
+                android:gravity="center"
+                android:text="4.추천리스트"
+                android:textSize="14sp"
+                android:padding="7dp"/>
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>
