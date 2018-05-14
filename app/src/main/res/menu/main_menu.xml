@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
   <item
       android:title="alarm"
-      android:id="@+id/main_alarm"
+      android:id="@+id/menu_alarm"
       android:icon="@drawable/menu_alarm"
       app:showAsAction = "always"
       />
 
   <item
       android:title="setting"
-      android:id="@+id/main_setting"
+      android:id="@+id/menu_setting"
       android:icon="@drawable/menu_setting"
       app:showAsAction = "always"
       />
