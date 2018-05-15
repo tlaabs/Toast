@@ -1,10 +1,10 @@
 package io.github.tlaabs.toast_sy;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,16 +13,14 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-public class AddBucketActivity extends AppCompatActivity {
+public class ModifyBucketActivity extends AppCompatActivity {
     SQLiteDatabase db;
     EditText titleEdit;
     Spinner hourSpinner;
     Spinner categorySpinner;
 
-    Button addBtn;
+    Button modifyBtn;
+    Button deleteBtn;
     Button backBtn;
 
     String[] hours = {"-", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"};
@@ -31,16 +29,15 @@ public class AddBucketActivity extends AppCompatActivity {
     String selectedHour = "-";
     String selectedCategory = "여행";
 
-//    ArrayList categoryList;
+    BucketItem item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_bucket);
+        setContentView(R.layout.activity_modify_bucket);
 
         db = openOrCreateDatabase("sim.db", MODE_PRIVATE, null);
         init();
-//        getCategoryList();
 
 
         ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, hours);
@@ -54,8 +51,10 @@ public class AddBucketActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
+        hourSpinner.setSelection(getHoursIdxFromItem(item));
 
         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, category);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -71,9 +70,10 @@ public class AddBucketActivity extends AppCompatActivity {
 
             }
         });
+        categorySpinner.setSelection(getCategoryIdxFromItem(item));
 
 
-        addBtn.setOnClickListener(new View.OnClickListener() {
+        modifyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ContentValues recordValues = new ContentValues();
@@ -83,12 +83,20 @@ public class AddBucketActivity extends AppCompatActivity {
                 recordValues.put("STATE",0);
                 recordValues.put("CATEGORY",selectedCategory);
 
-                String today = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-                Log.i("date","date : " + today);
-                recordValues.put("REG_TIME", today);
+//                String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+//                Log.i("date","date : " + today);
+//                recordValues.put("REG_TIME", today);
 
-                db.insert("simDB", null, recordValues);
-                Toast.makeText(getApplicationContext(),"등록 완료!",Toast.LENGTH_SHORT).show();
+                db.update("simDB",recordValues,"ID=" + item.getId(),null);
+                Toast.makeText(getApplicationContext(),"수정 완료!",Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                db.delete("simDB","ID=" + item.getId(),null);
                 finish();
             }
         });
@@ -100,8 +108,25 @@ public class AddBucketActivity extends AppCompatActivity {
             }
         });
 
+
+
     }
 
+    public int getHoursIdxFromItem(BucketItem item){
+        String h = item.getUsageTime();
+
+        for(int i = 0 ; i < hours.length; i++)
+            if(h.equals(hours[i])) return i;
+
+        return -1;
+    }
+    public int getCategoryIdxFromItem(BucketItem item){
+        String cat = item.getCategory();
+        for(int i = 0 ; i < category.length; i++)
+            if(cat.equals(category[i])) return i;
+
+        return -1;
+    }
 //    public void getCategoryList() {
 //        String sql = "SELECT * FROM CATEGORY;";
 //        Cursor cursor = db.rawQuery(sql, null);
@@ -124,7 +149,15 @@ public class AddBucketActivity extends AppCompatActivity {
         titleEdit = findViewById(R.id.titleEdit);
         hourSpinner = findViewById(R.id.hour_spinner);
         categorySpinner = findViewById(R.id.category_spinner);
-        addBtn = findViewById(R.id.addBtn);
+        modifyBtn = findViewById(R.id.modifyBtn);
+        deleteBtn = findViewById(R.id.deleteBtn);
         backBtn = findViewById(R.id.backBtn);
+
+        //getIntent
+
+        Intent i = getIntent();
+        item = (BucketItem)i.getSerializableExtra("item");
+
+        titleEdit.setText(item.getTitle());
     }
 }

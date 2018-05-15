@@ -1,10 +1,12 @@
 package io.github.tlaabs.toast_sy;
 
+import java.io.Serializable;
+
 /**
  * Created by devsimMe on 2018-05-15.
  */
 
-public class BucketItem {
+public class BucketItem implements Serializable{
     int id;
     String title;
     String category;

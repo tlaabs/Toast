@@ -9,17 +9,17 @@ import android.widget.TextView;
  * Created by devsimMe on 2018-05-14.
  */
 
-public class ListHolder extends RecyclerView.ViewHolder{
+public class OnGoingListHolder extends RecyclerView.ViewHolder{
     TextView title;
-    TextView usageTime;
-    TextView regTime;
+    TextView deadLineTime;
+    TextView startTime;
     ImageView onGoingBtn;
 
-    public ListHolder(View itemView){
+
+    public OnGoingListHolder(View itemView){
         super(itemView);
         title = itemView.findViewById(R.id.title);
-        usageTime = itemView.findViewById(R.id.usage_time);
-        regTime = itemView.findViewById(R.id.reg_time);
-        onGoingBtn = itemView.findViewById(R.id.on_going_btn);
+        deadLineTime = itemView.findViewById(R.id.deadline_time);
+        startTime = itemView.findViewById(R.id.start_time);
     }
 }

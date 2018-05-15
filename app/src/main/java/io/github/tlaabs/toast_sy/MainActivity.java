@@ -24,6 +24,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.onGoingBucket).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), OnGoingActivity.class);
+                startActivity(i);
+            }
+        });
+
         DBThread th = new DBThread();
         th.start();
 

@@ -18,20 +18,12 @@
             android:text="제목"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
+            android:layout_weight="0.3"
             android:gravity="center"
             />
 
         <TextView
-            android:text="소요시간"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.1"
-            android:gravity="center"
-            />
-
-        <TextView
-            android:text="등록시간"
+            android:text="남은시간"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
@@ -39,7 +31,30 @@
             />
 
         <TextView
-            android:text="진행"
+            android:text="시작시간"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:text="취소"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:text="연장"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:gravity="center"
+            />
+        <TextView
+            android:text="완료"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.1"

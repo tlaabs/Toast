@@ -17,18 +17,18 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 
 
-public class BucketListActivity extends AppCompatActivity {
+public class OnGoingActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private SQLiteDatabase db;
     private ArrayList<BucketItem> arrList;
 
-    BucketFragment frAll;
-    BucketFragment frTrip;
-    BucketFragment frRest;
-    BucketFragment frMovie;
-    BucketFragment frActivity;
-    BucketFragment frEtc;
+    OnGoingBucketFragment frAll;
+    OnGoingBucketFragment frTrip;
+    OnGoingBucketFragment frRest;
+    OnGoingBucketFragment frMovie;
+    OnGoingBucketFragment frActivity;
+    OnGoingBucketFragment frEtc;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +36,7 @@ public class BucketListActivity extends AppCompatActivity {
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("버킷리스트");
+        getSupportActionBar().setTitle("진행중");
 
         init();
         loadDB();
@@ -48,22 +48,18 @@ public class BucketListActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
 
-
-
-
-
     }
 
     public void init(){
         viewPager = findViewById(R.id.pager);
         tabLayout = findViewById(R.id.tabLayout);
         arrList = new ArrayList<BucketItem>();
-        frAll = new BucketFragment();
-        frTrip = new BucketFragment();
-        frRest = new BucketFragment();
-        frMovie = new BucketFragment();
-        frActivity = new BucketFragment();
-        frEtc = new BucketFragment();
+        frAll = new OnGoingBucketFragment();
+        frTrip = new OnGoingBucketFragment();
+        frRest = new OnGoingBucketFragment();
+        frMovie = new OnGoingBucketFragment();
+        frActivity = new OnGoingBucketFragment();
+        frEtc = new OnGoingBucketFragment();
     }
 
     @Override
@@ -89,7 +85,7 @@ public class BucketListActivity extends AppCompatActivity {
 
     public void loadDB(){
         db = openOrCreateDatabase("sim.db", MODE_PRIVATE, null);
-        String sql = "SELECT * FROM simDB WHERE STATE = 0;";
+        String sql = "SELECT * FROM simDB WHERE STATE = 1;";
         Cursor cursor = db.rawQuery(sql, null);
         int count = cursor.getCount();
 
@@ -103,12 +99,14 @@ public class BucketListActivity extends AppCompatActivity {
                 String regTime = cursor.getString(4);
                 String category = cursor.getString(2);
                 String startTime = cursor.getString(5);
+                String endTime = cursor.getString(7);
                 item.setId(id);
                 item.setTitle(title);
+                item.setCategory(category);
                 item.setUsageTime(usageTime);
                 item.setRegTime(regTime);
-                item.setCategory(category);
                 item.setStartTime(startTime);
+                item.setEndTime(endTime);
                 arrList.add(item);
 
                 cursor.moveToNext();
