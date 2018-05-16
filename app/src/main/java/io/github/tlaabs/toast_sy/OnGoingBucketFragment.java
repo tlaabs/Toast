@@ -1,6 +1,8 @@
 package io.github.tlaabs.toast_sy;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,13 +14,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by devsimMe on 2018-05-14.
@@ -119,44 +122,55 @@ public class OnGoingBucketFragment extends Fragment{
 
             //종료시간 - 현재시간
             //연장하게되면 종료시간을 늘리고 다시 계산
-            Calendar c1 = Calendar.getInstance();
+
             SimpleDateFormat transFormatnew = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date d1 = null;
-            try {
-                d1 = transFormatnew.parse(endTime);
-            }catch(Exception e){}
-            c1.setTime(d1);
-            String now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-            Log.i("endTime|now",endTime + "|" + now);
-//            Calendar c2 = Calendar.getInstance();
-//            Date d2 = null;
-//            try{
-//                d2 = transFormatnew.parse(startTime);
-//            }catch(Exception e){}
-//            c2.setTime(d2);
-            Calendar c2 = Calendar.getInstance();
-            Date d2 = null;
-            try {
-                d2 = transFormatnew.parse(now);
-            }catch(Exception e){}
-            c2.setTime(d2);
-            long dif = (c1.getTimeInMillis()-c2.getTimeInMillis());
-            Log.i("dif",dif+"");
-            Date n = new Date(dif);
-            //24시간일떄 에러존재 가능성잇음
-            String t = new SimpleDateFormat("HH:mm:ss").format(n.getTime());
 
-            String deadlineTime = t;
-            holder.deadLineTime.setText(t);
+            String now = transFormatnew.format(new Date());
+            String endTimeP = endTime.substring(11,endTime.length());
+            String nowP = now.substring(11,now.length());
+            Log.i("pop",endTimeP + " | " + nowP);
+            int M = Integer.parseInt(endTimeP.substring(3,5)) - Integer.parseInt(nowP.substring(3,5));
+            int dayFlag = 0;
+            if(M < 0) {
+                M = Integer.parseInt(endTimeP.substring(3,5)) + 60 - Integer.parseInt(nowP.substring(3,5));
+                dayFlag = 1;
+            }
 
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+            int H = Integer.parseInt(endTimeP.substring(0,2))-dayFlag - Integer.parseInt(nowP.substring(0,2));
+            if(H < 0) H = Integer.parseInt(endTimeP.substring(0,2)) + 24 - Integer.parseInt(nowP.substring(0,2));
+            String HS = H + "";
+            if(HS.length() == 1) HS = "0" + H;
+            String MS = M + "";
+            if(MS.length() == 1) MS = "0" + M;
+
+
+            Log.i("OHH","H : " + H);
+            holder.deadLineTime.setText(HS+":"+MS);
+
+            holder.stopBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent i = new Intent(getContext(), ModifyBucketActivity.class);
+                    SQLiteDatabase db = getContext().openOrCreateDatabase("sim.db", MODE_PRIVATE, null);
+                    ContentValues recordValues = new ContentValues();
+
+                    recordValues.put("STATE", 0);
+
+                    db.update("simDB",recordValues,"ID=" + item.getId(),null);
+                    ((OnGoingActivity)getActivity()).onResume();
+                    Toast.makeText(getContext(),"중지",Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            holder.extendBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(getContext(), ExtendBucketActivity.class);
                     i.putExtra("item",item);
                     startActivityForResult(i,1);
                 }
             });
+
+
 
 
         }

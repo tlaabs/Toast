@@ -13,7 +13,9 @@ public class OnGoingListHolder extends RecyclerView.ViewHolder{
     TextView title;
     TextView deadLineTime;
     TextView startTime;
-    ImageView onGoingBtn;
+    ImageView stopBtn;
+    ImageView extendBtn;
+    ImageView completeBtn;
 
 
     public OnGoingListHolder(View itemView){
@@ -21,5 +23,8 @@ public class OnGoingListHolder extends RecyclerView.ViewHolder{
         title = itemView.findViewById(R.id.title);
         deadLineTime = itemView.findViewById(R.id.deadline_time);
         startTime = itemView.findViewById(R.id.start_time);
+        stopBtn = itemView.findViewById(R.id.stop_btn);
+        extendBtn = itemView.findViewById(R.id.extend_btn);
+        completeBtn = itemView.findViewById(R.id.complete_btn);
     }
 }

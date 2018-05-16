@@ -22,6 +22,9 @@
             android:theme="@style/DialogTheme"
             ></activity>
         <activity android:name=".ModifyBucketActivity"
+        android:theme="@style/DialogTheme"
+        ></activity>
+        <activity android:name=".ExtendBucketActivity"
             android:theme="@style/DialogTheme"
             ></activity>
     </application>

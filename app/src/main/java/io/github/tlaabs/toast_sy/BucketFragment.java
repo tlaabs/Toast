@@ -127,11 +127,6 @@ public class BucketFragment extends Fragment{
                         recordValues.put("END_TIME",end);
                     }
 
-
-//                String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-//                Log.i("date","date : " + today);
-//                recordValues.put("REG_TIME", today);
-
                     db.update("simDB",recordValues,"ID=" + item.getId(),null);
                     ((BucketListActivity)getActivity()).onResume();
                     Toast.makeText(getContext(),"진행중!",Toast.LENGTH_SHORT).show();
