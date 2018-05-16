@@ -8,11 +8,15 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -110,9 +114,40 @@ public class OnGoingBucketFragment extends Fragment{
             String startTime = item.getStartTime();
             holder.startTime.setText(startTime);
 
-            String deadlineTime = item.getEndTime();
+            String endTime = item.getEndTime();
 
-            holder.deadLineTime.setText(deadlineTime);
+
+            //종료시간 - 현재시간
+            //연장하게되면 종료시간을 늘리고 다시 계산
+            Calendar c1 = Calendar.getInstance();
+            SimpleDateFormat transFormatnew = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date d1 = null;
+            try {
+                d1 = transFormatnew.parse(endTime);
+            }catch(Exception e){}
+            c1.setTime(d1);
+            String now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+            Log.i("endTime|now",endTime + "|" + now);
+//            Calendar c2 = Calendar.getInstance();
+//            Date d2 = null;
+//            try{
+//                d2 = transFormatnew.parse(startTime);
+//            }catch(Exception e){}
+//            c2.setTime(d2);
+            Calendar c2 = Calendar.getInstance();
+            Date d2 = null;
+            try {
+                d2 = transFormatnew.parse(now);
+            }catch(Exception e){}
+            c2.setTime(d2);
+            long dif = (c1.getTimeInMillis()-c2.getTimeInMillis());
+            Log.i("dif",dif+"");
+            Date n = new Date(dif);
+            //24시간일떄 에러존재 가능성잇음
+            String t = new SimpleDateFormat("HH:mm:ss").format(n.getTime());
+
+            String deadlineTime = t;
+            holder.deadLineTime.setText(t);
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
