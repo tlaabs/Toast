@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">Toast</string>
-
+    <string name="textSize">10sp</string>
 </resources>
