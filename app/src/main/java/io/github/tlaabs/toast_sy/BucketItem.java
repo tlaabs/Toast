@@ -15,13 +15,40 @@ public class BucketItem implements Serializable{
     String startTime;
     int state;
     String endTime;
+    String completeTime;
+    String imgSrc;
+    String review;
 
     public int getId() {
         return id;
     }
 
+    public String getCompleteTime() {
+        return completeTime;
+    }
+
+    public String getImgSrc() {
+        return imgSrc;
+    }
+
+    public String getReview() {
+        return review;
+    }
+
     public String getTitle() {
         return title;
+    }
+
+    public void setCompleteTime(String completeTime) {
+        this.completeTime = completeTime;
+    }
+
+    public void setImgSrc(String imgSrc) {
+        this.imgSrc = imgSrc;
+    }
+
+    public void setReview(String review) {
+        this.review = review;
     }
 
     public String getCategory() {

@@ -32,6 +32,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.goHistory).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), HistoryActivity.class);
+                startActivity(i);
+            }
+        });
+
         DBThread th = new DBThread();
         th.start();
 
@@ -50,40 +58,16 @@ public class MainActivity extends AppCompatActivity {
                     + "REG_TIME DATE, "
                     + "START_TIME DATE, "
                     + "STATE INTEGER, " //0 , 1 , 2
-                    + "END_TIME DATE);");
+                    + "END_TIME DATE, "
+                    + "COMPLETE_TIME DATE, " //8
+                    + "IMG_SRC STRING, "
+                    + "REVIEW STRING);");
 
             db.execSQL("CREATE TABLE IF NOT EXISTS " + "category" + "("
                     + "ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "CATEGORY TEXT);");
 
 //            db.execSQL("DROP TABLE category;");
-
-
-
-//            SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
-//
-//            int flag = pref.getInt("one", 0);
-//            if(flag == 0){
-//                ContentValues recordValues = new ContentValues();
-//                recordValues.put("CATEGORY", "여행");
-//                db.insert("category",null,recordValues);
-//                recordValues.clear();
-//                recordValues.put("CATEGORY", "식당");
-//                db.insert("category",null,recordValues);
-//                recordValues.clear();
-//                recordValues.put("CATEGORY", "영화");
-//                db.insert("category",null,recordValues);
-//                recordValues.clear();
-//                recordValues.put("CATEGORY", "활동");
-//                db.insert("category",null,recordValues);
-//                recordValues.clear();
-//
-//                SharedPreferences.Editor editor = pref.edit();
-//                editor.putInt("one", 1);
-//                editor.commit();
-//            }
-
-//            db.execSQL("DELETE FROM " + "simDB" + ";");
 
             db.close();
 

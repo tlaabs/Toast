@@ -21,6 +21,13 @@
         android:text="onGoing"
         />
 
+    <Button
+        android:id="@+id/goHistory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="history"
+        />
+
 
 
 </LinearLayout>

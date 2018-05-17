@@ -169,6 +169,14 @@ public class OnGoingBucketFragment extends Fragment{
                     startActivityForResult(i,1);
                 }
             });
+            holder.completeBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(getContext(), AddHistoryBucketActivity.class);
+                    i.putExtra("item",item);
+                    startActivityForResult(i,1);
+                }
+            });
 
 
 
