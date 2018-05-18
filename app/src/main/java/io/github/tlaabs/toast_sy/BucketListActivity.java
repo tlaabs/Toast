@@ -1,5 +1,6 @@
 package io.github.tlaabs.toast_sy;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -120,7 +121,7 @@ public class BucketListActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.bucket_menu, menu);
         return true;
     }
 
@@ -129,6 +130,11 @@ public class BucketListActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
+                return true;
+            case R.id.search:
+                Intent i = new Intent(this, SearchActivity.class);
+                startActivity(i);
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
