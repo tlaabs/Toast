@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="io.github.tlaabs.toast_sy.SettingActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="보안설정"
+                    />
+
+                <TextView
+                    android:id="@+id/initPWD"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:text="비밀번호 설정"
+                    android:background="#f55f"
+                    android:textColor="#ffffff"
+                    android:gravity="center"
+                    />
+
+                <TextView
+                    android:id="@+id/enablePWD"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:text="비밀번호 설정"
+                    android:background="#f55"
+                    android:textColor="#ffffff"
+                    android:gravity="center"
+                    />
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</LinearLayout>
