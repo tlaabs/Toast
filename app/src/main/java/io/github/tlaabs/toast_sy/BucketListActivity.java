@@ -19,10 +19,12 @@ import java.util.ArrayList;
 
 
 public class BucketListActivity extends AppCompatActivity {
+    final static int SEARCH_BUCKET_ACTIVITY = 1;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private SQLiteDatabase db;
-    private ArrayList<BucketItem> arrList;
+    private ArrayList arrList;
+    private ArrayList arrSearchList;
 
     BucketFragment frAll;
     BucketFragment frTrip;
@@ -30,6 +32,8 @@ public class BucketListActivity extends AppCompatActivity {
     BucketFragment frMovie;
     BucketFragment frActivity;
     BucketFragment frEtc;
+
+    int preSearchFlag = -1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +76,7 @@ public class BucketListActivity extends AppCompatActivity {
         super.onResume();
         arrList.clear();
         loadDB();
+
         frAll.setTheme("ALL");
         frTrip.setTheme("여행");
         frRest.setTheme("식당");
@@ -85,7 +90,26 @@ public class BucketListActivity extends AppCompatActivity {
         frActivity.addData(arrList);
         frEtc.addData(arrList);
         Log.i("BucketListActivity","OnrRESUME");
+        if(preSearchFlag == 1) initDBFromArrList(arrSearchList);
+    }
 
+    public void initDBFromArrList(ArrayList<BucketItem> arr){
+//        arrList.clear();
+//        loadDB();
+
+        frAll.setTheme("ALL");
+        frTrip.setTheme("여행");
+        frRest.setTheme("식당");
+        frMovie.setTheme("영화");
+        frActivity.setTheme("활동");
+        frEtc.setTheme("기타");
+        frAll.addData(arr);
+        frTrip.addData(arr);
+        frRest.addData(arr);
+        frMovie.addData(arr);
+        frActivity.addData(arr);
+        frEtc.addData(arr);
+//        Log.i("BucketListActivity","OnrRESUME");
     }
 
     public void loadDB(){
@@ -132,12 +156,28 @@ public class BucketListActivity extends AppCompatActivity {
                 onBackPressed();
                 return true;
             case R.id.search:
-                Intent i = new Intent(this, SearchActivity.class);
-                startActivity(i);
-
+                Intent i = new Intent(this, SearchBucketActivity.class);
+                startActivityForResult(i,SEARCH_BUCKET_ACTIVITY);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == SEARCH_BUCKET_ACTIVITY){
+            if(resultCode == RESULT_OK){
+                arrSearchList = data.getParcelableArrayListExtra("aa");
+                preSearchFlag = 1;
+                Log.i("init","init");
+//                BucketItem i = (BucketItem)arrList.get(0);
+//                Log.i("init",i.getTitle() + " ");
+                initDBFromArrList(arrList);
+                getSupportActionBar().setTitle(
+                        data.getStringExtra("searchKey") + ", " +
+                                data.getStringExtra("usageTime") + " 시간");
+            }
         }
     }
 

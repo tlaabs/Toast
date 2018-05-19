@@ -38,8 +38,11 @@
         <activity
             android:name=".SearchBucketActivity"
             android:theme="@style/DialogTheme" />
+
         <activity android:name=".initPWDActivity" />
         <activity android:name=".SettingActivity"></activity>
+
+
     </application>
 
 </manifest>

@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,8 +24,6 @@ public class SearchBucketActivity extends AppCompatActivity {
     Button backBtn;
 
     String[] hours = {"-", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"};
-
-
     String selectedHour = "-";
 
     BucketItem item;
@@ -61,11 +60,12 @@ public class SearchBucketActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String sql;
                 String searchTitle = titleEdit.getText().toString();
-                if(selectedHour.equals("-"))sql = "SELECT * FROM simDB;";
+                if(selectedHour.equals("-"))sql = "SELECT * FROM simDB WHERE TITLE LIKE '%" + searchTitle + "%';";
                 else sql = "SELECT * FROM simDB WHERE STATE = 0 and USAGE_TIME = "
-                        + selectedHour + " and " + "TITLE like " + "%" + searchTitle + "%;";
+                        + selectedHour + " and " + "TITLE like " + "'%" + searchTitle + "%';";
                 Cursor cursor = db.rawQuery(sql, null);
                 int count = cursor.getCount();
+                Log.i("counttttt",count + " ");
 
                 if(cursor != null && count != 0){
                     cursor.moveToFirst();
@@ -91,29 +91,29 @@ public class SearchBucketActivity extends AppCompatActivity {
                 }
                 Intent ia = new Intent();
                 ia.putParcelableArrayListExtra("aa",arrList);
+                ia.putExtra("searchKey",titleEdit.getText().toString());
+                ia.putExtra("usageTime",selectedHour);
                 setResult(RESULT_OK,ia);
+                finish();
 
             }
         });
-
-
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
-
-
-
     }
 
     public void init() {
         titleEdit = findViewById(R.id.titleEdit);
         hourSpinner = findViewById(R.id.hour_spinner);
-        searchBtn = findViewById(R.id.searchtn);
+        searchBtn = findViewById(R.id.searchBtn);
         backBtn = findViewById(R.id.backBtn);
 
 
     }
+
+
 }
