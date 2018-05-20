@@ -7,12 +7,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import com.fingerprints.service.FingerprintManager;
 
 public class MainActivity extends AppCompatActivity {
 
     // 4 buttons at Main
     Button btn_bucket, btn_ongoing, btn_complete, btn_recommend;
-
+    FingerprintManager fingerprintManager = FingerprintManager.open();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +26,27 @@ public class MainActivity extends AppCompatActivity {
        btn_complete=(Button)findViewById(R.id.btn_complete);
        btn_recommend=(Button)findViewById(R.id.btn_recommend);
 
+        if(fingerprintManager != null){
+            fingerprintManager.startIdentify(new FingerprintManager.IdentifyCallback(){
+                @Override
+                public void onIdentified(int i, boolean b) {
+                    //fillInput();
+                    Toast.makeText(getApplicationContext(),"인증성공",Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onNoMatch() {
+                   // initInput();
+                    Toast.makeText(getApplicationContext(),"지문인증 실패, 다시 시도하세요",Toast.LENGTH_SHORT).show();
+                    //scanFingerprint();
+                }
+            },fingerprintManager.getIds());
+        }
+
+    }
+
+    private void cancelFingerprint(){
+        if(fingerprintManager!=null)fingerprintManager.release();
     }
 
     /**
@@ -41,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.menu_setting:
-                Intent menu_intent2 = new Intent(getApplicationContext(),SettingsActivity.class);
+                Intent menu_intent2 = new Intent(getApplicationContext(),SettingActivity.class);
                 startActivity(menu_intent2);
                 return true;
 

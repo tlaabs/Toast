@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.androidtown.toast_main">
 
+    <uses-permission android:name="com.fingerprints.service.ACCESS_FINGERPRINT_MANAGER" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,9 +18,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings" />
+        <activity android:name=".SettingActivity" />
+        <activity android:name=".settingSecurity" />
+        <activity android:name=".SettingPW" />
+        <activity android:name=".SettingPW2" />
+        <activity android:name=".settingFP"></activity>
     </application>
 
 </manifest>

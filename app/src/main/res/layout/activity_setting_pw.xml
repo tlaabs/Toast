@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TableLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="20dp"
+        android:stretchColumns="*"
+       >
+        <TableRow>
+            <TextView
+                android:layout_span="4"
+                android:padding="20dp"
+                android:text="비밀번호"
+                android:textSize="30sp"
+                android:layout_marginBottom="30dp"
+                android:gravity="center"
+                />
+        </TableRow>
+<TableRow>
+        <ImageView
+            android:id="@+id/c1"
+            android:src="@drawable/empty_circle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <ImageView
+            android:id="@+id/c2"
+            android:src="@drawable/empty_circle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <ImageView
+            android:id="@+id/c3"
+            android:src="@drawable/empty_circle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/c4"
+            android:src="@drawable/empty_circle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+</TableRow>
+    </TableLayout>
+
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="*">
+        <TableRow>
+            <Button
+                android:text="1"
+                android:id="@+id/b1"
+                android:textSize="30sp"
+                android:background="#8fc1"
+                android:layout_margin="10dp"
+                android:gravity="center"/>
+            <Button
+                android:text="2"
+                android:id="@+id/b2"
+                android:textSize="30sp"
+                android:background="#8fc1"
+                android:layout_margin="10dp"
+                android:gravity="center"/>
+            <Button
+                android:text="3"
+                android:id="@+id/b3"
+                android:textSize="30sp"
+                android:background="#8fc1"
+                android:layout_margin="10dp"
+                android:gravity="center"/>
+        </TableRow>
+        <TableRow>
+            <Button android:text="4"
+                android:id="@+id/b4"
+                android:textSize="30sp"
+                android:background="#8fc1"
+                android:layout_margin="10dp"
+                android:gravity="center"/>
+            <Button android:text="5"
+                android:id="@+id/b5"
+                android:textSize="30sp"
+                android:background="#8fc1"
+                android:layout_margin="10dp"
+                android:gravity="center"/>
+            <Button android:text="6"
+                android:id="@+id/b6"
+                android:textSize="30sp"
+                android:background="#8fc1"
+                android:layout_margin="10dp"
+                android:gravity="center"/>
+        </TableRow>
+
+        <TableRow>
+            <Button android:text="7"
+                android:id="@+id/b7"
+                android:textSize="30sp"
+                android:background="#8fc1"
+                android:layout_margin="10dp"
+                android:gravity="center"/>
+            <Button android:text="8"
+                android:id="@+id/b8"
+                android:textSize="30sp"
+                android:background="#8fc1"
+                android:layout_margin="10dp"
+                android:gravity="center"/>
+            <Button android:text="9"
+                android:id="@+id/b9"
+                android:textSize="30sp"
+                android:background="#8fc1"
+                android:layout_margin="10dp"
+                android:gravity="center"/>
+        </TableRow>
+    </TableLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow>
+            <Button
+                android:id="@+id/enter"
+                android:text="확인"
+                android:textSize="30sp"
+                android:background="#afa0"
+                android:layout_margin="10dp"
+                android:layout_weight="8"
+                />
+            <Button
+                android:id="@+id/backspace"
+                android:text="ㅎㅎ"
+                android:textStyle="bold"
+                android:textSize="30sp"
+                android:background="#afa0"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                />
+        </TableRow>
+
+    </TableLayout>
+
+</LinearLayout>
