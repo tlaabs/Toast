@@ -44,6 +44,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.goRecommend).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), RecommendActivity.class);
+                startActivity(i);
+            }
+        });
+
         DBThread th = new DBThread();
         th.start();
 

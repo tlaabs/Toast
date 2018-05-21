@@ -28,6 +28,13 @@
         android:text="history"
         />
 
+    <Button
+        android:id="@+id/goRecommend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="recommend"
+        />
+
 
 
 </LinearLayout>
