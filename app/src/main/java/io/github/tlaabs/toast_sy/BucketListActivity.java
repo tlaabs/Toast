@@ -41,7 +41,7 @@ public class BucketListActivity extends AppCompatActivity {
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("버킷리스트");
+        getSupportActionBar().setTitle("버킷 리스트");
 
         init();
         loadDB();
@@ -49,12 +49,8 @@ public class BucketListActivity extends AppCompatActivity {
         TabPagerAdapter mTabPagerAdapter = new TabPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(mTabPagerAdapter);
 
-        tabLayout.setTabTextColors(getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorPrimaryDark));
+        tabLayout.setTabTextColors(getResources().getColor(R.color.tabColorDefault), getResources().getColor(R.color.tabColorMark));
         tabLayout.setupWithViewPager(viewPager);
-
-
-
-
 
 
     }
@@ -96,7 +92,6 @@ public class BucketListActivity extends AppCompatActivity {
     public void initDBFromArrList(ArrayList<BucketItem> arr){
 //        arrList.clear();
 //        loadDB();
-
         frAll.setTheme("ALL");
         frTrip.setTheme("여행");
         frRest.setTheme("식당");

@@ -20,7 +20,6 @@ import java.util.Date;
 
 public class ExtendBucketActivity extends AppCompatActivity {
     SQLiteDatabase db;
-    EditText titleEdit;
     Spinner hourSpinner;
 
     Button extendBtn;
@@ -111,7 +110,7 @@ public class ExtendBucketActivity extends AppCompatActivity {
 
 
     public void init() {
-        titleEdit = findViewById(R.id.titleEdit);
+//        titleEdit = findViewById(R.id.titleEdit);
         hourSpinner = findViewById(R.id.hour_spinner);
         extendBtn = findViewById(R.id.extendBtn);
 //        deleteBtn = findViewById(R.id.deleteBtn);
@@ -122,6 +121,6 @@ public class ExtendBucketActivity extends AppCompatActivity {
         Intent i = getIntent();
         item = (BucketItem)i.getSerializableExtra("item");
 
-        titleEdit.setText(item.getTitle());
+//        titleEdit.setText(item.getTitle());
     }
 }

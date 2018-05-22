@@ -16,12 +16,21 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            android:padding="15dp"
             >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="제목"
+                android:textSize="15dp"
+                android:layout_marginBottom="15dp"
+                />
+
             <TextView
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="title"
+                android:layout_marginBottom="15dp"
                 />
 
             <Button
@@ -29,24 +38,30 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="이미지 선택"
+                android:layout_marginBottom="15dp"
                 />
 
             <ImageView
                 android:id="@+id/showImg"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:maxHeight="200dp"
+                android:maxWidth="200dp"
                 android:scaleType="fitXY"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="글"
+                android:layout_marginBottom="15dp"
+                android:text="내용"
+                android:textSize="15dp"
                 />
             <EditText
                 android:id="@+id/editBox"
                 android:layout_width="match_parent"
-                android:layout_height="300dp" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </ScrollView>
 

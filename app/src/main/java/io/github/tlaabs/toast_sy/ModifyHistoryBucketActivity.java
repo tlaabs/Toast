@@ -42,6 +42,7 @@ public class ModifyHistoryBucketActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_history);
+        getSupportActionBar().setTitle("추억 수정");
 
         db = openOrCreateDatabase("sim.db", MODE_PRIVATE, null);
         init();

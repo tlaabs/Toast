@@ -113,23 +113,30 @@ public class BucketFragment extends Fragment{
                 @Override
                 public void onClick(View view) {
                     SQLiteDatabase db = getContext().openOrCreateDatabase("sim.db", MODE_PRIVATE, null);
-                    ContentValues recordValues = new ContentValues();
 
-                    recordValues.put("STATE", 1);
-                    String now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-                    recordValues.put("START_TIME",now);
-
-                    Calendar cal = Calendar.getInstance();
-                    cal.setTime(new Date());
                     if(!item.getUsageTime().equals("-")) {
-                        cal.add(Calendar.HOUR, Integer.parseInt(item.getUsageTime()));
-                        String end = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(cal.getTime());
-                        recordValues.put("END_TIME",end);
-                    }
+                        ContentValues recordValues = new ContentValues();
 
-                    db.update("simDB",recordValues,"ID=" + item.getId(),null);
-                    ((BucketListActivity)getActivity()).onResume();
-                    Toast.makeText(getContext(),"진행중!",Toast.LENGTH_SHORT).show();
+                        recordValues.put("STATE", 1);
+                        String now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+                        recordValues.put("START_TIME", now);
+
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(new Date());
+                        if (!item.getUsageTime().equals("-")) {
+                            cal.add(Calendar.HOUR, Integer.parseInt(item.getUsageTime()));
+                            String end = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(cal.getTime());
+                            recordValues.put("END_TIME", end);
+                        }
+
+                        db.update("simDB", recordValues, "ID=" + item.getId(), null);
+                        ((BucketListActivity) getActivity()).onResume();
+                        Toast.makeText(getContext(), "진행중!", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Intent i = new Intent(getContext(), AddHistoryBucketActivity.class);
+                        i.putExtra("item",item);
+                        startActivityForResult(i,1);
+                    }
                 }
             });
 

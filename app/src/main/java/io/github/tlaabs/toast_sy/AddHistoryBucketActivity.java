@@ -41,6 +41,7 @@ public class AddHistoryBucketActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_history);
+        getSupportActionBar().setTitle("추억 남기기");
 
         db = openOrCreateDatabase("sim.db", MODE_PRIVATE, null);
         init();

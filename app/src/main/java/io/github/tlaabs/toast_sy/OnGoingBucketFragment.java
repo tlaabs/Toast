@@ -29,7 +29,6 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class OnGoingBucketFragment extends Fragment{
     RecyclerView recyclerView;
-    private FloatingActionButton fab;
     private ArrayList<BucketItem> arrList;
 
     String theme;
@@ -46,17 +45,6 @@ public class OnGoingBucketFragment extends Fragment{
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-
-        fab = v.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getContext(), AddBucketActivity.class);
-                startActivity(i);
-            }
-        });
-
-
         return v;
     }
 
