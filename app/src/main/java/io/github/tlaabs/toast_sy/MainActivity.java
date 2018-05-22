@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        findViewById(R.id.goBucket).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_bucket).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), BucketListActivity.class);
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.onGoingBucket).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_ongoing).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), OnGoingActivity.class);
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.goHistory).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_complete).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), HistoryActivity.class);
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.goRecommend).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_recommend).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), RecommendActivity.class);
@@ -82,23 +82,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     *  main_menu
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
+        getMenuInflater().inflate(R.menu.main_menu,menu);
+        return super.onCreateOptionsMenu(menu);
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
+        int curId = item.getItemId();
+        switch (curId){
+            case R.id.menu_alarm:
                 return true;
-            case R.id.setting:
-                Intent i = new Intent(this, SettingActivity.class);
-                startActivity(i);
 
+            case R.id.menu_setting:
+                Intent menu_intent2 = new Intent(getApplicationContext(),SettingActivity.class);
+                startActivity(menu_intent2);
                 return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
