@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:padding="15dp"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.3"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/deadline_time"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.3"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/start_time"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.3"
+        android:gravity="center"
+        />
+
+    <ImageView
+        android:id="@+id/stop_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/play_button"
+        android:layout_weight="0.1"
+        />
+    <ImageView
+        android:id="@+id/extend_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/extend"
+        android:layout_weight="0.1"
+        />
+
+    <ImageView
+        android:id="@+id/complete_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/complete"
+        android:layout_weight="0.1"
+        />
+
+
+</LinearLayout>
