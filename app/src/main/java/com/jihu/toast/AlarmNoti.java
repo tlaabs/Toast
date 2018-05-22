@@ -32,7 +32,7 @@ public class AlarmNoti extends AppCompatActivity {
                 howlong=Integer.parseInt(hour.getText().toString());
                 //언제 알람뜰지 정하는 곳
                 Calendar mCalendar = Calendar.getInstance();
-                mCalendar.add(Calendar.MINUTE, + howlong); //howlong 만큼 분을 더함
+                mCalendar.add(Calendar.SECOND, + howlong); //howlong 만큼 분을 더함
 
 
                 Intent notiAlarm = new Intent("toast.AlarmNoti.ALARM_START");//리시버 호출
