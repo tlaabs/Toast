@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -16,7 +17,8 @@ import static org.androidtown.toast_main.R.drawable.filled_circle;
 public class SettingPW2 extends AppCompatActivity {
 
     ImageView c1,c2,c3,c4;
-    Button b1, b2, b3, b4, b5, b6, b7, b8, b9, enter, backspace;
+    Button b1, b2, b3, b4, b5, b6, b7, b8, b9, enter;
+    ImageButton backspace;
     int n1,n2,n3,n4;
     String pw2 = "";
 
@@ -97,7 +99,6 @@ public class SettingPW2 extends AppCompatActivity {
                     //(1) 비밀 번호가 일치할 때
                     if(pw1.equals(pw2))
                     {
-
                         SharedPreferences pref = getSharedPreferences("toastPWD", MODE_PRIVATE);
                         SharedPreferences.Editor editor = pref.edit();
                         editor.putString("pwd", pw1);
@@ -175,7 +176,7 @@ public class SettingPW2 extends AppCompatActivity {
         b9 = (Button) findViewById(R.id.b9);
 
         enter=(Button)findViewById(R.id.enter);
-        backspace=(Button)findViewById(R.id.backspace);
+        backspace=(ImageButton)findViewById(R.id.backspace);
     }
 
     public void putNumberIn ( int n){

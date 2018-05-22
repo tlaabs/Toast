@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -14,7 +15,8 @@ import static org.androidtown.toast_main.R.drawable.filled_circle;
 public class SettingPW extends AppCompatActivity {
 
     ImageView c1,c2,c3,c4;
-    Button b1, b2, b3, b4, b5, b6, b7, b8, b9, enter, backspace;
+    Button b1, b2, b3, b4, b5, b6, b7, b8, b9, enter;
+    ImageButton backspace;
     int n1,n2,n3,n4;
     String pw = "";
 
@@ -132,7 +134,6 @@ public class SettingPW extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     public void init()
@@ -153,7 +154,7 @@ public class SettingPW extends AppCompatActivity {
         b9 = (Button) findViewById(R.id.b9);
 
         enter=(Button)findViewById(R.id.enter);
-        backspace=(Button)findViewById(R.id.backspace);
+        backspace=(ImageButton)findViewById(R.id.backspace);
     }
 
     public void putNumberIn ( int n){

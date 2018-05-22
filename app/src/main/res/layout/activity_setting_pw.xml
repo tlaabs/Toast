@@ -128,17 +128,17 @@
                 android:id="@+id/enter"
                 android:text="확인"
                 android:textSize="30sp"
+                android:layout_height="50dp"
                 android:background="#afa0"
                 android:layout_margin="10dp"
-                android:layout_weight="8"
+                android:layout_weight="2"
                 />
-            <Button
+            <ImageButton
                 android:id="@+id/backspace"
-                android:text="ㅎㅎ"
-                android:textStyle="bold"
-                android:textSize="30sp"
+                android:src="@drawable/backspace"
                 android:background="#afa0"
                 android:layout_margin="10dp"
+                android:layout_height="50dp"
                 android:layout_weight="1"
                 />
         </TableRow>

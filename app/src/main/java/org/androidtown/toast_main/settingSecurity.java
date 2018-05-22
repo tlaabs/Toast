@@ -60,12 +60,14 @@ public class settingSecurity extends AppCompatActivity {
                 //3-1.'지문인식 사용' 버튼을 눌러서 직접 on 시키면
                 if(useFP.isChecked())
                 {
+                    useFP.setChecked(true);     //지문인식사용 버튼 on
+                    usePW.setChecked(false);    //비밀번호 사용 버튼 off
+                    changePW.setEnabled(false);  //비밀번호 변경 버튼 off
+                    /*
                     //지문인식 설정을 위한 액티비티 띄우기.
                     Intent intent2 = new Intent(getApplicationContext(),settingFP.class);
-                    startActivityForResult(intent2,555);
+                    startActivityForResult(intent2,555);*/
                 }
-                //3-2. '지문인식 사용' 버튼을 눌러서 직접 off 시키면
-
             }
         });
 
@@ -114,6 +116,8 @@ public class settingSecurity extends AppCompatActivity {
         }
 
 
+
+        /*
         //3-1. 지문인식이 설정된 경우
         else if(requestCode==555 && resultCode==666)
         {
@@ -128,6 +132,6 @@ public class settingSecurity extends AppCompatActivity {
         {
             useFP.setChecked(false);
             Toast.makeText(getApplicationContext(),"지문인식 설정 실패!",Toast.LENGTH_LONG).show();
-        }
+        }*/
     }
 }
