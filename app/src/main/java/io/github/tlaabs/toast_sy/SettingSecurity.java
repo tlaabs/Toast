@@ -151,8 +151,8 @@ public class SettingSecurity extends AppCompatActivity {
             usePW.setChecked(false);
             Toast.makeText(getApplicationContext(),"비밀번호 설정 실패!",Toast.LENGTH_LONG).show();
 
-            editor.putString("securityType","FREE");
-            editor.commit();
+           // editor.putString("securityType","FREE");
+            //editor.commit();
         }
 
 

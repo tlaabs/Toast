@@ -121,7 +121,8 @@
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:stretchColumns="*">
 
         <TableRow>
             <Button
@@ -131,15 +132,23 @@
                 android:layout_height="50dp"
                 android:background="#afa0"
                 android:layout_margin="10dp"
-                android:layout_weight="2"
+                android:gravity="center"
                 />
+
+            <Button android:text="0"
+                android:id="@+id/b0"
+                android:textSize="30sp"
+                android:background="#8fc1"
+                android:layout_margin="10dp"
+                android:gravity="center"/>
             <ImageButton
                 android:id="@+id/backspace"
                 android:src="@drawable/backspace"
                 android:background="#afa0"
                 android:layout_margin="10dp"
                 android:layout_height="50dp"
-                android:layout_weight="1"
+                android:layout_width="85dp"
+                android:gravity="center"
                 />
         </TableRow>
 

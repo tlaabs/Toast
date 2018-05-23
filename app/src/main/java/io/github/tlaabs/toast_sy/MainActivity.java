@@ -75,6 +75,10 @@ public class MainActivity extends AppCompatActivity {
             i.putExtra("pw",pw);
             startActivityForResult(i,1);
         }
+        else if(securityCheck == false && set.equals("FP")){
+            Intent i = new Intent(this,CheckingFP.class);
+            startActivityForResult(i,2);
+        }
 
         //매일 하나씩 알람 하는 부분
         SQLiteDatabase db = openOrCreateDatabase("sim.db", MODE_PRIVATE, null);
@@ -107,6 +111,13 @@ public class MainActivity extends AppCompatActivity {
             }else{
                 finish();
             }
+        }
+        else if(requestCode == 2){
+                if(resultCode == RESULT_OK){
+                    securityCheck = true;
+                }else{
+                    finish();
+                }
         }
     }
 
