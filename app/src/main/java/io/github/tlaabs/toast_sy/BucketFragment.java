@@ -123,7 +123,21 @@ public class BucketFragment extends Fragment{
                     SQLiteDatabase db = getContext().openOrCreateDatabase("sim.db", MODE_PRIVATE, null);
 
                     if(!item.getUsageTime().equals("-")) {
+
+                        //-----------------초기 설정
                         int howlong = Integer.parseInt(item.getUsageTime());
+                        Intent notiAlarm = new Intent("toast.AlarmNoti.ALARM_START");//리시버 호출
+
+                        notiAlarm.putExtra("item", item); //item
+                        notiAlarm.putExtra("type", 1); // 타입 0은 bukcet, 1은 inpro
+
+
+
+                        int notiId = item.getId(); //서로 다른 id 부여
+                        PendingIntent notiIntent = PendingIntent.getBroadcast(
+                                activityContext.getApplicationContext(), notiId, notiAlarm, PendingIntent.FLAG_IMMUTABLE);
+                        //------------------------------
+
                         ContentValues recordValues = new ContentValues();
 
                         recordValues.put("STATE", 1);
@@ -144,16 +158,7 @@ public class BucketFragment extends Fragment{
                         Toast.makeText(getContext(), "진행중!", Toast.LENGTH_SHORT).show();
 
                         //알람 설정하는 부분-----------------------------------------------------------
-                        Intent notiAlarm = new Intent("toast.AlarmNoti.ALARM_START");//리시버 호출
 
-                        notiAlarm.putExtra("item", item); //item
-                        notiAlarm.putExtra("type", 1); // 타입 0은 bukcet, 1은 inpro
-
-
-
-                        int notiId = item.getId(); //서로 다른 id 부여
-                        PendingIntent notiIntent = PendingIntent.getBroadcast(
-                                activityContext.getApplicationContext(), notiId, notiAlarm, PendingIntent.FLAG_IMMUTABLE);
 
                         AlarmManager notiManager = (AlarmManager) activityContext.getSystemService(Context.ALARM_SERVICE);
                         notiManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), notiIntent);

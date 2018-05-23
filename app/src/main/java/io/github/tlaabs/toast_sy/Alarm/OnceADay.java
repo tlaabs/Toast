@@ -36,7 +36,7 @@ public class OnceADay{
 
         int currentDate = cal.get(Calendar.DAY_OF_MONTH);
 
-        if (currentDate != day || day==0) {//하루에 한번만
+        if (currentDate != day && db != null) {//하루에 한번만
             Cursor c = db.rawQuery(selectQuery, null);
 
             //아이템이 있을시에만...

@@ -20,7 +20,6 @@ public class StopOnGoingActivity extends AppCompatActivity {
     BucketItem item;
     TextView message;
 
-    SQLiteDatabase db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +38,8 @@ public class StopOnGoingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), ExtendBucketActivity.class);
                 i.putExtra("item",item);
-                startActivityForResult(i,1);
+                startActivity(i);
+                finish();
             }
         });
 

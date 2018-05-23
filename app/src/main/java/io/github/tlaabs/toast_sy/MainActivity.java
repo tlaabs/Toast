@@ -76,25 +76,27 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(i,1);
         }
 
-        //매일 하나씩 알람 하는 부분 toDO: 새로이 재설계 한 Once A Day 적용
-
+        //매일 하나씩 알람 하는 부분
         SQLiteDatabase db = openOrCreateDatabase("sim.db", MODE_PRIVATE, null);
         OnceADay dailyTask = new OnceADay(db,this);
 
         Calendar cal = Calendar.getInstance();
 
         SharedPreferences pref2 = getSharedPreferences("alarm", MODE_PRIVATE);
+
         int d =pref2.getInt("D",0);
         int h = pref2.getInt("H",3);
         int m = pref2.getInt("M",0);
         Log.i("tt",h + "|"+m);
 
-        int result = dailyTask.execute(d,15,37);
+        int result = dailyTask.execute(d,h,m); // toDO 테스트 환경 수정
         if(result>0){ //알람 설정이 완료 되었을때
-            SharedPreferences.Editor editor = pref.edit();
-            editor.putInt("D",cal.get(Calendar.DAY_OF_MONTH));
-            editor.commit();
+            SharedPreferences.Editor pref2Editor = pref2.edit();
+            Log.v("tt","Bucket 알람이 설정 되었습니다. :" + d + " " + h + " " + m + " " + result);
+            pref2Editor.putInt("D",result);
+            pref2Editor.commit();
         }
+        Log.v("tt","Result는 이와 같습니다 : " + d + " = " + result);
     }
 
     @Override
