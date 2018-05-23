@@ -43,16 +43,6 @@ public class RecommendBucketFragment extends Fragment{
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-        fab = v.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getContext(), AddBucketActivity.class);
-                startActivity(i);
-            }
-        });
-
-
         return v;
     }
 

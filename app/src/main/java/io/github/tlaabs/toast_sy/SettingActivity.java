@@ -2,7 +2,6 @@ package io.github.tlaabs.toast_sy;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
@@ -12,7 +11,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -21,16 +19,22 @@ import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
 
 public class SettingActivity extends AppCompatActivity {
-
-    Button menu_security, menu_lockscreen, menu_backup;
     final static int MY_PERMISSIONS_REQUEST_WRITE_EXT_STORAGE = 0;
-
+    Button menu_alarm, menu_security, menu_lockscreen, menu_backup;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-
         init();
+
+
+        menu_alarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(),OneDayAlarmSettingActivity.class);
+                startActivity(i);
+            }
+        });
 
         //1. 설정 메뉴 - 보안
         menu_security.setOnClickListener(new View.OnClickListener() {
@@ -46,8 +50,8 @@ public class SettingActivity extends AppCompatActivity {
         menu_lockscreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent2 = new Intent(getApplicationContext(),SettingLockScreen.class);
-                startActivity(intent2);
+//                Intent intent2 = new Intent(getApplicationContext(),SettingLockScreen.class);
+//                startActivity(intent2);
 
             }
         });
@@ -65,6 +69,7 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     public void init(){
+        menu_alarm = findViewById(R.id.menu_alarm);
         menu_security = (Button)findViewById(R.id.menu_security);
         menu_lockscreen=(Button)findViewById(R.id.menu_lockscreen);
         menu_backup=(Button)findViewById(R.id.menu_backup);
@@ -91,7 +96,7 @@ public class SettingActivity extends AppCompatActivity {
                     dst.close();
                 }
                 if(backupDB.exists()){
-                    Toast.makeText(this, "백업을 완료하였습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "DB Export Complete!!", Toast.LENGTH_SHORT).show();
                 }
             }
         } catch (Exception e) {
@@ -144,5 +149,4 @@ public class SettingActivity extends AppCompatActivity {
             // permissions this app might request
         }
     }
-
 }

@@ -5,27 +5,28 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+
+import java.util.Calendar;
+import java.util.Timer;
+
+import io.github.tlaabs.toast_sy.Alarm.OnceADay;
 
 public class MainActivity extends AppCompatActivity {
     boolean securityCheck = false;
-    // 4 buttons at Main
-    Button btn_bucket, btn_ongoing, btn_complete, btn_recommend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btn_bucket=(Button)findViewById(R.id.btn_bucket);
-        btn_ongoing=(Button)findViewById(R.id.btn_ongoing);
-        btn_complete=(Button)findViewById(R.id.btn_complete);
-        btn_recommend=(Button)findViewById(R.id.btn_recommend);
+//        getSupportActionBar().setHomeButtonEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        btn_bucket.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_bucket).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), BucketListActivity.class);
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btn_ongoing.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_ongoing).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), OnGoingActivity.class);
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btn_complete.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_complete).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), HistoryActivity.class);
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btn_recommend.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_recommend).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), RecommendActivity.class);
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-       SharedPreferences pref = getSharedPreferences("security", MODE_PRIVATE);
+        SharedPreferences pref = getSharedPreferences("security", MODE_PRIVATE);
         String set = pref.getString("securityType","FREE");
         String pw = pref.getString("pw","0000");
 
@@ -74,8 +75,24 @@ public class MainActivity extends AppCompatActivity {
             i.putExtra("pw",pw);
             startActivityForResult(i,1);
         }
-    }
 
+        //매일 하나씩 알람 하는 부분
+        SQLiteDatabase db = openOrCreateDatabase("sim.db", MODE_PRIVATE, null);
+        OnceADay dailyTask = new OnceADay(db,this);
+        Timer timer = new Timer();
+        Calendar cal = Calendar.getInstance();
+
+        SharedPreferences pref2 = getSharedPreferences("alarm", MODE_PRIVATE);
+        int h = pref2.getInt("H",9);
+        int m = pref2.getInt("M",0);
+        Log.i("tt",h + "|"+m);
+
+        cal.set(Calendar.HOUR_OF_DAY,h); //24시간... 알람 띄울 시간
+        cal.set(Calendar.MINUTE,m);
+        cal.set(Calendar.SECOND,0);
+        Log.i("ggg",cal.getTimeInMillis()+"");
+        timer.scheduleAtFixedRate(dailyTask,cal.getTime(),1000*60*60*24); //하루에 한번 period 밀리초 단위
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -100,6 +117,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int curId = item.getItemId();
         switch (curId){
+            case R.id.menu_alarm:
+                return true;
 
             case R.id.menu_setting:
                 Intent menu_intent2 = new Intent(getApplicationContext(),SettingActivity.class);

@@ -2,11 +2,10 @@ package io.github.tlaabs.toast_sy;
 
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -14,7 +13,7 @@ import android.widget.Toast;
 public class SettingPW extends AppCompatActivity {
 
     ImageView c1,c2,c3,c4;
-    Button b1, b2, b3, b4, b5, b6, b7, b8, b9, enter;
+    Button b1, b2, b3, b4, b5, b6, b7, b8, b9,b0, enter;
     ImageButton backspace;
     int n1,n2,n3,n4;
     String pw = "";
@@ -83,6 +82,13 @@ public class SettingPW extends AppCompatActivity {
                 putNumberIn(9);
             }
         });
+        b0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                putNumberIn(0);
+            }
+        });
+
 
         enter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,6 +157,7 @@ public class SettingPW extends AppCompatActivity {
         b7 = (Button) findViewById(R.id.b7);
         b8 = (Button) findViewById(R.id.b8);
         b9 = (Button) findViewById(R.id.b9);
+        b0 = (Button) findViewById(R.id.b0);
 
         enter=(Button)findViewById(R.id.enter);
         backspace=(ImageButton)findViewById(R.id.backspace);

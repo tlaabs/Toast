@@ -50,7 +50,7 @@ public class RecommendActivity extends AppCompatActivity {
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("추천");
+        getSupportActionBar().setTitle("추천 리스트");
 
         init();
 //        loadDB();
@@ -58,7 +58,7 @@ public class RecommendActivity extends AppCompatActivity {
         mTabPagerAdapter = new TabPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(mTabPagerAdapter);
 
-        tabLayout.setTabTextColors(getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorPrimaryDark));
+        tabLayout.setTabTextColors(getResources().getColor(R.color.tabColorDefault), getResources().getColor(R.color.tabColorMark));
         tabLayout.setupWithViewPager(viewPager);
 
         GetRecItemsTask git = new GetRecItemsTask();
@@ -135,11 +135,11 @@ public class RecommendActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.main_menu, menu);
+//        return true;
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

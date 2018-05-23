@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_alignParentTop="true"
+        android:padding="5dp"
         >
 
         <TextView
@@ -30,16 +31,5 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/typeLinear"
         ></android.support.v7.widget.RecyclerView>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="15dp"
-        android:src="@android:drawable/ic_menu_add"
-
-        />
 
 </RelativeLayout>
