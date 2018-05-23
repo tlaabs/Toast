@@ -76,7 +76,8 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(i,1);
         }
 
-        //매일 하나씩 알람 하는 부분
+        //매일 하나씩 알람 하는 부분 toDO: 새로이 재설계 한 Once A Day 적용
+        /*
         SQLiteDatabase db = openOrCreateDatabase("sim.db", MODE_PRIVATE, null);
         OnceADay dailyTask = new OnceADay(db,this);
         Timer timer = new Timer();
@@ -87,11 +88,11 @@ public class MainActivity extends AppCompatActivity {
         int m = pref2.getInt("M",0);
         Log.i("tt",h + "|"+m);
 
-        cal.set(Calendar.HOUR_OF_DAY,h); //24시간... 알람 띄울 시간
-        cal.set(Calendar.MINUTE,m);
+        cal.set(Calendar.HOUR_OF_DAY,14); //24시간... 알람 띄울 시간
+        cal.set(Calendar.MINUTE,34);
         cal.set(Calendar.SECOND,0);
         Log.i("ggg",cal.getTimeInMillis()+"");
-        timer.scheduleAtFixedRate(dailyTask,cal.getTime(),1000*60*60*24); //하루에 한번 period 밀리초 단위
+        timer.scheduleAtFixedRate(dailyTask,cal.getTime(),1000*60*60*24); //하루에 한번 period 밀리초 단위*/
     }
 
     @Override
