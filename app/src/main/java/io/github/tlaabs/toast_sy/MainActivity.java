@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
             i.putExtra("pw",pw);
             startActivityForResult(i,1);
         }
-
         else if(securityCheck == false && set.equals("FP")){
             Intent i = new Intent(this,CheckingFP.class);
             startActivityForResult(i,2);
@@ -113,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         }
-
         else if(requestCode == 2){
                 if(resultCode == RESULT_OK){
                     securityCheck = true;

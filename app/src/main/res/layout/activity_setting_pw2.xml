@@ -125,7 +125,6 @@
         android:stretchColumns="*">
 
         <TableRow>
-
             <Button
                 android:id="@+id/enter"
                 android:text="확인"
@@ -142,7 +141,6 @@
                 android:background="#8fc1"
                 android:layout_margin="10dp"
                 android:gravity="center"/>
-
             <ImageButton
                 android:id="@+id/backspace"
                 android:src="@drawable/backspace"
@@ -155,6 +153,5 @@
         </TableRow>
 
     </TableLayout>
-
 
 </LinearLayout>

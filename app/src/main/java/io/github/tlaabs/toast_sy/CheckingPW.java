@@ -12,6 +12,7 @@ public class CheckingPW extends AppCompatActivity {
 
     ImageView c1,c2,c3,c4;
     Button b1, b2, b3, b4, b5, b6, b7, b8, b9,b0, enter;
+
     ImageButton backspace;
     int n1,n2,n3,n4;
     String pw = "";
@@ -87,6 +88,7 @@ public class CheckingPW extends AppCompatActivity {
                 putNumberIn(0);
             }
         });
+
 
         enter.setOnClickListener(new View.OnClickListener() {
             @Override
