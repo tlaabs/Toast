@@ -22,7 +22,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,28 +33,35 @@
         <activity android:name=".BucketListActivity" />
         <activity android:name=".OnGoingActivity" />
         <activity android:name=".HistoryActivity" />
-        <activity android:name=".AddHistoryBucketActivity" />
-        <activity android:name=".ModifyHistoryBucketActivity" />
+        <activity android:name=".AddHistoryBucketActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name=".ModifyHistoryBucketActivity"
+            android:launchMode="singleTask"/>
         <activity android:name=".CheckPWDActivity" />
         <activity android:name=".RecommendActivity" />
         <activity
             android:name=".AddBucketActivity"
-            android:theme="@style/DialogTheme" />
+            android:theme="@style/DialogTheme"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".ModifyBucketActivity"
-            android:theme="@style/DialogTheme" />
+            android:theme="@style/DialogTheme"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".ExtendBucketActivity"
-            android:theme="@style/DialogTheme" />
+            android:theme="@style/DialogTheme"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".SearchBucketActivity"
             android:theme="@style/DialogTheme" />
         <activity
             android:name=".AddBucketFromRecommendActivity"
-            android:theme="@style/DialogTheme" />
+            android:theme="@style/DialogTheme"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".OneDayAlarmSettingActivity"
-            android:theme="@style/DialogTheme" />
+            android:theme="@style/DialogTheme"
+            android:launchMode="singleTask"/>
 
         <activity android:name=".initPWDActivity" />
         <activity android:name=".SettingActivity" />
@@ -67,7 +75,7 @@
         <service
             android:name=".Alarm.AlarmNotiService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"/>
 
         <receiver android:name=".Alarm.AlarmReciver">
             <intent-filter>
@@ -78,7 +86,7 @@
 
         <activity
             android:name=".Alarm.StopOnGoingActivity"
-            android:theme="@style/DialogTheme" />
+            android:theme="@style/DialogTheme"/>
         <activity android:name=".CheckingFP"></activity>
 
     </application>

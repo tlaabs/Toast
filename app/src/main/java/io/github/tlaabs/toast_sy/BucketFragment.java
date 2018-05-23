@@ -13,6 +13,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -137,7 +138,7 @@ public class BucketFragment extends Fragment{
                         PendingIntent notiIntent = PendingIntent.getBroadcast(
                                 activityContext.getApplicationContext(), notiId, notiAlarm, PendingIntent.FLAG_IMMUTABLE);
                         //------------------------------
-
+                        Log.v("tt","초기설정 완료 : "+item.getTitle());
                         ContentValues recordValues = new ContentValues();
 
                         recordValues.put("STATE", 1);
@@ -163,7 +164,7 @@ public class BucketFragment extends Fragment{
                         AlarmManager notiManager = (AlarmManager) activityContext.getSystemService(Context.ALARM_SERVICE);
                         notiManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), notiIntent);
                         //----------------------------------------------------------------------------
-
+                        Log.v("tt","알람 설정 완료 : "+item.getTitle());
                     }else{
                         Intent i = new Intent(getContext(), AddHistoryBucketActivity.class);
                         i.putExtra("item",item);

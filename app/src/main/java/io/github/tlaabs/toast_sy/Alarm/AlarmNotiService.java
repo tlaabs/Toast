@@ -36,7 +36,8 @@ public class AlarmNotiService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId ){
-
+        //TODO : activity 눌었을때 알림창 끄기, activity 끄기
+        Log.v("tt","서비스 시작");
         //intent로 받은값
         item = (BucketItem)intent.getSerializableExtra("item");
         int type = intent.getIntExtra("type",-1);
@@ -161,6 +162,7 @@ public class AlarmNotiService extends Service {
         manager.notify(item.getId(), NotiBuilder.build());
 
         Log.v(LOG,"noti service onstartcommand end");
-        return START_STICKY;
+
+        return START_NOT_STICKY;
     }
 }
