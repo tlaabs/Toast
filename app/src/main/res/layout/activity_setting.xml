@@ -17,53 +17,53 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             >
-
-            <LinearLayout
+            <Button
+                android:id="@+id/menu_alarm"
+                android:text="  알람"
+                android:textSize="20sp"
+                android:drawableLeft="@drawable/menu_alarm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_margin="5dp"
+                android:gravity="center_vertical"
+                android:background="#ffff"
+                />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="보안설정" />
-
-                <TextView
-                    android:id="@+id/initPWD"
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:background="#f55f"
-                    android:gravity="center"
-                    android:text="비밀번호 설정"
-                    android:textColor="#ffffff" />
-
-                <TextView
-                    android:id="@+id/enablePWD"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:background="#f55"
-                    android:gravity="center"
-                    android:text="비밀번호 설정"
-                    android:textColor="#ffffff" />
-            </LinearLayout>
-
-            <LinearLayout
+            <Button
+                android:id="@+id/menu_security"
+                android:text="  보안"
+                android:textSize="20sp"
+                android:drawableLeft="@drawable/menu_lock"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                >
+                android:layout_margin="5dp"
+                android:gravity="center_vertical"
+                android:background="#ffff"
+                />
 
+            <Button
+                android:id="@+id/menu_lockscreen"
+                android:text="  잠금 화면"
+                android:textSize="20sp"
+                android:drawableLeft="@drawable/menu_lockscreen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_margin="5dp"
+                android:background="#ffff"
+                />
 
-                <TextView
-                    android:id="@+id/backup"
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:background="#f5f"
-                    android:gravity="center"
-                    android:text="백업"
-                    android:textColor="#ffffff" />
-            </LinearLayout>
-
+            <Button
+                android:id="@+id/menu_backup"
+                android:text="  백업"
+                android:textSize="20sp"
+                android:drawableLeft="@drawable/ic_sync_black_24dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_margin="5dp"
+                android:background="#ffff"
+                />
 
         </LinearLayout>
 

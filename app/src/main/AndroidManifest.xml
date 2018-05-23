@@ -7,6 +7,12 @@
     <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
     <uses-permission android:name="android.permission.INTERNET"/>
 
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SET_WALLPAPER"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -43,9 +49,33 @@
         <activity
             android:name=".AddBucketFromRecommendActivity"
             android:theme="@style/DialogTheme" />
+        <activity
+            android:name=".OneDayAlarmSettingActivity"
+            android:theme="@style/DialogTheme" />
 
         <activity android:name=".initPWDActivity" />
         <activity android:name=".SettingActivity"></activity>
+
+        <activity android:name=".SettingSecurity" />
+        <activity android:name=".SettingPW" />
+        <activity android:name=".SettingPW2" />
+        <activity android:name=".CheckingPW" />
+
+
+        <service
+            android:name=".Alarm.AlarmNotiService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <receiver android:name=".Alarm.AlarmReciver">
+            <intent-filter>
+                <action android:name="toast.AlarmNoti.ALARM_START" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".Alarm.StopOnGoingActivity"
+            android:theme="@style/DialogTheme"
+            ></activity>
 
 
     </application>
