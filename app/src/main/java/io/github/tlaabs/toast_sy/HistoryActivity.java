@@ -42,7 +42,7 @@ public class HistoryActivity extends AppCompatActivity {
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("완료 리스트");
+        getSupportActionBar().setTitle("추억 리스트");
 
         init();
         loadDB();
