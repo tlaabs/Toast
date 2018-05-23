@@ -1,6 +1,9 @@
 package io.github.tlaabs.toast_sy;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -30,9 +33,14 @@ public class BucketFragment extends Fragment{
     RecyclerView recyclerView;
     private FloatingActionButton fab;
     private ArrayList<BucketItem> arrList;
+    private Context activityContext;
 
     String theme;
     MyAdapter adapter;
+
+    public void setContext(Context context){
+        activityContext = context;
+    }
 
     @Nullable
     @Override
@@ -115,6 +123,21 @@ public class BucketFragment extends Fragment{
                     SQLiteDatabase db = getContext().openOrCreateDatabase("sim.db", MODE_PRIVATE, null);
 
                     if(!item.getUsageTime().equals("-")) {
+
+                        //-----------------초기 설정
+                        int howlong = Integer.parseInt(item.getUsageTime());
+                        Intent notiAlarm = new Intent("toast.AlarmNoti.ALARM_START");//리시버 호출
+
+                        notiAlarm.putExtra("item", item); //item
+                        notiAlarm.putExtra("type", 1); // 타입 0은 bukcet, 1은 inpro
+
+
+
+                        int notiId = item.getId(); //서로 다른 id 부여
+                        PendingIntent notiIntent = PendingIntent.getBroadcast(
+                                activityContext.getApplicationContext(), notiId, notiAlarm, PendingIntent.FLAG_IMMUTABLE);
+                        //------------------------------
+
                         ContentValues recordValues = new ContentValues();
 
                         recordValues.put("STATE", 1);
@@ -123,15 +146,24 @@ public class BucketFragment extends Fragment{
 
                         Calendar cal = Calendar.getInstance();
                         cal.setTime(new Date());
-                        if (!item.getUsageTime().equals("-")) {
-                            cal.add(Calendar.HOUR, Integer.parseInt(item.getUsageTime()));
-                            String end = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(cal.getTime());
-                            recordValues.put("END_TIME", end);
-                        }
+
+
+                        cal.add(Calendar.SECOND, +howlong); //toDo : 테스트 용으로 chfmf eksdnl
+                        String end = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(cal.getTime());
+                        recordValues.put("END_TIME", end);
+
 
                         db.update("simDB", recordValues, "ID=" + item.getId(), null);
                         ((BucketListActivity) getActivity()).onResume();
                         Toast.makeText(getContext(), "진행중!", Toast.LENGTH_SHORT).show();
+
+                        //알람 설정하는 부분-----------------------------------------------------------
+
+
+                        AlarmManager notiManager = (AlarmManager) activityContext.getSystemService(Context.ALARM_SERVICE);
+                        notiManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), notiIntent);
+                        //----------------------------------------------------------------------------
+
                     }else{
                         Intent i = new Intent(getContext(), AddHistoryBucketActivity.class);
                         i.putExtra("item",item);

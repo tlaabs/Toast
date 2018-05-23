@@ -85,6 +85,16 @@ public class BucketListActivity extends AppCompatActivity {
         frMovie.addData(arrList);
         frActivity.addData(arrList);
         frEtc.addData(arrList);
+
+        //-------------
+        frAll.setContext(this);
+        frTrip.setContext(this);
+        frRest.setContext(this);
+        frMovie.setContext(this);
+        frActivity.setContext(this);
+        frEtc.setContext(this);
+        //----------------
+
         Log.i("BucketListActivity","OnrRESUME");
         if(preSearchFlag == 1) initDBFromArrList(arrSearchList);
     }

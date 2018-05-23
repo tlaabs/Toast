@@ -62,6 +62,7 @@ public class AddHistoryBucketActivity extends AppCompatActivity {
 
                 recordValues.put("STATE",2);
                 recordValues.put("COMPLETE_TIME",now);
+                //toDO : 츄라이 츄라이~~
                 recordValues.put("IMG_SRC",mImageCaptureUri.toString());
                 recordValues.put("REVIEW", editBox.getText().toString());
 

@@ -76,22 +76,32 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(i,1);
         }
 
+        else if(securityCheck == false && set.equals("FP")){
+            Intent i = new Intent(this,CheckingFP.class);
+            startActivityForResult(i,2);
+        }
+
         //매일 하나씩 알람 하는 부분
         SQLiteDatabase db = openOrCreateDatabase("sim.db", MODE_PRIVATE, null);
         OnceADay dailyTask = new OnceADay(db,this);
-        Timer timer = new Timer();
+
         Calendar cal = Calendar.getInstance();
 
         SharedPreferences pref2 = getSharedPreferences("alarm", MODE_PRIVATE);
-        int h = pref2.getInt("H",9);
+
+        int d =pref2.getInt("D",0);
+        int h = pref2.getInt("H",3);
         int m = pref2.getInt("M",0);
         Log.i("tt",h + "|"+m);
 
-        cal.set(Calendar.HOUR_OF_DAY,h); //24시간... 알람 띄울 시간
-        cal.set(Calendar.MINUTE,m);
-        cal.set(Calendar.SECOND,0);
-        Log.i("ggg",cal.getTimeInMillis()+"");
-        timer.scheduleAtFixedRate(dailyTask,cal.getTime(),1000*60*60*24); //하루에 한번 period 밀리초 단위
+        int result = dailyTask.execute(d,h,m); // toDO 테스트 환경 수정
+        if(result>0){ //알람 설정이 완료 되었을때
+            SharedPreferences.Editor pref2Editor = pref2.edit();
+            Log.v("tt","Bucket 알람이 설정 되었습니다. :" + d + " " + h + " " + m + " " + result);
+            pref2Editor.putInt("D",result);
+            pref2Editor.commit();
+        }
+        Log.v("tt","Result는 이와 같습니다 : " + d + " = " + result);
     }
 
     @Override
@@ -102,6 +112,14 @@ public class MainActivity extends AppCompatActivity {
             }else{
                 finish();
             }
+        }
+
+        else if(requestCode == 2){
+                if(resultCode == RESULT_OK){
+                    securityCheck = true;
+                }else{
+                    finish();
+                }
         }
     }
 

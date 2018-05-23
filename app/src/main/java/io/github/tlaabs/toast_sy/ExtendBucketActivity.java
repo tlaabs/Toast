@@ -1,6 +1,9 @@
 package io.github.tlaabs.toast_sy;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -17,6 +20,7 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
 
 public class ExtendBucketActivity extends AppCompatActivity {
     SQLiteDatabase db;
@@ -62,18 +66,21 @@ public class ExtendBucketActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ContentValues recordValues = new ContentValues();
-                Log.i("ppp",item.getEndTime());
+                //Log.i("ppp",item.getEndTime());
 
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date date=null;
+                Calendar cal = Calendar.getInstance();
                 try {
                     date = sdf.parse(item.getEndTime());
+                    cal.setTime(date);
                 }catch (Exception e){}
 
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(date);
 
-                cal.add(Calendar.HOUR, Integer.parseInt(selectedHour));
+                int howlong = Integer.parseInt(selectedHour);
+
+                cal.add(Calendar.SECOND, +howlong); //toDO 테스트용
+
                 String end = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(cal.getTime());
                 recordValues.put("END_TIME",end);
 
@@ -82,6 +89,21 @@ public class ExtendBucketActivity extends AppCompatActivity {
 
                 db.update("simDB",recordValues,"ID=" + item.getId(),null);
                 Toast.makeText(getApplicationContext(),"연장 완료!",Toast.LENGTH_SHORT).show();
+
+
+                //알람 설정하는 부분----------------------------------------------
+                Intent notiAlarm = new Intent("toast.AlarmNoti.ALARM_START");//리시버 호출
+                notiAlarm.putExtra("item", item); //물어보는 버킷 이름
+                notiAlarm.putExtra("type",1); // 타입 0은 bukcet, 1은 inpro
+                int notiId=item.getId(); //서로 다른 id 부여
+
+                PendingIntent notiIntent = PendingIntent.getBroadcast(
+                        getApplicationContext(), notiId, notiAlarm,PendingIntent.FLAG_IMMUTABLE);
+
+                AlarmManager notiManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+                notiManager.set(AlarmManager.RTC_WAKEUP,cal.getTimeInMillis(),notiIntent);
+                //----------------------------------------------------------------------------
+
                 finish();
             }
         });
