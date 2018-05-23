@@ -125,15 +125,19 @@ public class OnGoingBucketFragment extends Fragment{
             }
 
             int H = Integer.parseInt(endTimeP.substring(0,2))-dayFlag - Integer.parseInt(nowP.substring(0,2));
+            Log.i("MMMO",H+"");
             if(H < 0) H = Integer.parseInt(endTimeP.substring(0,2)) + 24 - Integer.parseInt(nowP.substring(0,2));
             String HS = H + "";
             if(HS.length() == 1) HS = "0" + H;
             String MS = M + "";
             if(MS.length() == 1) MS = "0" + M;
 
-
-            Log.i("OHH","H : " + H);
-            holder.deadLineTime.setText(HS+":"+MS);
+            if(H > 12){
+                holder.deadLineTime.setText("만료");
+            }else{
+                Log.i("OHH","H : " + H);
+                holder.deadLineTime.setText(HS+":"+MS);
+            }
 
             holder.stopBtn.setOnClickListener(new View.OnClickListener() {
                 @Override

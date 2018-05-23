@@ -148,7 +148,7 @@ public class BucketFragment extends Fragment{
                         cal.setTime(new Date());
 
 
-                        cal.add(Calendar.SECOND, +howlong); //toDo : 테스트 용으로 chfmf eksdnl
+                        cal.add(Calendar.HOUR, +howlong); //toDo : 테스트 용으로 chfmf eksdnl
                         String end = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(cal.getTime());
                         recordValues.put("END_TIME", end);
 
