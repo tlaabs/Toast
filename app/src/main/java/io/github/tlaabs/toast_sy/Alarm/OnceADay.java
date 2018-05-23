@@ -21,7 +21,6 @@ public class OnceADay{
     private String selectQuery;
     private BucketItem item;
     private Context context;
-    private static int day;
     private static Calendar cal;
 
 
@@ -36,9 +35,8 @@ public class OnceADay{
     public int execute(int day, int hour, int minute) {
 
         int currentDate = cal.get(Calendar.DAY_OF_MONTH);
-        this.day=day;
 
-        if (currentDate != day) {//하루에 한번만
+        if (currentDate != day || day==0) {//하루에 한번만
             Cursor c = db.rawQuery(selectQuery, null);
 
             //아이템이 있을시에만...

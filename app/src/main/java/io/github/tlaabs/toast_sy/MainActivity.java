@@ -77,22 +77,24 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //매일 하나씩 알람 하는 부분 toDO: 새로이 재설계 한 Once A Day 적용
-        /*
+
         SQLiteDatabase db = openOrCreateDatabase("sim.db", MODE_PRIVATE, null);
         OnceADay dailyTask = new OnceADay(db,this);
-        Timer timer = new Timer();
+
         Calendar cal = Calendar.getInstance();
 
         SharedPreferences pref2 = getSharedPreferences("alarm", MODE_PRIVATE);
-        int h = pref2.getInt("H",9);
+        int d =pref2.getInt("D",0);
+        int h = pref2.getInt("H",3);
         int m = pref2.getInt("M",0);
         Log.i("tt",h + "|"+m);
 
-        cal.set(Calendar.HOUR_OF_DAY,14); //24시간... 알람 띄울 시간
-        cal.set(Calendar.MINUTE,34);
-        cal.set(Calendar.SECOND,0);
-        Log.i("ggg",cal.getTimeInMillis()+"");
-        timer.scheduleAtFixedRate(dailyTask,cal.getTime(),1000*60*60*24); //하루에 한번 period 밀리초 단위*/
+        int result = dailyTask.execute(d,15,37);
+        if(result>0){ //알람 설정이 완료 되었을때
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putInt("D",cal.get(Calendar.DAY_OF_MONTH));
+            editor.commit();
+        }
     }
 
     @Override
