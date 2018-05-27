@@ -3,13 +3,14 @@ package io.github.tlaabs.toast_sy;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,12 +26,12 @@ public class AddHistoryBucketActivity extends AppCompatActivity {
 
     SQLiteDatabase db;
     TextView titleText;
-    Button imagePickBtn;
+    ImageView imagePickBtn;
     ImageView showImg;
     EditText editBox;
 
-    Button submitBtn;
-    Button backBtn;
+    TextView submitBtn;
+    TextView backBtn;
 
 
     BucketItem item;
@@ -41,7 +42,7 @@ public class AddHistoryBucketActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_history);
-        getSupportActionBar().setTitle("추억 남기기");
+//        getSupportActionBar().setTitle("추억 남기기");
 
         db = openOrCreateDatabase("sim.db", MODE_PRIVATE, null);
         init();
@@ -112,5 +113,12 @@ public class AddHistoryBucketActivity extends AppCompatActivity {
         item = (BucketItem)i.getSerializableExtra("item");
 
         titleText.setText(item.getTitle());
+        showImg.setColorFilter(Color.parseColor("#BDBDBD"), PorterDuff.Mode.MULTIPLY);
+
+        Glide.with(this)
+                .load(R.drawable.addd_img)
+                .into(imagePickBtn);
+        imagePickBtn.setColorFilter(Color.parseColor("#ffffff"), PorterDuff.Mode.MULTIPLY);
+
     }
 }
