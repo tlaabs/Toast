@@ -50,9 +50,8 @@ public class SettingActivity extends AppCompatActivity {
         menu_lockscreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent2 = new Intent(getApplicationContext(),SettingLockScreen.class);
-//                startActivity(intent2);
-
+                Intent intent2 = new Intent(getApplicationContext(),SettingLockScreen.class);
+                startActivity(intent2);
             }
         });
 

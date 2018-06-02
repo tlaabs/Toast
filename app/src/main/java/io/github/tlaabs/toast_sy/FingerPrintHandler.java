@@ -62,7 +62,7 @@ public class FingerPrintHandler extends FingerprintManager.AuthenticationCallbac
     @Override
     public void onAuthenticationFailed() {
         Toast.makeText(appContext,
-                "등록되지 않은 지문입니다." ,
+                "등록되지 않은 지문입니다.\n 스마트폰 설정에서 지문이 등록되었는지 확인하세요" ,
                 Toast.LENGTH_LONG).show();
 
     }
@@ -80,10 +80,11 @@ public class FingerPrintHandler extends FingerprintManager.AuthenticationCallbac
             @Override
             public void run() {
                 try {
-                    /////////////////////////////////////////////////////////////////////
-                    //imgView.setImageResource(R.drawable.ic_launcher_background);
+                    /////지문인식 통과 시 바뀌는 이미지.
+                    imgView.setImageResource(R.drawable.fingerprint2);
 
                     Thread.sleep(500);
+
                     baseActivity.startActivity(new Intent(baseActivity, MainActivity.class));
                     baseActivity.finish();
 

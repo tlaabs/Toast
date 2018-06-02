@@ -38,6 +38,10 @@
         android:gravity="center_vertical"
         android:background="#ffff"
         />
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="  스마트폰 설정에서 지문이 등록되었는지 확인 후 사용하세요. "
+        android:textColor="#8000"/>
 
 </LinearLayout>

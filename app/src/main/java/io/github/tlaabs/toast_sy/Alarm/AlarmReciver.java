@@ -8,7 +8,7 @@ import android.util.Log;
 import io.github.tlaabs.toast_sy.BucketItem;
 
 public class AlarmReciver extends BroadcastReceiver {
-    private static final String LOG ="ALARM";
+    private static final String LOG ="tt";
     private BucketItem item;
     private int type;
     @Override
@@ -17,7 +17,7 @@ public class AlarmReciver extends BroadcastReceiver {
         item = (BucketItem)intent.getSerializableExtra("item");
         type = intent.getIntExtra("type",-1);
 
-        Log.v(LOG,"noti reciver start");
+        Log.v(LOG,"리시버 시작");
         Log.v(LOG,"Type is "+type);
         Log.v(LOG,"Title is "+item.getTitle());
         Intent mServiceIntent = new Intent(context, AlarmNotiService.class);

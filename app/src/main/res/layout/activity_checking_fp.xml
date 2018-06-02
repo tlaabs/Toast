@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:gravity="center"
-        android:text="손가락을 혼 버튼 위에 올리세요\.n"
+        android:text="지문 인식이 필요해요"
 
         android:textSize="20sp"/>
 

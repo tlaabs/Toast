@@ -35,7 +35,7 @@
         android:id="@+id/stop_btn"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:src="@drawable/play_button"
+        android:src="@drawable/delete"
         android:layout_weight="0.1"
         />
     <ImageView

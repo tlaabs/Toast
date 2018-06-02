@@ -2,6 +2,7 @@ package io.github.tlaabs.toast_sy;
 
 
 import android.annotation.TargetApi;
+import android.app.KeyguardManager;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.Build;
 import android.security.keystore.KeyGenParameterSpec;
@@ -44,11 +45,11 @@ public class CheckingFP extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checking_fp);
-        imageView=(ImageView)findViewById(R.id.fingerPrint); //허용시 바뀔 이미지
+        imageView=(ImageView)findViewById(R.id.fingerPrint);
 
         manager = (FingerprintManager)getSystemService(FINGERPRINT_SERVICE);
 
-        //KeyguardManager keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
+       // KeyguardManager keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
         generateKey();
 
         if (cipherInit()) {
@@ -56,17 +57,18 @@ public class CheckingFP extends AppCompatActivity {
                     new FingerprintManager.CryptoObject(cipher);
             FingerPrintHandler helper = new FingerPrintHandler(this,this,imageView);
             helper.startAuth(manager, cryptoObject);
-
-            setResult(RESULT_OK);
         }
-
-
+    }
+    ////////////////////////////////////////////////////////// 하드웨어 back 버튼 누르기 금지//
+    public void onBackPressed(){
+        //
     }
 
     @TargetApi(Build.VERSION_CODES.M)
     protected void generateKey() {
         try {
             keyStore = KeyStore.getInstance("AndroidKeyStore");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -117,6 +119,7 @@ public class CheckingFP extends AppCompatActivity {
             SecretKey key = (SecretKey) keyStore.getKey(KEY_NAME,
                     null);
             cipher.init(Cipher.ENCRYPT_MODE, key);
+
             return true;
         } catch (KeyPermanentlyInvalidatedException e) {
             return false;
