@@ -6,6 +6,7 @@ import android.media.Image;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -105,6 +106,24 @@ public class LockScreenActivity extends AppCompatActivity {
     public void onBackPressed() {
         //
     }
+
+    //키 이벤트 무시
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if((keyCode==KeyEvent.KEYCODE_HOME)
+                ||(keyCode==KeyEvent.KEYCODE_DPAD_LEFT)
+                ||(keyCode==KeyEvent.KEYCODE_DPAD_RIGHT)
+                ||(keyCode==KeyEvent.KEYCODE_DPAD_RIGHT)
+                ||(keyCode==KeyEvent.KEYCODE_CALL)
+                ||(keyCode==KeyEvent.KEYCODE_ENDCALL))
+        {
+            return true;
+        }
+
+        // return super.onKeyDown(keyCode, event);
+        return false;
+    }
+
     private void updateDisplay() {
 
         final Calendar c = Calendar.getInstance();

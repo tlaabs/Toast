@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
 import android.util.Log;
+import android.view.KeyEvent;
 
 public class LockScreenService extends Service {
 
@@ -30,6 +31,8 @@ public class LockScreenService extends Service {
     public void onBackPressed(){
      //
     }
+
+
 
     @Override
 

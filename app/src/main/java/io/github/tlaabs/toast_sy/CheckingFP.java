@@ -10,6 +10,7 @@ import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.security.keystore.KeyProperties;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.widget.ImageView;
 
 import java.io.IOException;
@@ -62,6 +63,23 @@ public class CheckingFP extends AppCompatActivity {
     ////////////////////////////////////////////////////////// 하드웨어 back 버튼 누르기 금지//
     public void onBackPressed(){
         //
+    }
+
+    //키 이벤트 무시///
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if((keyCode==KeyEvent.KEYCODE_HOME)
+                ||(keyCode==KeyEvent.KEYCODE_DPAD_LEFT)
+                ||(keyCode==KeyEvent.KEYCODE_DPAD_RIGHT)
+                ||(keyCode==KeyEvent.KEYCODE_DPAD_RIGHT)
+                ||(keyCode==KeyEvent.KEYCODE_CALL)
+                ||(keyCode==KeyEvent.KEYCODE_ENDCALL))
+        {
+            return true;
+        }
+
+        // return super.onKeyDown(keyCode, event);
+        return false;
     }
 
     @TargetApi(Build.VERSION_CODES.M)
