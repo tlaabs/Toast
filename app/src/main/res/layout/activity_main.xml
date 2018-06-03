@@ -3,60 +3,96 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#ffff">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
+        android:textColor="#fB88"
+        android:textStyle="bold"
         android:layout_gravity="center"
-        android:textSize="70sp"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="30dp"/>
+        android:textSize="50sp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"/>
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:stretchColumns="0,1">
         <TableRow>
             <Button
+                android:id="@+id/btn_bucket"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableTop="@drawable/bread"
+                android:drawableTop="@drawable/baking"
+                android:background="#ffff"
                 android:gravity="center"
-                android:text="1.진행중 알람"
-                android:textSize="14sp"
                 android:padding="7dp"
-                android:id="@+id/alarmTest"/>
+
+                android:text="@string/btn_bucket"
+                android:textColor="#fB88"
+                android:textStyle="bold"
+                android:textSize="20sp" />
+
             <Button
+                android:id="@+id/btn_ongoing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableTop="@drawable/bread"
+                android:drawableTop="@drawable/oven"
+                android:background="#ffff"
                 android:gravity="center"
-                android:text="2.지문 테스트"
-                android:textSize="14sp"
                 android:padding="7dp"
-                android:id="@+id/fingerprint"/>
+
+                android:text="@string/btn_ongoing"
+                android:textColor="#fB88"
+                android:textStyle="bold"
+                android:textSize="20sp" />
         </TableRow>
         <TableRow>
             <Button
+                android:id="@+id/btn_complete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableTop="@drawable/bread"
                 android:gravity="center"
-                android:text="3.완성리스트"
-                android:textSize="14sp"
-                android:padding="7dp"/>
+                android:background="#ffff"
+                android:padding="7dp"
+
+                android:text="@string/btn_complete"
+                android:textColor="#fB88"
+                android:textStyle="bold"
+                android:textSize="20sp" />
             <Button
+                android:id="@+id/btn_recommend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableTop="@drawable/bread"
+                android:background="#ffff"
+                android:drawableTop="@drawable/recommended"
                 android:gravity="center"
-                android:text="4.추천리스트"
-                android:textSize="14sp"
-                android:padding="7dp"/>
+                android:padding="7dp"
+
+                android:text="@string/btn_recommend"
+                android:textColor="#fB88"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
         </TableRow>
     </TableLayout>
+    <TextView
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/copyright1"
+        android:textSize="10sp"
+        android:gravity="center"
+        android:textColor="#f888"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/copyright2"
+        android:textSize="10sp"
+        android:gravity="center"
+        android:textColor="#f888"/>
 </LinearLayout>

@@ -1,4 +1,22 @@
 <resources>
-    <string name="app_name">Toast</string>
-    <string name="textSize">10sp</string>
+    <string name="app_name">버킷 토스트</string>
+    <string name="server">http://tlaabs.cafe24.com/index.php</string>
+    <string name="server_kakao">http://tlaabs.cafe24.com/upload_kakao.php</string>
+
+    <!--Strings related to MainActivity-->
+    <string name="btn_bucket">1.버킷 리스트</string>
+    <string name="btn_ongoing">2.진행중 리스트</string>
+    <string name="btn_complete">3.추억 리스트</string>
+    <string name="btn_recommend">4.추천 리스트</string>
+    <string name="copyright1">Copyright 2018. BucketToast Project Team. Gachon Univ.</string>
+    <string name="copyright2">All rights reserved.</string>
+
+    <!--kakao link-->
+    <string name="kakao_app_key">71a3031861c525bb24d5b7fff814a64b</string>
+    <string name="kakao_scheme">kakao71a3031861c525bb24d5b7fff814a64b</string>
+    <string name="kakaolink_host">kakaolink</string>
+
+    <!--kakao link template-->
+    <string name="kakao_template">9869</string>
+
 </resources>

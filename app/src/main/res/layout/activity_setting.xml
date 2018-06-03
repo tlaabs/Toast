@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="io.github.tlaabs.toast_sy.SettingActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <Button
+                android:id="@+id/menu_alarm"
+                android:text="  알람"
+                android:textSize="20sp"
+                android:drawableLeft="@drawable/menu_alarm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:gravity="center_vertical"
+                android:background="#ffff"
+                />
+
+            <Button
+                android:id="@+id/menu_security"
+                android:text="  보안"
+                android:textSize="20sp"
+                android:drawableLeft="@drawable/menu_lock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:gravity="center_vertical"
+                android:background="#ffff"
+                />
+
+            <Button
+                android:id="@+id/menu_lockscreen"
+                android:text="  잠금 화면"
+                android:textSize="20sp"
+                android:drawableLeft="@drawable/menu_lockscreen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_margin="5dp"
+                android:background="#ffff"
+                />
+
+            <Button
+                android:id="@+id/menu_backup"
+                android:text="  백업"
+                android:textSize="20sp"
+                android:drawableLeft="@drawable/ic_sync_black_24dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_margin="5dp"
+                android:background="#ffff"
+                />
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</LinearLayout>

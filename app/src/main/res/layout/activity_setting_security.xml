@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Switch
+        android:id="@+id/usePW"
+        android:text="  비밀번호 사용"
+        android:textSize="20sp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="5dp"
+        android:gravity="center_vertical"
+        android:background="#ffff"
+        />
+
+
+    <Button
+        android:id="@+id/changePW"
+        android:text="  비밀번호 변경"
+        android:enabled="false"
+        android:textSize="20sp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:layout_margin="5dp"
+        android:background="#ffff"
+        />
+
+    <Switch
+        android:id="@+id/useFP"
+        android:text="  지문인식 사용"
+        android:textSize="20sp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="5dp"
+        android:gravity="center_vertical"
+        android:background="#ffff"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="  스마트폰 설정에서 지문이 등록되었는지 확인 후 사용하세요. "
+        android:textColor="#8000"/>
+
+</LinearLayout>
