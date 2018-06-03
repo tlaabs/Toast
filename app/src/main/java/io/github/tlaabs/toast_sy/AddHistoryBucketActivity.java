@@ -61,15 +61,23 @@ public class AddHistoryBucketActivity extends AppCompatActivity {
 
                 String now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
-                recordValues.put("STATE",2);
-                recordValues.put("COMPLETE_TIME",now);
+                recordValues.put("STATE", 2);
+                recordValues.put("COMPLETE_TIME", now);
                 //toDO : 츄라이 츄라이~~
-                recordValues.put("IMG_SRC",mImageCaptureUri.toString());
-                recordValues.put("REVIEW", editBox.getText().toString());
+                if (mImageCaptureUri == null) {
+                    Toast.makeText(getApplicationContext(), "포스팅 정보가 부족해요 ㅠㅠ", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                String uriStr = mImageCaptureUri.toString();
+                String editStr = editBox.getText().toString();
+                recordValues.put("IMG_SRC", uriStr);
+                recordValues.put("REVIEW", editStr);
 
-                db.update("simDB",recordValues,"ID=" + item.getId(),null);
-                Toast.makeText(getApplicationContext(),"후기 완료!",Toast.LENGTH_SHORT).show();
+
+                db.update("simDB", recordValues, "ID=" + item.getId(), null);
+                Toast.makeText(getApplicationContext(), "후기 완료!", Toast.LENGTH_SHORT).show();
                 finish();
+
             }
         });
 
@@ -83,15 +91,14 @@ public class AddHistoryBucketActivity extends AppCompatActivity {
         });
 
 
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == PICK_FROM_ALBUM){
-            if(resultCode == RESULT_OK){
+        if (requestCode == PICK_FROM_ALBUM) {
+            if (resultCode == RESULT_OK) {
                 mImageCaptureUri = data.getData();
-                Log.d("mmo",mImageCaptureUri.getPath().toString());
+                Log.d("mmo", mImageCaptureUri.getPath().toString());
                 Glide.with(this)
                         .load(mImageCaptureUri)
                         .into(showImg);
@@ -110,7 +117,7 @@ public class AddHistoryBucketActivity extends AppCompatActivity {
         //getIntent
 
         Intent i = getIntent();
-        item = (BucketItem)i.getSerializableExtra("item");
+        item = (BucketItem) i.getSerializableExtra("item");
 
         titleText.setText(item.getTitle());
         showImg.setColorFilter(Color.parseColor("#BDBDBD"), PorterDuff.Mode.MULTIPLY);

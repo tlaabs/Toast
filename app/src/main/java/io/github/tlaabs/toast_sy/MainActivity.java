@@ -1,23 +1,27 @@
 package io.github.tlaabs.toast_sy;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
-import java.util.Timer;
 
 import io.github.tlaabs.toast_sy.Alarm.OnceADay;
 
-import static android.view.KeyEvent.KEYCODE_HOME;
+import static com.kakao.util.helper.Utility.getPackageInfo;
 
 public class MainActivity extends AppCompatActivity {
     boolean securityCheck = false;
@@ -65,6 +69,26 @@ public class MainActivity extends AppCompatActivity {
         DBThread th = new DBThread();
         th.start();
 
+        Log.i("haaha",getKeyHash(this));
+
+
+
+    }
+
+    public static String getKeyHash(final Context context) {
+        PackageInfo packageInfo = getPackageInfo(context, PackageManager.GET_SIGNATURES);
+        if (packageInfo == null)
+            return null;
+
+        for (Signature signature : packageInfo.signatures) {
+            try {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                return Base64.encodeToString(md.digest(), Base64.NO_WRAP);
+            } catch (NoSuchAlgorithmException e) {
+            }
+        }
+        return null;
     }
 
     @Override

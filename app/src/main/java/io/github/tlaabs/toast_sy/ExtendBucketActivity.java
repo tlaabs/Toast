@@ -8,12 +8,10 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -79,7 +77,8 @@ public class ExtendBucketActivity extends AppCompatActivity {
 
                 int howlong = Integer.parseInt(selectedHour);
 
-                cal.add(Calendar.SECOND, +howlong); //toDO 테스트용
+//                cal.add(Calendar.SECOND, +howlong); //toDO 테스트용
+                cal.add(Calendar.HOUR, +howlong); //toDO 테스트용
 
                 String end = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(cal.getTime());
                 recordValues.put("END_TIME",end);

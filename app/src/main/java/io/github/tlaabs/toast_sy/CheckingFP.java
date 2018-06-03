@@ -2,16 +2,18 @@ package io.github.tlaabs.toast_sy;
 
 
 import android.annotation.TargetApi;
-import android.app.KeyguardManager;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.security.keystore.KeyProperties;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.KeyEvent;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
@@ -19,6 +21,7 @@ import java.security.InvalidKeyException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 
@@ -26,7 +29,6 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
-import java.security.NoSuchProviderException;
 
 
 @TargetApi(Build.VERSION_CODES.M)
@@ -116,7 +118,13 @@ public class CheckingFP extends AppCompatActivity {
         } catch (NoSuchAlgorithmException |
                 InvalidAlgorithmParameterException
                 | CertificateException | IOException e) {
-            throw new RuntimeException(e);
+
+            SharedPreferences settings = getSharedPreferences("security", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = settings.edit();
+
+            editor.putString("securityType","FREE");
+            editor.commit();
+            Toast.makeText(getApplicationContext(),"지문 인식을 지원하지 않는 디바이스에요. ㅠ",Toast.LENGTH_SHORT).show();
         }
     }
 

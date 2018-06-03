@@ -1,10 +1,11 @@
 package io.github.tlaabs.toast_sy;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -106,6 +107,7 @@ public class HistoryBucketFragment extends Fragment{
             Glide.with(getActivity())
                     .load(item.getImgSrc())
                     .into(holder.body);
+            holder.body.setColorFilter(Color.parseColor("#BDBDBD"), PorterDuff.Mode.MULTIPLY);
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
