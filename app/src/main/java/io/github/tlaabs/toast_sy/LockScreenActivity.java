@@ -1,11 +1,13 @@
 package io.github.tlaabs.toast_sy;
 
 
-import android.content.Intent;
-import android.media.Image;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -17,7 +19,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+
+import io.github.tlaabs.toast_sy.dbhelper.DBmanager;
 
 public class LockScreenActivity extends AppCompatActivity {
 
@@ -40,6 +46,7 @@ public class LockScreenActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
+
         // 기본 잠금화면보다 우선출력,기본 잠금화면 해제시키기 - 최상위 우선순위로.
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
@@ -53,10 +60,39 @@ public class LockScreenActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_lock_screen);
 
+
         btn_unlock = (ImageButton)findViewById(R.id.btn_unlock);
         image=(ImageView)findViewById(R.id.btn_unlock);
-        linear = (LinearLayout)findViewById(R.id.linear1);
+        linear = (LinearLayout)findViewById(R.id.backgruond);
 
+
+        //하나의 랜덤 버킷 가져오기 n년이 지난...
+        String today = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        SQLiteDatabase db = new DBmanager(getApplicationContext()).getRDB();
+
+        //todo 년은 다르게 하기 추가
+        String selectQuery="SELECT * FROM "+DBmanager.TABLE_ITEM
+                +" WHERE STATE = 2 AND INSTR( "+DBmanager.KEY_COMPLETE_TIME+" , '"+today.substring(5,10)+ "')=6 ORDER BY RANDOM() LIMIT 1"; // 월,일만 같은 하나만...
+        Log.v("LOCKT", "지정된 시간|" + today.substring(5,10)+"|");
+
+        /*
+        //----------------------        String test="SELECT * FROM " + DBmanager.TABLE_ITEM + " WHERE "+DBmanager.KEY_COMPLETE_TIME+" LIKE '%06-04%'=6";
+        String test="SELECT INSTR( "+DBmanager.KEY_COMPLETE_TIME+" , '06-04') FROM " + DBmanager.TABLE_ITEM + " WHERE STATE = 2";
+        Cursor c1 = db.rawQuery(test,null);
+        c1.moveToFirst();
+        Log.v("LOCKT", "쿼리문 : " + test);
+        Log.v("LOCKT", "테스트 : " + c1.getString(0));
+        //Log.v("LOCKT", "잠금화면 날짜 : " + c1.getString(8));
+        //-----------------------*/
+
+        Cursor cursor = db.rawQuery(selectQuery,null);
+        if(cursor.moveToFirst()){
+        Log.v("LOCKT", "지정된 잠금화면 title : " + cursor.getString(1));
+        Log.v("LCOKT", "지정된 잠금화면 날짜 : " + cursor.getString(8));
+        }
+
+
+        /*
         image.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -145,8 +181,8 @@ public class LockScreenActivity extends AppCompatActivity {
             return String.valueOf(c);
         else
             return "0" + String.valueOf(c);
+    }*/
+
     }
-
-
 
 }

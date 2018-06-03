@@ -17,6 +17,8 @@ import android.view.MenuItem;
 
 import java.util.ArrayList;
 
+import io.github.tlaabs.toast_sy.dbhelper.DBmanager;
+
 
 public class BucketListActivity extends AppCompatActivity {
     final static int SEARCH_BUCKET_ACTIVITY = 1;
@@ -44,6 +46,7 @@ public class BucketListActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("버킷 리스트");
 
         init();
+        DBmanager database = new DBmanager(getApplicationContext());
         loadDB();
 
         TabPagerAdapter mTabPagerAdapter = new TabPagerAdapter(getSupportFragmentManager());
@@ -118,8 +121,8 @@ public class BucketListActivity extends AppCompatActivity {
     }
 
     public void loadDB(){
-        db = openOrCreateDatabase("sim.db", MODE_PRIVATE, null);
-        String sql = "SELECT * FROM simDB WHERE STATE = 0;";
+        db = new DBmanager(getApplicationContext()).getRDB();
+        String sql = "SELECT * FROM "+ DBmanager.TABLE_ITEM+" WHERE STATE = 0;";
         Cursor cursor = db.rawQuery(sql, null);
         int count = cursor.getCount();
 
@@ -144,7 +147,7 @@ public class BucketListActivity extends AppCompatActivity {
                 cursor.moveToNext();
             }
         }
-
+        db.close();
         Log.i("lolo", "count" + count);
     }
 

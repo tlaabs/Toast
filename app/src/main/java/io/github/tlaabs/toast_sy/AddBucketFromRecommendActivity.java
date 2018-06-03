@@ -17,6 +17,8 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import io.github.tlaabs.toast_sy.dbhelper.DBmanager;
+
 public class AddBucketFromRecommendActivity extends AppCompatActivity {
     SQLiteDatabase db;
     EditText titleEdit;
@@ -39,7 +41,7 @@ public class AddBucketFromRecommendActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_recommend_bucket);
 
-        db = openOrCreateDatabase("sim.db", MODE_PRIVATE, null);
+        db =  new DBmanager(getApplicationContext()).getWDB();
         init();
 
 
@@ -81,17 +83,18 @@ public class AddBucketFromRecommendActivity extends AppCompatActivity {
             public void onClick(View view) {
                 ContentValues recordValues = new ContentValues();
 
-                recordValues.put("TITLE", titleEdit.getText().toString());
-                recordValues.put("USAGE_TIME", selectedHour);
-                recordValues.put("STATE",0);
-                recordValues.put("CATEGORY",selectedCategory);
+                recordValues.put(DBmanager.KEY_TITLE, titleEdit.getText().toString());
+                recordValues.put(DBmanager.KEY_USAGE_TIME, selectedHour);
+                recordValues.put(DBmanager.KEY_STATE,0);
+                recordValues.put(DBmanager.KEY_CATEGORY,selectedCategory);
 
                 String today = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
                 Log.i("date","date : " + today);
-                recordValues.put("REG_TIME", today);
+                recordValues.put(DBmanager.KEY_REGISTER_TIME, today);
 
-                db.insert("simDB", null, recordValues);
+                db.insert(DBmanager.TABLE_ITEM, null, recordValues);
                 Toast.makeText(getApplicationContext(),"등록 완료!",Toast.LENGTH_SHORT).show();
+                db.close();
                 finish();
             }
         });

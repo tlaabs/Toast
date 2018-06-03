@@ -11,10 +11,11 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
+
+import io.github.tlaabs.toast_sy.dbhelper.DBmanager;
 
 
 public class OnGoingActivity extends AppCompatActivity {
@@ -84,8 +85,8 @@ public class OnGoingActivity extends AppCompatActivity {
     }
 
     public void loadDB(){
-        db = openOrCreateDatabase("sim.db", MODE_PRIVATE, null);
-        String sql = "SELECT * FROM simDB WHERE STATE = 1;";
+        db = new DBmanager(getApplicationContext()).getRDB();
+        String sql = "SELECT * FROM "+ DBmanager.TABLE_ITEM+" WHERE STATE = 1;";
         Cursor cursor = db.rawQuery(sql, null);
         int count = cursor.getCount();
 

@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import static android.content.Context.MODE_PRIVATE;
+import io.github.tlaabs.toast_sy.dbhelper.DBmanager;
 
 /**
  * Created by devsimMe on 2018-05-14.
@@ -121,10 +121,10 @@ public class BucketFragment extends Fragment{
             holder.onGoingBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    SQLiteDatabase db = getContext().openOrCreateDatabase("sim.db", MODE_PRIVATE, null);
+                    SQLiteDatabase db = new DBmanager(getContext()).getWDB();
 
                     if(!item.getUsageTime().equals("-")) {
-
+                        //todo : -일때 구분...
                         //-----------------초기 설정
                         int howlong = Integer.parseInt(item.getUsageTime());
                         Intent notiAlarm = new Intent("toast.AlarmNoti.ALARM_START");//리시버 호출
@@ -141,20 +141,19 @@ public class BucketFragment extends Fragment{
                         Log.v("tt","초기설정 완료 : "+item.getTitle());
                         ContentValues recordValues = new ContentValues();
 
-                        recordValues.put("STATE", 1);
+                        recordValues.put(DBmanager.KEY_STATE, 1);
                         String now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-                        recordValues.put("START_TIME", now);
+                        recordValues.put(DBmanager.KEY_START_TIME, now);
 
                         Calendar cal = Calendar.getInstance();
                         cal.setTime(new Date());
 
-
                         cal.add(Calendar.HOUR, +howlong); //toDo : 테스트 용으로 chfmf eksdnl
                         String end = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(cal.getTime());
-                        recordValues.put("END_TIME", end);
+                        recordValues.put(DBmanager.KEY_END_TIME, end);
 
 
-                        db.update("simDB", recordValues, "ID=" + item.getId(), null);
+                        db.update(DBmanager.TABLE_ITEM, recordValues, DBmanager.KEY_ID + " = " + item.getId(), null);
                         ((BucketListActivity) getActivity()).onResume();
                         Toast.makeText(getContext(), "진행중!", Toast.LENGTH_SHORT).show();
 
@@ -170,6 +169,7 @@ public class BucketFragment extends Fragment{
                         i.putExtra("item",item);
                         startActivityForResult(i,1);
                     }
+                    db.close();
                 }
             });
 

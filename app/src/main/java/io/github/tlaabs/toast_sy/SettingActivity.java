@@ -18,6 +18,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
 
+import io.github.tlaabs.toast_sy.dbhelper.DBmanager;
+
 public class SettingActivity extends AppCompatActivity {
     final static int MY_PERMISSIONS_REQUEST_WRITE_EXT_STORAGE = 0;
     Button menu_alarm, menu_security, menu_lockscreen, menu_backup;
@@ -82,7 +84,7 @@ public class SettingActivity extends AppCompatActivity {
             File data = Environment.getDataDirectory();
 
             if (sd.canWrite()) {
-                String currentDBPath = "//data//io.github.tlaabs.toast_sy/databases//sim.db";
+                String currentDBPath = "//data//io.github.tlaabs.toast_sy/databases//"+ DBmanager.TABLE_ITEM;
                 String backupDBPath = "backup_db.sqlite";
                 File currentDB = new File(data, currentDBPath);
                 File backupDB = new File(sd, backupDBPath);

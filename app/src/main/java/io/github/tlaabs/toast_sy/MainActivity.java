@@ -1,11 +1,13 @@
 package io.github.tlaabs.toast_sy;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,9 +19,14 @@ import android.view.View;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import io.github.tlaabs.toast_sy.Alarm.OnceADay;
+import io.github.tlaabs.toast_sy.dbhelper.DBmanager;
 
 import static com.kakao.util.helper.Utility.getPackageInfo;
 
@@ -66,13 +73,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        DBThread th = new DBThread();
-        th.start();
+        DBmanager db1 = new DBmanager(getApplicationContext());
 
         Log.i("haaha",getKeyHash(this));
-
-
-
     }
 
     public static String getKeyHash(final Context context) {
@@ -109,15 +112,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //매일 하나씩 알람 하는 부분
-        SQLiteDatabase db = openOrCreateDatabase("sim.db", MODE_PRIVATE, null);
-        OnceADay dailyTask = new OnceADay(db,this);
+        SQLiteDatabase db = new DBmanager(getApplicationContext()).getRDB();
+        OnceADay dailyTask = new OnceADay(this);
 
         Calendar cal = Calendar.getInstance();
 
         SharedPreferences pref2 = getSharedPreferences("alarm", MODE_PRIVATE);
 
         int d =pref2.getInt("D",0);
-        int h = pref2.getInt("H",3);
+        int h = pref2.getInt("H",9);
         int m = pref2.getInt("M",0);
         Log.i("tt",h + "|"+m);
 
@@ -129,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
             pref2Editor.commit();
         }
         Log.v("tt","Result는 이와 같습니다 : " + d + " = " + result);
+        db.close();
     }
 
     @Override
@@ -172,35 +176,4 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
-    class DBThread extends Thread {
-        @Override
-        public void run() {
-            SQLiteDatabase db = openOrCreateDatabase("sim.db", MODE_PRIVATE, null);
-//            db.execSQL("DROP TABLE simDB");
-            db.execSQL("CREATE TABLE IF NOT EXISTS " + "simDB" + "("
-                    + "ID INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + "TITLE TEXT, "
-                    + "CATEGORY TEXT, "
-                    + "USAGE_TIME STRING, "
-                    + "REG_TIME DATE, "
-                    + "START_TIME DATE, "
-                    + "STATE INTEGER, " //0 , 1 , 2
-                    + "END_TIME DATE, "
-                    + "COMPLETE_TIME DATE, " //8
-                    + "IMG_SRC STRING, "
-                    + "REVIEW STRING);");
-
-            db.execSQL("CREATE TABLE IF NOT EXISTS " + "category" + "("
-                    + "ID INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + "CATEGORY TEXT);");
-
-//            db.execSQL("DROP TABLE category;");
-
-            db.close();
-
-
-        }
-    }
-
 }

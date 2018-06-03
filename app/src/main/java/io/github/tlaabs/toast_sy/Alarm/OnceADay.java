@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.TimerTask;
 
 import io.github.tlaabs.toast_sy.BucketItem;
+import io.github.tlaabs.toast_sy.dbhelper.DBmanager;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -24,10 +25,10 @@ public class OnceADay{
     private static Calendar cal;
 
 
-    public OnceADay(SQLiteDatabase simdb,Context context){
-        db=simdb;
+    public OnceADay(Context context){
+        db=new DBmanager(context).getWDB();
         this.context=context;
-        selectQuery="SELECT * FROM simDB WHERE STATE = 0 ORDER BY RANDOM() LIMIT 1"; //state 가 0인 애들중 랜덤으로 하나
+        selectQuery="SELECT * FROM "+DBmanager.TABLE_ITEM+" WHERE STATE = 0 ORDER BY RANDOM() LIMIT 1"; //state 가 0인 애들중 랜덤으로 하나
         cal=Calendar.getInstance();
     }
 

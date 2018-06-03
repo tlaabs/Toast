@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,8 +19,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import io.github.tlaabs.toast_sy.dbhelper.DBmanager;
+
 import static android.app.Activity.RESULT_OK;
-import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by devsimMe on 2018-05-14.
@@ -142,14 +142,15 @@ public class OnGoingBucketFragment extends Fragment{
             holder.stopBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    SQLiteDatabase db = getContext().openOrCreateDatabase("sim.db", MODE_PRIVATE, null);
+                    SQLiteDatabase db = new DBmanager(getContext()).getWDB();
                     ContentValues recordValues = new ContentValues();
 
                     recordValues.put("STATE", 0);
 
-                    db.update("simDB",recordValues,"ID=" + item.getId(),null);
+                    db.update(DBmanager.TABLE_ITEM,recordValues,"ID=" + item.getId(),null);
                     ((OnGoingActivity)getActivity()).onResume();
                     Toast.makeText(getContext(),"중지",Toast.LENGTH_SHORT).show();
+                    db.close();
                 }
             });
 

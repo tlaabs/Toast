@@ -15,6 +15,8 @@ import android.widget.Spinner;
 
 import java.util.ArrayList;
 
+import io.github.tlaabs.toast_sy.dbhelper.DBmanager;
+
 public class SearchBucketActivity extends AppCompatActivity {
     SQLiteDatabase db;
     EditText titleEdit;
@@ -34,7 +36,7 @@ public class SearchBucketActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_bucket);
 
-        db = openOrCreateDatabase("sim.db", MODE_PRIVATE, null);
+        db = new DBmanager(getApplicationContext()).getWDB();
         init();
 
 
@@ -60,8 +62,8 @@ public class SearchBucketActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String sql;
                 String searchTitle = titleEdit.getText().toString();
-                if(selectedHour.equals("-"))sql = "SELECT * FROM simDB WHERE TITLE LIKE '%" + searchTitle + "%';";
-                else sql = "SELECT * FROM simDB WHERE STATE = 0 and USAGE_TIME = "
+                if(selectedHour.equals("-"))sql = "SELECT * FROM "+ DBmanager.TABLE_ITEM+" WHERE TITLE LIKE '%" + searchTitle + "%';";
+                else sql = "SELECT * FROM "+ DBmanager.TABLE_ITEM+" WHERE STATE = 0 and USAGE_TIME = "
                         + selectedHour + " and " + "TITLE like " + "'%" + searchTitle + "%';";
                 Cursor cursor = db.rawQuery(sql, null);
                 int count = cursor.getCount();

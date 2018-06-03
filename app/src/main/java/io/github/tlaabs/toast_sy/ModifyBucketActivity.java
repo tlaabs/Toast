@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import io.github.tlaabs.toast_sy.dbhelper.DBmanager;
+
 public class ModifyBucketActivity extends AppCompatActivity {
     SQLiteDatabase db;
     EditText titleEdit;
@@ -36,7 +38,7 @@ public class ModifyBucketActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_bucket);
 
-        db = openOrCreateDatabase("sim.db", MODE_PRIVATE, null);
+        db = new DBmanager(getApplicationContext()).getWDB();
         init();
 
 
@@ -87,8 +89,9 @@ public class ModifyBucketActivity extends AppCompatActivity {
 //                Log.i("date","date : " + today);
 //                recordValues.put("REG_TIME", today);
 
-                db.update("simDB",recordValues,"ID=" + item.getId(),null);
+                db.update(DBmanager.TABLE_ITEM,recordValues,"ID=" + item.getId(),null);
                 Toast.makeText(getApplicationContext(),"수정 완료!",Toast.LENGTH_SHORT).show();
+                db.close();
                 finish();
             }
         });
@@ -96,7 +99,8 @@ public class ModifyBucketActivity extends AppCompatActivity {
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                db.delete("simDB","ID=" + item.getId(),null);
+                db.delete(DBmanager.TABLE_ITEM,"ID=" + item.getId(),null);
+                db.close();
                 finish();
             }
         });

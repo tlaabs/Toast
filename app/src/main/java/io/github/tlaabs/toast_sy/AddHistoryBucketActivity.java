@@ -21,6 +21,8 @@ import com.bumptech.glide.Glide;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import io.github.tlaabs.toast_sy.dbhelper.DBmanager;
+
 public class AddHistoryBucketActivity extends AppCompatActivity {
     final static int PICK_FROM_ALBUM = 0;
 
@@ -44,7 +46,7 @@ public class AddHistoryBucketActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_history);
 //        getSupportActionBar().setTitle("추억 남기기");
 
-        db = openOrCreateDatabase("sim.db", MODE_PRIVATE, null);
+        db = new DBmanager(getApplicationContext()).getWDB();
         init();
 
 
@@ -61,23 +63,21 @@ public class AddHistoryBucketActivity extends AppCompatActivity {
 
                 String now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
-                recordValues.put("STATE", 2);
-                recordValues.put("COMPLETE_TIME", now);
-                //toDO : 츄라이 츄라이~~
-                if (mImageCaptureUri == null) {
-                    Toast.makeText(getApplicationContext(), "포스팅 정보가 부족해요 ㅠㅠ", Toast.LENGTH_SHORT).show();
-                    return;
+                recordValues.put("STATE",2);
+                recordValues.put("COMPLETE_TIME",now);
+
+                if(mImageCaptureUri!=null) {
+                    recordValues.put(DBmanager.KEY_IMG_SOURCE, mImageCaptureUri.toString());
+                    recordValues.put(DBmanager.KEY_REVIEW, editBox.getText().toString());
+
+                    db.update(DBmanager.TABLE_ITEM, recordValues, "ID=" + item.getId(), null);
+                    Toast.makeText(getApplicationContext(), "후기 완료!", Toast.LENGTH_SHORT).show();
                 }
-                String uriStr = mImageCaptureUri.toString();
-                String editStr = editBox.getText().toString();
-                recordValues.put("IMG_SRC", uriStr);
-                recordValues.put("REVIEW", editStr);
-
-
-                db.update("simDB", recordValues, "ID=" + item.getId(), null);
-                Toast.makeText(getApplicationContext(), "후기 완료!", Toast.LENGTH_SHORT).show();
+                else{
+                    Toast.makeText(getApplicationContext(),"사진을 추가해주세요",Toast.LENGTH_SHORT).show();
+                }
+                db.close();
                 finish();
-
             }
         });
 

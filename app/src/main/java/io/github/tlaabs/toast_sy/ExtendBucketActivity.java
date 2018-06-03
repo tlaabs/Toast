@@ -19,6 +19,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import io.github.tlaabs.toast_sy.dbhelper.DBmanager;
+
 
 public class ExtendBucketActivity extends AppCompatActivity {
     SQLiteDatabase db;
@@ -40,7 +42,7 @@ public class ExtendBucketActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_extend_bucket);
 
-        db = openOrCreateDatabase("sim.db", MODE_PRIVATE, null);
+        db = new DBmanager(getApplicationContext()).getWDB();
         init();
 
 
@@ -86,7 +88,7 @@ public class ExtendBucketActivity extends AppCompatActivity {
 //                Log.i("date","date : " + today);
 //                recordValues.put("REG_TIME", today);
 
-                db.update("simDB",recordValues,"ID=" + item.getId(),null);
+                db.update(DBmanager.TABLE_ITEM,recordValues,"ID=" + item.getId(),null);
                 Toast.makeText(getApplicationContext(),"연장 완료!",Toast.LENGTH_SHORT).show();
 
 
@@ -102,7 +104,7 @@ public class ExtendBucketActivity extends AppCompatActivity {
                 AlarmManager notiManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
                 notiManager.set(AlarmManager.RTC_WAKEUP,cal.getTimeInMillis(),notiIntent);
                 //----------------------------------------------------------------------------
-
+                db.close();
                 finish();
             }
         });
