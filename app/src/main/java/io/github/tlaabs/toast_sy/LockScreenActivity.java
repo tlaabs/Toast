@@ -12,7 +12,9 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -33,11 +35,13 @@ import io.github.tlaabs.toast_sy.dbhelper.DBmanager;
 
 public class LockScreenActivity extends AppCompatActivity {
 
-    ImageButton btn_unlock;
-    ImageView image;
+    //ImageButton btn_unlock;
+    //ImageView image;
     TextView DateDisplay,TimeDisplay;
     TextView msg;
-    LinearLayout background;
+    View background;
+
+    GestureDetector detector;
 
     private int Year, Month,Day,Hour, Minute;
     public int mYear=2018, mMonth=5, mDay=20, mHour=12, mMinute=10;
@@ -70,7 +74,7 @@ public class LockScreenActivity extends AppCompatActivity {
 
         //btn_unlock = (ImageButton) findViewById(R.id.btn_unlock);
         //image = (ImageView) findViewById(R.id.btn_unlock);
-        background = (LinearLayout) findViewById(R.id.backgruond);
+        background = findViewById(R.id.backgruond);
         msg = (TextView)findViewById(R.id.msg);
 
         DateDisplay = (TextView) findViewById(R.id.dateDisplay);
@@ -91,6 +95,52 @@ public class LockScreenActivity extends AppCompatActivity {
             }
         };
         mHandler.postDelayed(r, 1000);
+
+
+        // 손으로 화면을 미는 제스처를 취하면 잠금화면 꺼지도록.
+        detector = new GestureDetector(this, new GestureDetector.OnGestureListener() {
+            @Override
+            public boolean onDown(MotionEvent motionEvent) {
+                return false;
+            }
+
+            @Override
+            public void onShowPress(MotionEvent motionEvent) {
+
+            }
+
+            @Override
+            public boolean onSingleTapUp(MotionEvent motionEvent) {
+                return false;
+            }
+
+            @Override
+            public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+                finish();
+                return false;
+            }
+
+            @Override
+            public void onLongPress(MotionEvent motionEvent) {
+
+            }
+
+            @Override
+            public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+                return false;
+            }
+        });
+
+
+        background.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                detector.onTouchEvent(motionEvent);
+
+                return true;
+            }
+        });
     }
 
 
@@ -172,33 +222,9 @@ public class LockScreenActivity extends AppCompatActivity {
     }
 
 
-        /*
-        image.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Animation anim = AnimationUtils.loadAnimation(
-                        getApplicationContext(), R.anim.translate);
-                image.startAnimation(anim);
 
 
-                anim.setAnimationListener(new AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-                    }
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        finish();
-                    }
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-                    }
-
-                });
-
-            }
-        });
-
-
+/*
     ////////////////////////////////////////////////////////// 하드웨어 back 버튼 누르기 무시//
     @Override
     public void onBackPressed() {

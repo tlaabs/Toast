@@ -42,7 +42,7 @@
         android:id="@+id/extend_btn"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:src="@drawable/extend"
+        android:src="@drawable/timer"
         android:layout_weight="0.1"
         />
 
