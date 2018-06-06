@@ -21,7 +21,8 @@ import io.github.tlaabs.toast_sy.ExtendBucketActivity;
 import io.github.tlaabs.toast_sy.OnGoingActivity;
 import io.github.tlaabs.toast_sy.R;
 
-public class AlarmNotiService extends Service {
+public class
+AlarmNotiService extends Service {
     private static final String LOG ="ALARM";
     BucketItem item;
 

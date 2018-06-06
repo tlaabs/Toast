@@ -115,14 +115,15 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = new DBmanager(getApplicationContext()).getRDB();
         OnceADay dailyTask = new OnceADay(this);
 
-        Calendar cal = Calendar.getInstance();
-
         SharedPreferences pref2 = getSharedPreferences("alarm", MODE_PRIVATE);
 
         int d =pref2.getInt("D",0);
         int h = pref2.getInt("H",9);
         int m = pref2.getInt("M",0);
         Log.i("tt",h + "|"+m);
+
+        if(d==0 && h<Calendar.getInstance().get(Calendar.HOUR))//처음실행시 무시
+            d=Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 
         int result = dailyTask.execute(d,h,m); // toDO 테스트 환경 수정
         if(result>0){ //알람 설정이 완료 되었을때

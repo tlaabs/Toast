@@ -2,6 +2,8 @@ package io.github.tlaabs.toast_sy;
 
 
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
@@ -44,6 +46,7 @@ public class LockScreenActivity extends AppCompatActivity {
     GestureDetector detector;
 
     private int Year, Month,Day,Hour, Minute;
+    private static String provider ="io.github.tlaabs.toast_sy";
     public int mYear=2018, mMonth=5, mDay=20, mHour=12, mMinute=10;
 
     static final int DATE_DIALOG_ID = 0;
@@ -154,8 +157,9 @@ public class LockScreenActivity extends AppCompatActivity {
 
         //todo 년은 다르게 하기 추가
         String selectQuery = "SELECT * FROM " + DBmanager.TABLE_ITEM
-                + " WHERE STATE = 2 AND INSTR( " + DBmanager.KEY_COMPLETE_TIME + " , '" + today.substring(5, 10) + "')=6 ORDER BY RANDOM() LIMIT 1"; // 월,일만 같은 하나만...
-        Log.v("LOCKT", "지정된 시간|" + today.substring(5, 10) + "|");
+                + " WHERE STATE = 2 AND INSTR( " + DBmanager.KEY_COMPLETE_TIME + " , '" + today.substring(5, 10) + "')=6 AND "+DBmanager.KEY_COMPLETE_TIME+
+                " NOT LIKE '"+today.substring(0,5)+"%' ORDER BY RANDOM() LIMIT 1"; // 월,일만 같은 하나만...
+        Log.v("LOCKT", "쿼리문 : "+selectQuery);
 
         /*
         //----------------------        String test="SELECT * FROM " + DBmanager.TABLE_ITEM + " WHERE "+DBmanager.KEY_COMPLETE_TIME+" LIKE '%06-04%'=6";
@@ -173,6 +177,8 @@ public class LockScreenActivity extends AppCompatActivity {
             Log.v("LCOKT", "지정된 잠금화면 날짜 : " + cursor.getString(8));
 
             Uri img = Uri.parse(cursor.getString(9));
+            grantUriPermission(provider,img, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
             File file = new File(getRealPathFromUri(img));
             int interval = Integer.parseInt(cursor.getString(8).substring(0,3))-Integer.parseInt(today.substring(0,3));
             msg.setText(interval+" 년 전에는 "+cursor.getString(1)+" 했어요!");
@@ -189,6 +195,9 @@ public class LockScreenActivity extends AppCompatActivity {
     }
 
     private String getRealPathFromUri(Uri img){
+
+        grantUriPermission(provider,img, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
         Cursor c1 = getContentResolver().query(img,null,null,null,null);
         if(c1==null){
             return img.getPath();
