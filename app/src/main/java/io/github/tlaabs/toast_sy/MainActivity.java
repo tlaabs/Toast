@@ -13,9 +13,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -75,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
         DBmanager db1 = new DBmanager(getApplicationContext());
 
-        Log.i("haaha",getKeyHash(this));
+        Log.i("haaha", getKeyHash(this));
     }
 
     public static String getKeyHash(final Context context) {
@@ -98,17 +100,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         SharedPreferences pref = getSharedPreferences("security", MODE_PRIVATE);
-        String set = pref.getString("securityType","FREE");
-        String pw = pref.getString("pw","0000");
+        String set = pref.getString("securityType", "FREE");
+        String pw = pref.getString("pw", "0000");
 
-        if(securityCheck == false && set.equals("PW")){
-            Intent i = new Intent(this,CheckingPW.class);
-            i.putExtra("pw",pw);
-            startActivityForResult(i,1);
-        }
-        else if(securityCheck == false && set.equals("FP")){
-            Intent i = new Intent(this,CheckingFP.class);
-            startActivityForResult(i,2);
+        if (securityCheck == false && set.equals("PW")) {
+            Intent i = new Intent(this, CheckingPW.class);
+            i.putExtra("pw", pw);
+            startActivityForResult(i, 1);
+        } else if (securityCheck == false && set.equals("FP")) {
+            Intent i = new Intent(this, CheckingFP.class);
+            startActivityForResult(i, 2);
         }
 
         //매일 하나씩 알람 하는 부분
@@ -117,24 +118,46 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences pref2 = getSharedPreferences("alarm", MODE_PRIVATE);
 
-        int d =pref2.getInt("D",0);
-        int h = pref2.getInt("H",9);
-        int m = pref2.getInt("M",0);
-        Log.i("tt",h + "|"+m+"|"+Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
+        int d = pref2.getInt("D", 0);
+        int h = pref2.getInt("H", 9);
+        int m = pref2.getInt("M", 0);
+        Log.i("tt", h + "|" + m + "|" + Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
 
-        if(d==0 && h<Calendar.getInstance().get(Calendar.HOUR_OF_DAY))//처음실행시 무시
-            d=Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        if (d == 0 && h < Calendar.getInstance().get(Calendar.HOUR_OF_DAY))//처음실행시 무시
+            d = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 
-        int result = dailyTask.execute(d,h,m); // toDO 테스트 환경 수정
-        if(result>0){ //알람 설정이 완료 되었을때
+        int result = dailyTask.execute(d, h, m); // toDO 테스트 환경 수정
+        if (result > 0) { //알람 설정이 완료 되었을때
             SharedPreferences.Editor pref2Editor = pref2.edit();
-            Log.v("tt","Bucket 알람이 설정 되었습니다. :" + d + " " + h + " " + m + " " + result);
-            pref2Editor.putInt("D",result);
+            Log.v("tt", "Bucket 알람이 설정 되었습니다. :" + d + " " + h + " " + m + " " + result);
+            pref2Editor.putInt("D", result);
             pref2Editor.commit();
         }
-        Log.v("tt","Result는 이와 같습니다 : " + d + " = " + result);
+        Log.v("tt", "Result는 이와 같습니다 : " + d + " = " + result);
         db.close();
     }
+
+
+
+    @Override
+    public void onBackPressed() {
+        securityCheck = false;
+        finish();
+    }
+
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if((keyCode==KeyEvent.KEYCODE_BACK) ||(keyCode==KeyEvent.KEYCODE_DPAD_RIGHT)||(keyCode==KeyEvent.KEYCODE_HOME)||(keyCode==KeyEvent.KEYCODE_DPAD_CENTER))
+        {
+            securityCheck = false;
+            finish();
+        }
+
+        return false;
+    }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -148,8 +171,13 @@ public class MainActivity extends AppCompatActivity {
         //지문 인식 ok
         else if(requestCode == 2){
 
+            if(resultCode==RESULT_OK){
                 securityCheck = true;
-
+            }
+            else
+            {
+                finish();
+            }
         }
     }
 

@@ -249,12 +249,15 @@ public class LockScreenActivity extends AppCompatActivity {
             return "0" + String.valueOf(c);
     }
 
+    //
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         if((keyCode==KeyEvent.KEYCODE_HOME)
+                || (keyCode==KeyEvent.KEYCODE_MENU)
+                || (keyCode==KeyEvent.KEYCODE_BACK)
                 ||(keyCode==KeyEvent.KEYCODE_DPAD_LEFT)
                 ||(keyCode==KeyEvent.KEYCODE_DPAD_RIGHT)
-                ||(keyCode==KeyEvent.KEYCODE_DPAD_RIGHT)
+                ||(keyCode==KeyEvent.KEYCODE_DPAD_CENTER)
                 ||(keyCode==KeyEvent.KEYCODE_CALL)
                 ||(keyCode==KeyEvent.KEYCODE_ENDCALL))
         {
@@ -268,7 +271,6 @@ public class LockScreenActivity extends AppCompatActivity {
     public void onBackPressed() {
         //
     }
-
     protected int exifOrientationToDegrees(int exifOrientation){
       if(exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) {
           return 90;
