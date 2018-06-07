@@ -183,33 +183,34 @@ public class LockScreenActivity extends AppCompatActivity {
 
         int interval = Integer.parseInt(intent.getStringExtra("date").substring(0,3))-Integer.parseInt(today.substring(0,3));
         msg.setText(interval+" 년 전에는 "+intent.getStringExtra("title")+" 했어요!");
-        /*
+
         Uri img = Uri.parse(intent.getStringExtra("img"));
         grantUriPermission(provider,img, Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
         File file = new File(getRealPathFromUri(img));
-
+        /*
         if (file.exists()) {
         Drawable d = Drawable.createFromPath(file.getAbsolutePath());
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 background.setBackground(d);
         }else{
                 Toast.makeText(this,"젤리빈 이상만 지원되는 기능입니다.",Toast.LENGTH_SHORT).show();
         }
     }*/
-        String img = intent.getStringExtra("img");
-        Bitmap image = BitmapFactory.decodeFile(img);
+
+        Bitmap image = BitmapFactory.decodeFile(file.getAbsolutePath());
 
         try {
-            ExifInterface exif = new ExifInterface(img);
+            ExifInterface exif = new ExifInterface(file.getAbsolutePath());
             int exifOrientataion = exif.getAttributeInt(
                     ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
             int exifDegree = exifOrientationToDegrees(exifOrientataion);
             image=rotate(image,exifDegree);
-            background.setImageBitmap(image);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        background.setImageBitmap(image);
     }
 
     private String getRealPathFromUri(Uri img){
