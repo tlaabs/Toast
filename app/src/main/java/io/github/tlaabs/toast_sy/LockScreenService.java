@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -28,47 +29,34 @@ public class LockScreenService extends Service {
         public void onReceive(Context context, Intent intent) {
         Log.v("LCOKT","----서비스 실행----");
 
-        /*
+
         //하나의 랜덤 버킷 가져오기 n년이 지난...
         String today = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         SQLiteDatabase db = new DBmanager(getApplicationContext()).getRDB();
 
-         //todo 년은 다르게 하기 추가
-         String selectQuery="SELECT * FROM "+DBmanager.TABLE_ITEM
-                  +" WHERE STATE = 2 AND SUBSTR("
-                  +DBmanager.KEY_COMPLETE_TIME+",6,5) = "+today.substring(5,10)+ " ORDER BY RANDOM() LIMIT 1"; // 월,일만 같은 하나만...
-         Log.v("LOCKT", "지정된 시간 : " + today.substring(5,10));
+        /*
+        //todo 년은 다르게 하기 추가
+        String selectQuery = "SELECT * FROM " + DBmanager.TABLE_ITEM
+              + " WHERE STATE = 2 AND INSTR( " + DBmanager.KEY_COMPLETE_TIME + " , '" + today.substring(5, 10) + "')=6 AND "+DBmanager.KEY_COMPLETE_TIME+
+              " NOT LIKE '"+today.substring(0,5)+"%' ORDER BY RANDOM() LIMIT 1"; // 월,일만 같은 하나만...*/
 
-         String test="SELECT * FROM " + DBmanager.TABLE_ITEM + " WHERE STATE = 2";
-         Cursor c1 = db.rawQuery(test,null);
-         c1.moveToFirst();
-         Log.v("LOCKT", "지정된 잠금화면 title : " + c1.getColumnIndex(DBmanager.KEY_TITLE));
+        String selectQuery = "SELECT * FROM " + DBmanager.TABLE_ITEM
+              + " WHERE STATE = 2 AND INSTR( " + DBmanager.KEY_COMPLETE_TIME + " , '" + today.substring(5, 10) + "')=6 ORDER BY RANDOM() LIMIT 1"; //테스트용 완료 리스트에서 아무거나
 
-         Cursor cursor = db.rawQuery(selectQuery,null);
-         if(cursor.moveToFirst()){
-                Log.v("LOCKT", "지정된 잠금화면 title : " + cursor.getColumnIndex(DBmanager.KEY_TITLE));
-                Log.v("LCOKT", "지정된 잠금화면 날짜 : " + cursor.getColumnIndex(DBmanager.KEY_COMPLETE_TIME));
-                Uri img = Uri.parse(cursor.getString(9));
-             InputStream inputStream = null;
-             try {
-                 inputStream = getContentResolver().openInputStream(img);
-             } catch (FileNotFoundException e) {
-                 e.printStackTrace();
-             }
+        Log.v("LOCKT", "쿼리문 : "+selectQuery);
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-             WallpaperManager wpm = WallpaperManager.getInstance(context);
-             try {
-                 wpm.setStream(inputStream);
-             } catch (IOException e) {
-                 e.printStackTrace();
-             }
-         }*/
-            if (Intent.ACTION_SCREEN_OFF.equals(intent.getAction())) {
-                Intent i = new Intent(context, LockScreenActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(i);
+        if (Intent.ACTION_SCREEN_OFF.equals(intent.getAction())&& cursor.moveToFirst()) {
+             Intent i = new Intent(context, LockScreenActivity.class);
+             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-            }
+             i.putExtra("title",cursor.getString(1));
+             i.putExtra("date",cursor.getString(8));
+             i.putExtra("img",cursor.getString(9));
+            Log.v("LCOKT","----잠금화면 실행----");
+             context.startActivity(i);
+
+        }
 
 
         }

@@ -6,7 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,6 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -41,7 +46,7 @@ public class LockScreenActivity extends AppCompatActivity {
     //ImageView image;
     TextView DateDisplay,TimeDisplay;
     TextView msg;
-    View background;
+    ImageView background;
 
     GestureDetector detector;
 
@@ -77,7 +82,7 @@ public class LockScreenActivity extends AppCompatActivity {
 
         //btn_unlock = (ImageButton) findViewById(R.id.btn_unlock);
         //image = (ImageView) findViewById(R.id.btn_unlock);
-        background = findViewById(R.id.backgruond);
+        background = (ImageView)findViewById(R.id.background);
         msg = (TextView)findViewById(R.id.msg);
 
         DateDisplay = (TextView) findViewById(R.id.dateDisplay);
@@ -153,14 +158,14 @@ public class LockScreenActivity extends AppCompatActivity {
 
         //하나의 랜덤 버킷 가져오기 n년이 지난...
         String today = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        /*
         SQLiteDatabase db = new DBmanager(getApplicationContext()).getRDB();
-
         //todo 년은 다르게 하기 추가
         String selectQuery = "SELECT * FROM " + DBmanager.TABLE_ITEM
                 + " WHERE STATE = 2 AND INSTR( " + DBmanager.KEY_COMPLETE_TIME + " , '" + today.substring(5, 10) + "')=6 AND "+DBmanager.KEY_COMPLETE_TIME+
                 " NOT LIKE '"+today.substring(0,5)+"%' ORDER BY RANDOM() LIMIT 1"; // 월,일만 같은 하나만...
         Log.v("LOCKT", "쿼리문 : "+selectQuery);
-
+        Cursor cursor = db.rawQuery(selectQuery, null);*/
         /*
         //----------------------        String test="SELECT * FROM " + DBmanager.TABLE_ITEM + " WHERE "+DBmanager.KEY_COMPLETE_TIME+" LIKE '%06-04%'=6";
         String test="SELECT INSTR( "+DBmanager.KEY_COMPLETE_TIME+" , '06-04') FROM " + DBmanager.TABLE_ITEM + " WHERE STATE = 2";
@@ -171,26 +176,39 @@ public class LockScreenActivity extends AppCompatActivity {
         //Log.v("LOCKT", "잠금화면 날짜 : " + c1.getString(8));
         //-----------------------*/
 
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        if (cursor.moveToFirst()) {  //선택된 item을 가지고....
-            Log.v("LOCKT", "지정된 잠금화면 title : " + cursor.getString(1));
-            Log.v("LCOKT", "지정된 잠금화면 날짜 : " + cursor.getString(8));
+        //선택된 item을 가지고....
+        Intent intent = getIntent();
+        Log.v("LOCKT", "지정된 잠금화면 title : " + intent.getStringExtra("title"));
+        Log.v("LCOKT", "지정된 잠금화면 날짜 : " + intent.getStringExtra("date"));
 
-            Uri img = Uri.parse(cursor.getString(9));
-            grantUriPermission(provider,img, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        int interval = Integer.parseInt(intent.getStringExtra("date").substring(0,3))-Integer.parseInt(today.substring(0,3));
+        msg.setText(interval+" 년 전에는 "+intent.getStringExtra("title")+" 했어요!");
+        /*
+        Uri img = Uri.parse(intent.getStringExtra("img"));
+        grantUriPermission(provider,img, Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-            File file = new File(getRealPathFromUri(img));
-            int interval = Integer.parseInt(cursor.getString(8).substring(0,3))-Integer.parseInt(today.substring(0,3));
-            msg.setText(interval+" 년 전에는 "+cursor.getString(1)+" 했어요!");
-            if (file.exists()) {
-                Drawable d = Drawable.createFromPath(file.getAbsolutePath());
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    background.setBackground(d);
+        File file = new File(getRealPathFromUri(img));
 
-                }else{
-                    Toast.makeText(this,"젤리빈 이상만 지원되는 기능입니다.",Toast.LENGTH_SHORT).show();
-                }
-            }
+        if (file.exists()) {
+        Drawable d = Drawable.createFromPath(file.getAbsolutePath());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                background.setBackground(d);
+        }else{
+                Toast.makeText(this,"젤리빈 이상만 지원되는 기능입니다.",Toast.LENGTH_SHORT).show();
+        }
+    }*/
+        String img = intent.getStringExtra("img");
+        Bitmap image = BitmapFactory.decodeFile(img);
+
+        try {
+            ExifInterface exif = new ExifInterface(img);
+            int exifOrientataion = exif.getAttributeInt(
+                    ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+            int exifDegree = exifOrientationToDegrees(exifOrientataion);
+            image=rotate(image,exifDegree);
+            background.setImageBitmap(image);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -248,6 +266,37 @@ public class LockScreenActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         //
+    }
+
+    protected int exifOrientationToDegrees(int exifOrientation){
+      if(exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) {
+          return 90;
+      } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {
+          return 180;
+      } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_270) {
+          return 270;
+      } return 0;
+    }
+
+    protected Bitmap rotate(Bitmap bitmap, int degrees){
+        if(degrees!=0 && bitmap !=null)
+        {
+            Matrix m = new Matrix();
+            m.setRotate(degrees,(float)bitmap.getWidth()/2,(float)bitmap.getHeight()/2);
+
+            try{
+                Bitmap converted = Bitmap.createBitmap(bitmap, 0,0,
+                bitmap.getWidth(),bitmap.getHeight(),m,true);
+                if(bitmap!=converted)
+                {
+                    bitmap.recycle();
+                    bitmap=converted;
+                }
+            }catch (OutOfMemoryError e){
+                Toast.makeText(getApplicationContext(),"메모리 부족으로 사진회전 실패",Toast.LENGTH_SHORT).show();
+            }
+        }
+        return bitmap;
     }
 
 }
