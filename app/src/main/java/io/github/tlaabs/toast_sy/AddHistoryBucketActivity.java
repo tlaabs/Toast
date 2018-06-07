@@ -1,5 +1,6 @@
 package io.github.tlaabs.toast_sy;
 
+import android.app.NotificationManager;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -49,6 +50,9 @@ public class AddHistoryBucketActivity extends AppCompatActivity {
         db = new DBmanager(getApplicationContext()).getWDB();
         init();
 
+        //취소
+        NotificationManager nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        nm.cancel(item.getId());
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,15 +95,14 @@ public class AddHistoryBucketActivity extends AppCompatActivity {
         });
 
 
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == PICK_FROM_ALBUM){
-            if(resultCode == RESULT_OK){
+        if (requestCode == PICK_FROM_ALBUM) {
+            if (resultCode == RESULT_OK) {
                 mImageCaptureUri = data.getData();
-                Log.d("mmo",mImageCaptureUri.getPath().toString());
+                Log.d("mmo", mImageCaptureUri.getPath().toString());
                 Glide.with(this)
                         .load(mImageCaptureUri)
                         .into(showImg);
@@ -118,7 +121,7 @@ public class AddHistoryBucketActivity extends AppCompatActivity {
         //getIntent
 
         Intent i = getIntent();
-        item = (BucketItem)i.getSerializableExtra("item");
+        item = (BucketItem) i.getSerializableExtra("item");
 
         titleText.setText(item.getTitle());
         showImg.setColorFilter(Color.parseColor("#BDBDBD"), PorterDuff.Mode.MULTIPLY);

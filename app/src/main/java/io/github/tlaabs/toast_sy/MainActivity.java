@@ -1,11 +1,13 @@
 package io.github.tlaabs.toast_sy;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +19,11 @@ import android.view.View;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import io.github.tlaabs.toast_sy.Alarm.OnceADay;
 import io.github.tlaabs.toast_sy.dbhelper.DBmanager;
@@ -67,13 +73,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        DBThread th = new DBThread();
-        th.start();
+        DBmanager db1 = new DBmanager(getApplicationContext());
 
         Log.i("haaha",getKeyHash(this));
-
-
-
     }
 
     public static String getKeyHash(final Context context) {
@@ -113,14 +115,15 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = new DBmanager(getApplicationContext()).getRDB();
         OnceADay dailyTask = new OnceADay(this);
 
-        Calendar cal = Calendar.getInstance();
-
         SharedPreferences pref2 = getSharedPreferences("alarm", MODE_PRIVATE);
 
         int d =pref2.getInt("D",0);
         int h = pref2.getInt("H",9);
         int m = pref2.getInt("M",0);
-        Log.i("tt",h + "|"+m);
+        Log.i("tt",h + "|"+m+"|"+Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
+
+        if(d==0 && h<Calendar.getInstance().get(Calendar.HOUR_OF_DAY))//처음실행시 무시
+            d=Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 
         int result = dailyTask.execute(d,h,m); // toDO 테스트 환경 수정
         if(result>0){ //알람 설정이 완료 되었을때
@@ -174,12 +177,4 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
-    class DBThread extends Thread {
-        @Override
-        public void run() {
-            DBmanager db = new DBmanager(getApplicationContext());
-        }
-    }
-
 }

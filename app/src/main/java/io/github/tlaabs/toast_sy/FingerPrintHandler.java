@@ -9,14 +9,8 @@ import android.os.Build;
 import android.os.CancellationSignal;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-import io.github.tlaabs.toast_sy.MainActivity;
-import io.github.tlaabs.toast_sy.R;
-
-import static android.app.Activity.RESULT_OK;
 
 @TargetApi(Build.VERSION_CODES.M)
 public class FingerPrintHandler extends FingerprintManager.AuthenticationCallback {

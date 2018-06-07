@@ -2,10 +2,10 @@ package io.github.tlaabs.toast_sy.dbhelper;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -22,7 +22,7 @@ public class DBmanager extends SQLiteOpenHelper {
 
     //table names
     public static final String TABLE_ITEM = "Items";
-    public static final String TABLE_CATE = "category";
+    public static final String TABLE_TODAY = "today";
 
     //columns table
     public static final String KEY_ID="ID";
@@ -53,10 +53,11 @@ public class DBmanager extends SQLiteOpenHelper {
                     +KEY_IMG_SOURCE+" STRING, "
                     +KEY_REVIEW+" STRING)";
 
-    public static final String CREATE_TABLE_CATE=
-            "create table "+TABLE_CATE+"("
-                    +KEY_ID+"INTEGER primary key, "
-                    +KEY_CATEGORY+"TEXT )";
+    public static final String CREATE_TABLE_TODAY=
+            "create table "+TABLE_TODAY+" ( "
+                    +KEY_ID+" INTEGER primary key, "
+                    +KEY_TITLE+" TEXT, "
+                    +KEY_IMG_SOURCE+ " STRING)";
 
     public DBmanager(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -64,12 +65,12 @@ public class DBmanager extends SQLiteOpenHelper {
 
     public void onCreate(SQLiteDatabase db){
         db.execSQL(CREATE_TABLE_ITEM);
-        //db.execSQL(CREATE_TABLE_CATE);
+        //db.execSQL(CREATE_TABLE_TODAY);
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_ITEM);
-        db.execSQL("DROP TABLE IF EXISTS "+TABLE_CATE);
+        //db.execSQL("DROP TABLE IF EXISTS "+TABLE_TODAY);
         onCreate(db);
     }
 
@@ -122,6 +123,30 @@ public class DBmanager extends SQLiteOpenHelper {
         recordValues.put(KEY_END_TIME, end);
 
         db.update(TABLE_ITEM, recordValues, KEY_ID+"="+ item.getId(), null);
+    }
+
+    public void upDateToday(){
+        String today = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        SQLiteDatabase db = this.getWDB();
+        ContentValues recordValues = new ContentValues();
+
+        db.execSQL("delete from "+DBmanager.TABLE_TODAY);
+        String selectQuery="SELECT * FROM "+DBmanager.TABLE_ITEM
+                +" WHERE STATE = 2 AND SUBSTR("
+                +DBmanager.KEY_COMPLETE_TIME+",6,5) = "+today.substring(5,10)+ " ORDER BY RANDOM() LIMIT 1";
+
+        Cursor cursor = db.rawQuery(selectQuery,null);
+        cursor.moveToFirst();
+
+        while(cursor!=null){
+            recordValues.put(DBmanager.KEY_ID,cursor.getColumnIndex(DBmanager.KEY_ID));
+            recordValues.put(DBmanager.KEY_TITLE,cursor.getColumnIndex(DBmanager.KEY_TITLE));
+            recordValues.put(DBmanager.KEY_IMG_SOURCE,cursor.getColumnIndex(DBmanager.KEY_IMG_SOURCE));
+
+            db.insert(DBmanager.TABLE_TODAY,null,recordValues);
+            cursor.moveToNext();
+        }
+        db.close();
     }
 
     public SQLiteDatabase getWDB(){

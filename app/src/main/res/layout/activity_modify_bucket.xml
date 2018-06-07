@@ -65,6 +65,8 @@
         android:id="@+id/modifyBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+            android:background="#fbcc29"
+            android:layout_marginRight="10dp"
         android:text="수정"
         />
 
@@ -72,6 +74,8 @@
             android:id="@+id/deleteBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="#fbcc29"
+            android:layout_marginRight="10dp"
             android:text="삭제"
             />
 
@@ -79,6 +83,7 @@
             android:id="@+id/backBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="#fbcc29"
             android:text="취소"
             />
 

@@ -21,7 +21,8 @@ import io.github.tlaabs.toast_sy.ExtendBucketActivity;
 import io.github.tlaabs.toast_sy.OnGoingActivity;
 import io.github.tlaabs.toast_sy.R;
 
-public class AlarmNotiService extends Service {
+public class
+AlarmNotiService extends Service {
     private static final String LOG ="ALARM";
     BucketItem item;
 
@@ -47,7 +48,7 @@ public class AlarmNotiService extends Service {
         Log.v(LOG,"type id is : "+type);
 
         //large icon 설정
-        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.notiicon);
+        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.toast_alarm);
         NotificationCompat.Builder NotiBuilder;
         PendingIntent mPendingIntent;
 
@@ -65,7 +66,7 @@ public class AlarmNotiService extends Service {
                         getApplicationContext(), 0,
                         new Intent(getApplicationContext(), BucketListActivity.class),
                         PendingIntent.FLAG_UPDATE_CURRENT);
-                NotificationCompat.Action startAction = new NotificationCompat.Action.Builder(R.drawable.notiicon, "지금 할래요!", startPendingIntent).build();
+                NotificationCompat.Action startAction = new NotificationCompat.Action.Builder(R.drawable.toast_alarm, "지금 할래요!", startPendingIntent).build();
 
 
                 //notification channel 설정
@@ -84,7 +85,7 @@ public class AlarmNotiService extends Service {
 
               NotiBuilder = new NotificationCompat.Builder(getApplicationContext(), "Bucket")
                         .setSmallIcon(R.drawable.play_button)
-                        .setContentTitle(item.getTitle() + " 지금 해볼래요?")
+                        .setContentTitle(item.getTitle() + "  지금 해볼래요?")
                         .setContentText("새로운 추억을 만들어 봐요!")
                         .setDefaults(Notification.DEFAULT_SOUND)
                         .setLargeIcon(largeIcon)
@@ -108,26 +109,26 @@ public class AlarmNotiService extends Service {
                     getApplicationContext(), 1,
                     new Intent(getApplicationContext(), StopOnGoingActivity.class).putExtra("item",item),
                     PendingIntent.FLAG_UPDATE_CURRENT);
-            NotificationCompat.Action cancelAction = new NotificationCompat.Action.Builder(R.drawable.notiicon, "안할래", cancelPendingIntent).build();
+            NotificationCompat.Action cancelAction = new NotificationCompat.Action.Builder(R.drawable.delete, "취소", cancelPendingIntent).build();
 
             //완료 눌렀을때 실행할 activity
             PendingIntent confirmPendingIntent = PendingIntent.getActivity(
                     getApplicationContext(), 1,
                     new Intent(getApplicationContext(), AddHistoryBucketActivity.class).putExtra("item",item),
                     PendingIntent.FLAG_UPDATE_CURRENT);
-            NotificationCompat.Action confirmAction = new NotificationCompat.Action.Builder(R.drawable.complete, "완료했어요", confirmPendingIntent).build();
+            NotificationCompat.Action confirmAction = new NotificationCompat.Action.Builder(R.drawable.complete, "완료", confirmPendingIntent).build();
 
             //연장 눌렀을때 실행할 activity
             PendingIntent extendPendingIntent = PendingIntent.getActivity(
                     getApplicationContext(), 1,
                     new Intent(getApplicationContext(), ExtendBucketActivity.class).putExtra("item",item),
                     PendingIntent.FLAG_UPDATE_CURRENT);
-            NotificationCompat.Action extendAction = new NotificationCompat.Action.Builder(R.drawable.extend, "시간을 조금만 더..", extendPendingIntent).build();
+            NotificationCompat.Action extendAction = new NotificationCompat.Action.Builder(R.drawable.timer, "시간 연장", extendPendingIntent).build();
 
             //notification channel 설정
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 NotificationManager nManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                NotificationChannel channelMessage = new NotificationChannel("Ongoing", "진행중인거시여", NotificationManager.IMPORTANCE_HIGH);
+                NotificationChannel channelMessage = new NotificationChannel("Ongoing", "진행중", NotificationManager.IMPORTANCE_HIGH);
                 channelMessage.setDescription("진행중");
                 channelMessage.enableLights(true);
                 channelMessage.setLightColor(Color.BLUE);
@@ -138,10 +139,12 @@ public class AlarmNotiService extends Service {
 
             }
 
+
+
                 NotiBuilder = new NotificationCompat.Builder(getApplicationContext(), "Ongoing")
-                    .setSmallIcon(R.drawable.extend)
-                    .setContentTitle(item.getTitle() + " 시간이 만료되었습니다")
-                    .setContentText("어떻게 할래요?")
+                    .setSmallIcon(R.drawable.toast_alarm)
+                    .setContentTitle("'"+item.getTitle() + "'-시간이 만료되었습니다")
+                    .setContentText("  어떻게 하실래요?")
                     .setDefaults(Notification.DEFAULT_SOUND)
                     .setLargeIcon(largeIcon)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)

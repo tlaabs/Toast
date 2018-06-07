@@ -1,5 +1,6 @@
 package io.github.tlaabs.toast_sy;
 
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -47,6 +48,13 @@ public class BucketListActivity extends AppCompatActivity {
 
         init();
         DBmanager database = new DBmanager(getApplicationContext());
+        loadDB();
+
+        try {
+            //취소
+            NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            nm.cancel(getIntent().getExtras().getInt("nid"));
+        }catch (NullPointerException e){}
 
         TabPagerAdapter mTabPagerAdapter = new TabPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(mTabPagerAdapter);
@@ -121,7 +129,7 @@ public class BucketListActivity extends AppCompatActivity {
 
     public void loadDB(){
         db = new DBmanager(getApplicationContext()).getRDB();
-        String sql = "SELECT * FROM "+DBmanager.TABLE_ITEM+" WHERE STATE = 0;";
+        String sql = "SELECT * FROM "+ DBmanager.TABLE_ITEM+" WHERE STATE = 0;";
         Cursor cursor = db.rawQuery(sql, null);
         int count = cursor.getCount();
 

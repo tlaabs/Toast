@@ -1,5 +1,6 @@
 package io.github.tlaabs.toast_sy;
 
+import android.app.NotificationManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -11,7 +12,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
@@ -42,6 +42,12 @@ public class OnGoingActivity extends AppCompatActivity {
 
         init();
         loadDB();
+
+        //취소
+        try {
+            NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            nm.cancel(getIntent().getExtras().getInt("nid"));
+        }catch (NullPointerException e){}
 
         TabPagerAdapter mTabPagerAdapter = new TabPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(mTabPagerAdapter);
@@ -87,7 +93,7 @@ public class OnGoingActivity extends AppCompatActivity {
 
     public void loadDB(){
         db = new DBmanager(getApplicationContext()).getRDB();
-        String sql = "SELECT * FROM "+DBmanager.TABLE_ITEM+" WHERE STATE = 1;";
+        String sql = "SELECT * FROM "+ DBmanager.TABLE_ITEM+" WHERE STATE = 1;";
         Cursor cursor = db.rawQuery(sql, null);
         int count = cursor.getCount();
 
