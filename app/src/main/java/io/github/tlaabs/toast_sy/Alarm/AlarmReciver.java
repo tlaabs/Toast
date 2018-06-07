@@ -56,7 +56,7 @@ public class AlarmReciver extends BroadcastReceiver {
                 //toDO : 시작 눌렀을때 실행할 activity 맹들기
                 PendingIntent startPendingIntent = PendingIntent.getActivity(
                         context, 0,
-                        new Intent(context, BucketListActivity.class).putExtra("nid",item.getId()),
+                        new Intent(context, startNow.class).putExtra("nid",item.getId()),
                         PendingIntent.FLAG_UPDATE_CURRENT);
                 NotificationCompat.Action startAction = new NotificationCompat.Action.Builder(R.drawable.notiicon, "지금 할래요!", startPendingIntent).build();
 

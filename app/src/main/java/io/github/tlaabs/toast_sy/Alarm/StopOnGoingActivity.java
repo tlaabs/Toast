@@ -52,7 +52,7 @@ public class StopOnGoingActivity extends AppCompatActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SQLiteDatabase db = getApplicationContext().openOrCreateDatabase("sim.db", MODE_PRIVATE, null);
+                SQLiteDatabase db = getApplicationContext().openOrCreateDatabase(DBmanager.TABLE_ITEM, MODE_PRIVATE, null);
                 ContentValues recordValues = new ContentValues();
 
                 recordValues.put("STATE", 0);
