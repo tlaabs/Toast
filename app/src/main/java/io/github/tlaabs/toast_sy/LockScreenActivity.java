@@ -230,17 +230,6 @@ public class LockScreenActivity extends AppCompatActivity {
             return "0" + String.valueOf(c);
     }
 
-
-
-
-/*
-    ////////////////////////////////////////////////////////// 하드웨어 back 버튼 누르기 무시//
-    @Override
-    public void onBackPressed() {
-        //
-    }
-
-    //키 이벤트 무시
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         if((keyCode==KeyEvent.KEYCODE_HOME)
@@ -255,7 +244,10 @@ public class LockScreenActivity extends AppCompatActivity {
 
         // return super.onKeyDown(keyCode, event);
         return false;
-    }*/
-
+    }
+    @Override
+    public void onBackPressed() {
+        //
+    }
 
 }

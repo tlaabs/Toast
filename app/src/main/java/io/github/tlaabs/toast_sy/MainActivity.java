@@ -120,9 +120,9 @@ public class MainActivity extends AppCompatActivity {
         int d =pref2.getInt("D",0);
         int h = pref2.getInt("H",9);
         int m = pref2.getInt("M",0);
-        Log.i("tt",h + "|"+m);
+        Log.i("tt",h + "|"+m+"|"+Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
 
-        if(d==0 && h<Calendar.getInstance().get(Calendar.HOUR))//처음실행시 무시
+        if(d==0 && h<Calendar.getInstance().get(Calendar.HOUR_OF_DAY))//처음실행시 무시
             d=Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 
         int result = dailyTask.execute(d,h,m); // toDO 테스트 환경 수정

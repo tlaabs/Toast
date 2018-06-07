@@ -22,19 +22,17 @@ public class OnceADay{
     private SQLiteDatabase db;
     private String selectQuery;
     private Context context;
-    private static Calendar cal;
 
 
     public OnceADay(Context context){
         db=new DBmanager(context).getWDB();
         this.context=context;
         selectQuery="SELECT * FROM "+DBmanager.TABLE_ITEM+" WHERE STATE = 0 ORDER BY RANDOM() LIMIT 1"; //state 가 0인 애들중 랜덤으로 하나
-        cal=Calendar.getInstance();
     }
 
 
     public int execute(int day, int hour, int minute) {
-
+        Calendar cal = Calendar.getInstance();
         int currentDate = cal.get(Calendar.DAY_OF_MONTH);
 
         if (currentDate != day && db != null) {//하루에 한번만
@@ -55,11 +53,12 @@ public class OnceADay{
                 //알림 띄우기
                 Intent notiAlarm = new Intent("toast.AlarmNoti.ALARM_START");//리시버 호출
                 notiAlarm.putExtra("Title",item.getTitle());
-
-                Log.v("tt","BUCKET 알람 설정 title "+ item.getTitle());
-
+                notiAlarm.putExtra("Id",item.getId());
                 notiAlarm.putExtra("type", 0); // 타입 0은 bukcet, 1은 inpro
 
+
+                Log.v("tt","BUCKET 알람 설정 title "+ item.getTitle());
+                Log.v("tt","BUCKET 알람 설정 정보"+ cal.get(Calendar.HOUR_OF_DAY)+"|"+cal.get(Calendar.MINUTE));
 
                 PendingIntent notiIntent = PendingIntent.getBroadcast(
                         context, -1, notiAlarm, PendingIntent.FLAG_UPDATE_CURRENT);

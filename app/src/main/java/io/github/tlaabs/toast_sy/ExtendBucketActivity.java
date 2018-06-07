@@ -1,6 +1,7 @@
 package io.github.tlaabs.toast_sy;
 
 import android.app.AlarmManager;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
@@ -44,6 +45,10 @@ public class ExtendBucketActivity extends AppCompatActivity {
 
         db = new DBmanager(getApplicationContext()).getWDB();
         init();
+
+        //취소
+        NotificationManager nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        nm.cancel(item.getId());
 
 
         ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, hours);

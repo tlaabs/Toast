@@ -1,5 +1,6 @@
 package io.github.tlaabs.toast_sy;
 
+import android.app.NotificationManager;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -49,6 +50,9 @@ public class AddHistoryBucketActivity extends AppCompatActivity {
         db = new DBmanager(getApplicationContext()).getWDB();
         init();
 
+        //취소
+        NotificationManager nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        nm.cancel(item.getId());
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override

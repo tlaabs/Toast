@@ -1,5 +1,6 @@
 package io.github.tlaabs.toast_sy;
 
+import android.app.NotificationManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -41,6 +42,12 @@ public class OnGoingActivity extends AppCompatActivity {
 
         init();
         loadDB();
+
+        //취소
+        try {
+            NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            nm.cancel(getIntent().getExtras().getInt("nid"));
+        }catch (NullPointerException e){}
 
         TabPagerAdapter mTabPagerAdapter = new TabPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(mTabPagerAdapter);

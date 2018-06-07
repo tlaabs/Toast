@@ -47,15 +47,16 @@ public class AlarmReciver extends BroadcastReceiver {
                 //notification 눌렀을때 실행할 activity
                 item = new BucketItem();
                 item.setTitle(intent.getStringExtra("Title"));
+                item.setId(intent.getIntExtra("Id",-1));
                 mPendingIntent = PendingIntent.getActivity(
                         context, 0,
-                        new Intent(context, BucketListActivity.class),
+                        new Intent(context, BucketListActivity.class).putExtra("nid",item.getId()),
                         PendingIntent.FLAG_UPDATE_CURRENT);
 
                 //toDO : 시작 눌렀을때 실행할 activity 맹들기
                 PendingIntent startPendingIntent = PendingIntent.getActivity(
                         context, 0,
-                        new Intent(context, BucketListActivity.class),
+                        new Intent(context, BucketListActivity.class).putExtra("nid",item.getId()),
                         PendingIntent.FLAG_UPDATE_CURRENT);
                 NotificationCompat.Action startAction = new NotificationCompat.Action.Builder(R.drawable.notiicon, "지금 할래요!", startPendingIntent).build();
 
@@ -93,9 +94,11 @@ public class AlarmReciver extends BroadcastReceiver {
                 //notification 눌렀을때 실행할 activity
                 item = (BucketItem)intent.getSerializableExtra("item");
 
+                Intent i = new Intent(context, OnGoingActivity.class);
+                i.putExtra("nid",item.getId());
                 mPendingIntent = PendingIntent.getActivity(
                         context, 1,
-                        new Intent(context, OnGoingActivity.class),
+                        i,
                         PendingIntent.FLAG_UPDATE_CURRENT);
 
                 //취소 눌렀을때 실행할 activity
