@@ -2,6 +2,7 @@ package io.github.tlaabs.toast_sy.Alarm;
 
 import android.app.NotificationManager;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -52,12 +53,12 @@ public class StopOnGoingActivity extends AppCompatActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SQLiteDatabase db = getApplicationContext().openOrCreateDatabase("sim.db", MODE_PRIVATE, null);
+                SQLiteDatabase db = new DBmanager(getApplicationContext()).getWDB();
                 ContentValues recordValues = new ContentValues();
 
-                recordValues.put("STATE", 0);
+                recordValues.put(DBmanager.KEY_STATE, 0);
 
-                db.update(DBmanager.TABLE_ITEM,recordValues,"ID=" + item.getId(),null);
+                db.update(DBmanager.TABLE_ITEM,recordValues," ID = " + item.getId(),null);
                 Toast.makeText(getApplicationContext(),"중지",Toast.LENGTH_SHORT).show();
                 finish();
             }

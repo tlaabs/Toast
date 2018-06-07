@@ -35,7 +35,7 @@ public class AlarmReciver extends BroadcastReceiver {
         type = intent.getIntExtra("type",-1);
 
         //large icon 설정
-        Bitmap largeIcon = BitmapFactory.decodeResource(Resources.getSystem(), R.drawable.toast_size);
+        Bitmap largeIcon = BitmapFactory.decodeResource(Resources.getSystem(), R.drawable.ic_stat_toast);
         NotificationCompat.Builder NotiBuilder;
         PendingIntent mPendingIntent;
 
@@ -56,7 +56,7 @@ public class AlarmReciver extends BroadcastReceiver {
                 //toDO : 시작 눌렀을때 실행할 activity 맹들기
                 PendingIntent startPendingIntent = PendingIntent.getActivity(
                         context, 0,
-                        new Intent(context, BucketListActivity.class).putExtra("nid",item.getId()),
+                        new Intent(context, startNow.class).putExtra("nid",item.getId()),
                         PendingIntent.FLAG_UPDATE_CURRENT);
                 NotificationCompat.Action startAction = new NotificationCompat.Action.Builder(R.drawable.play_btn, "지금 할래요!", startPendingIntent).build();
 
@@ -76,9 +76,9 @@ public class AlarmReciver extends BroadcastReceiver {
                 }
 
                 NotiBuilder = new NotificationCompat.Builder(context, "Bucket")
-                        .setSmallIcon(R.drawable.toast_size)
-                        .setContentTitle(item.getTitle())
-                        .setContentText("지금 해볼래요?")
+                        .setSmallIcon(R.drawable.ic_stat_toast)
+                        .setContentTitle(item.getTitle() + " 지금 해볼래요?")
+                        .setContentText("지금 새로운 추억을 만들어 봐요!")
                         .setDefaults(Notification.DEFAULT_SOUND)
                         .setLargeIcon(largeIcon)
                         .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -106,21 +106,21 @@ public class AlarmReciver extends BroadcastReceiver {
                         context, 1,
                         new Intent(context, StopOnGoingActivity.class).putExtra("item",item),
                         PendingIntent.FLAG_UPDATE_CURRENT);
-                NotificationCompat.Action cancelAction = new NotificationCompat.Action.Builder(R.drawable.d_icon, "취소", cancelPendingIntent).build();
+                NotificationCompat.Action cancelAction = new NotificationCompat.Action.Builder(R.drawable.d_icon, "안할래", cancelPendingIntent).build();
 
                 //완료 눌렀을때 실행할 activity
                 PendingIntent confirmPendingIntent = PendingIntent.getActivity(
                         context, 1,
                         new Intent(context, AddHistoryBucketActivity.class).putExtra("item",item),
                         PendingIntent.FLAG_UPDATE_CURRENT);
-                NotificationCompat.Action confirmAction = new NotificationCompat.Action.Builder(R.drawable.c_icon, "완료", confirmPendingIntent).build();
+                NotificationCompat.Action confirmAction = new NotificationCompat.Action.Builder(R.drawable.c_icon, "완료했어요", confirmPendingIntent).build();
 
                 //연장 눌렀을때 실행할 activity
                 PendingIntent extendPendingIntent = PendingIntent.getActivity(
                         context, 1,
                         new Intent(context, ExtendBucketActivity.class).putExtra("item",item),
                         PendingIntent.FLAG_UPDATE_CURRENT);
-                NotificationCompat.Action extendAction = new NotificationCompat.Action.Builder(R.drawable.t_icon, "시간 연장", extendPendingIntent).build();
+                NotificationCompat.Action extendAction = new NotificationCompat.Action.Builder(R.drawable.t_icon, "시간을 조금만 더..", extendPendingIntent).build();
 
                 //notification channel 설정
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -137,15 +137,15 @@ public class AlarmReciver extends BroadcastReceiver {
                 }
 
                 NotiBuilder = new NotificationCompat.Builder(context, "Ongoing")
-                        .setSmallIcon(R.drawable.toast_size)
-                        .setContentTitle("'"+item.getTitle() + "' 시간 만료^^")
-                        .setContentText("어떻게 하실래요?")
+                        .setSmallIcon(R.drawable.ic_done)
+                        .setContentTitle(item.getTitle() + " 시간 만료")
+                        .setContentText(item.getTitle()+" 어떻게 할래요?")
                         .setDefaults(Notification.DEFAULT_SOUND)
                         .setLargeIcon(largeIcon)
                         .setPriority(NotificationCompat.PRIORITY_HIGH)
                         .setAutoCancel(false)
                         .setTicker("시간이 만료 되었어요!")
-                        //.setStyle(new NotificationCompat.BigTextStyle().bigText("시간이 만료되었어요"))
+                        //.setStyle(new NotificationCompat.BigTextStyle().bigText("시간이 만료 되었어요!"))
                         .addAction(cancelAction) //취소 버튼
                         .addAction(confirmAction) // 완료 버튼
                         .addAction(extendAction) //연장하자

@@ -8,7 +8,7 @@
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="15dp"
-    tools:context="io.github.tlaabs.toast_sy.AddBucketActivity">
+    tools:context=".Alarm.startNow">
 
     <TextView
         android:id="@+id/message"
@@ -23,12 +23,12 @@
         android:padding="15dp">
 
         <Button
-            android:id="@+id/keepgoing"
+            android:id="@+id/startB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:background="#fbcc29"
-            android:text="그냥 할래" />
+            android:text="지금 할래" />
 
         <Button
             android:id="@+id/cancel"
