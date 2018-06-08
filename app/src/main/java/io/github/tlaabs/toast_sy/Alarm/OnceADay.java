@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -20,45 +21,45 @@ import static android.content.Context.MODE_PRIVATE;
 public class OnceADay{
     private SQLiteDatabase db;
     private String selectQuery;
-    private BucketItem item;
     private Context context;
-    private static Calendar cal;
 
 
     public OnceADay(Context context){
         db=new DBmanager(context).getWDB();
         this.context=context;
         selectQuery="SELECT * FROM "+DBmanager.TABLE_ITEM+" WHERE STATE = 0 ORDER BY RANDOM() LIMIT 1"; //state 가 0인 애들중 랜덤으로 하나
-        cal=Calendar.getInstance();
     }
 
 
-    public int execute(int day, int hour, int minute) {
-
-        int currentDate = cal.get(Calendar.DAY_OF_MONTH);
-
-        if (currentDate != day && db != null) {//하루에 한번만
+    public int execute(int hour, int minute) {
+        Calendar cal = Calendar.getInstance();
+        if (cal.get(Calendar.HOUR_OF_DAY) <= hour && cal.get(Calendar.MINUTE) < minute && db != null) {//하루에 한번만
             Cursor c = db.rawQuery(selectQuery, null);
 
             //아이템이 있을시에만...
             if (c.moveToFirst()) {
 
-                item = new BucketItem();
-                item.setTitle(c.getString(c.getColumnIndex("TITLE")));
-                item.setId(c.getInt(c.getColumnIndex("ID")));
+                BucketItem item = new BucketItem();
+                item.setTitle(c.getString(c.getColumnIndex(DBmanager.KEY_TITLE)));
+                item.setId(c.getInt(c.getColumnIndex(DBmanager.KEY_ID)));
+                item.setRegTime(c.getString(c.getColumnIndex(DBmanager.KEY_REGISTER_TIME)));
+                item.setUsageTime(c.getString(c.getColumnIndex(DBmanager.KEY_USAGE_TIME)));
 
                 cal.set(Calendar.HOUR_OF_DAY,hour); //24시간... 알람 띄울 시간
                 cal.set(Calendar.MINUTE,minute);
                 cal.set(Calendar.SECOND,0);
                 //알림 띄우기
                 Intent notiAlarm = new Intent("toast.AlarmNoti.ALARM_START");//리시버 호출
-                notiAlarm.putExtra("item", item); //item
+                notiAlarm.putExtra("Title",item.getTitle());
+                notiAlarm.putExtra("Id",item.getId());
                 notiAlarm.putExtra("type", 0); // 타입 0은 bukcet, 1은 inpro
 
 
-                int notiId = item.getId(); //서로 다른 id 부여
+                Log.v("tt","BUCKET 알람 설정 title "+ item.getTitle());
+                Log.v("tt","BUCKET 알람 설정 정보"+ cal.get(Calendar.HOUR_OF_DAY)+"|"+cal.get(Calendar.MINUTE));
+
                 PendingIntent notiIntent = PendingIntent.getBroadcast(
-                        context, notiId, notiAlarm, PendingIntent.FLAG_IMMUTABLE);
+                        context, -1, notiAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 AlarmManager notiManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                 notiManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), notiIntent);

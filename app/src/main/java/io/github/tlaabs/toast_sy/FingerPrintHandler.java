@@ -2,6 +2,7 @@ package io.github.tlaabs.toast_sy;
 
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.fingerprint.FingerprintManager;
@@ -9,14 +10,9 @@ import android.os.Build;
 import android.os.CancellationSignal;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-import io.github.tlaabs.toast_sy.MainActivity;
-import io.github.tlaabs.toast_sy.R;
-
-import static android.app.Activity.RESULT_OK;
 
 @TargetApi(Build.VERSION_CODES.M)
 public class FingerPrintHandler extends FingerprintManager.AuthenticationCallback {
@@ -24,6 +20,8 @@ public class FingerPrintHandler extends FingerprintManager.AuthenticationCallbac
     private Context appContext;
     private ImageView imgView;
     private AppCompatActivity baseActivity;
+
+    boolean isRunning = false;
 
     public FingerPrintHandler(Context context) {
         this.appContext = context;
@@ -47,9 +45,10 @@ public class FingerPrintHandler extends FingerprintManager.AuthenticationCallbac
     @Override
     public void onAuthenticationError(int errMsgId,
                                       CharSequence errString) {
-        Toast.makeText(appContext,
-                "Authentication error\n" + errString,
-                Toast.LENGTH_LONG).show();
+        //Toast.makeText(appContext,"Authentication error\n" + errString,Toast.LENGTH_LONG).show();
+        baseActivity.setResult(Activity.RESULT_CANCELED);
+        baseActivity.finish();
+
     }
 
     @Override
@@ -67,14 +66,42 @@ public class FingerPrintHandler extends FingerprintManager.AuthenticationCallbac
 
     }
 
+    public void onBackPressed(){
+
+        baseActivity.setResult(Activity.RESULT_CANCELED);
+        baseActivity.finish();
+
+    }
+
+
+    //키 이벤트 무시///
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if(   (keyCode==KeyEvent.KEYCODE_MENU)
+                ||(keyCode==KeyEvent.KEYCODE_DPAD_LEFT)
+                ||(keyCode==KeyEvent.KEYCODE_CALL)
+                ||(keyCode==KeyEvent.KEYCODE_ENDCALL))
+        {
+            return true;
+        }
+        if((keyCode==KeyEvent.KEYCODE_BACK) ||(keyCode==KeyEvent.KEYCODE_DPAD_RIGHT)||(keyCode==KeyEvent.KEYCODE_HOME)||(keyCode==KeyEvent.KEYCODE_DPAD_CENTER))
+        {
+            baseActivity.setResult(Activity.RESULT_CANCELED);
+            baseActivity.finish();
+        }
+        // return super.onKeyDown(keyCode, event);
+        baseActivity.setResult(Activity.RESULT_CANCELED);
+        baseActivity.finish();
+        return false;
+    }
+
     @Override
     public void onAuthenticationSucceeded(
             FingerprintManager.AuthenticationResult result) {
 
         Toast.makeText(appContext,
-                "반갑습니다!",
+                "반갑습니다!" ,
                 Toast.LENGTH_LONG).show();
-
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -85,7 +112,8 @@ public class FingerPrintHandler extends FingerprintManager.AuthenticationCallbac
 
                     Thread.sleep(500);
 
-                    baseActivity.startActivity(new Intent(baseActivity, MainActivity.class));
+                    baseActivity.setResult(Activity.RESULT_OK);
+                    //baseActivity.startActivity(new Intent(baseActivity, MainActivity.class));
                     baseActivity.finish();
 
                 } catch (Exception e) {

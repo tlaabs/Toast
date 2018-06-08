@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -103,7 +102,7 @@ public class RecommendActivity extends AppCompatActivity {
 
     public void loadDB(){
         db = new DBmanager(getApplicationContext()).getRDB();
-        String sql = "SELECT * FROM "+DBmanager.TABLE_ITEM+" WHERE STATE = 1;";
+        String sql = "SELECT * FROM "+ DBmanager.TABLE_ITEM+" WHERE STATE = 1;";
         Cursor cursor = db.rawQuery(sql, null);
         int count = cursor.getCount();
 

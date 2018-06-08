@@ -16,7 +16,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
@@ -139,7 +138,7 @@ public class HistoryActivity extends AppCompatActivity {
 
     public void loadDB(){
         db = new DBmanager(getApplicationContext()).getRDB();
-        String sql = "SELECT * FROM "+DBmanager.TABLE_ITEM+" WHERE STATE = 2;";
+        String sql = "SELECT * FROM "+ DBmanager.TABLE_ITEM+" WHERE STATE = 2;";
         Cursor cursor = db.rawQuery(sql, null);
         int count = cursor.getCount();
 
@@ -174,6 +173,7 @@ public class HistoryActivity extends AppCompatActivity {
             }
         }
         db.close();
+
         Log.i("lolo", "count" + count);
     }
 

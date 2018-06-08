@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center_horizontal"
     tools:context="io.github.tlaabs.toast_sy.AddBucketActivity">
 
 
@@ -20,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             android:src="@drawable/default_bg"
             />
 
@@ -45,6 +46,8 @@
                     android:layout_height="wrap_content"
                     android:text="뒤로"
                     android:textColor="#ffffff"
+                    android:padding="3dp"
+                    android:background="#44000000"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentLeft="true"
                     />
@@ -55,6 +58,8 @@
                     android:layout_height="wrap_content"
                     android:text="등록"
                     android:textColor="#ffffff"
+                    android:padding="3dp"
+                    android:background="#44000000"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
                     />
@@ -73,13 +78,16 @@
 
             <TextView
                 android:id="@+id/title"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:textSize="20dp"
                 android:textColor="#ffffff"
+                android:padding="3dp"
                 android:textStyle="bold"
                 android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:background="#44000000"
                 />
 
             <EditText
@@ -87,10 +95,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@null"
-                android:textColor="#ffffff"
                 android:hint="내용을 입력하세요."
+                android:textColor="#ffffff"
                 android:textColorHint="#cccdcb"
-                />
+                android:gravity="top|left"/>
 
 
         </LinearLayout>

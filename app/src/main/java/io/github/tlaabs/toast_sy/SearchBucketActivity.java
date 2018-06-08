@@ -62,8 +62,8 @@ public class SearchBucketActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String sql;
                 String searchTitle = titleEdit.getText().toString();
-                if(selectedHour.equals("-"))sql = "SELECT * FROM "+DBmanager.TABLE_ITEM+" WHERE TITLE LIKE '%" + searchTitle + "%';";
-                else sql = "SELECT * FROM "+DBmanager.TABLE_ITEM+" WHERE STATE = 0 and USAGE_TIME = "
+                if(selectedHour.equals("-"))sql = "SELECT * FROM "+ DBmanager.TABLE_ITEM+" WHERE TITLE LIKE '%" + searchTitle + "%';";
+                else sql = "SELECT * FROM "+ DBmanager.TABLE_ITEM+" WHERE STATE = 0 and USAGE_TIME = "
                         + selectedHour + " and " + "TITLE like " + "'%" + searchTitle + "%';";
                 Cursor cursor = db.rawQuery(sql, null);
                 int count = cursor.getCount();

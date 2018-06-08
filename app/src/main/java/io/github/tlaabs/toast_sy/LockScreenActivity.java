@@ -1,12 +1,26 @@
 package io.github.tlaabs.toast_sy;
 
 
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.drawable.Drawable;
+import android.media.ExifInterface;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.GestureDetector;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -16,17 +30,28 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+
+import io.github.tlaabs.toast_sy.dbhelper.DBmanager;
 
 public class LockScreenActivity extends AppCompatActivity {
 
-    ImageButton btn_unlock;
-    ImageView image;
+    //ImageButton btn_unlock;
+    //ImageView image;
     TextView DateDisplay,TimeDisplay;
-    LinearLayout linear;
+    TextView msg;
+    ImageView background;
+
+    GestureDetector detector;
 
     private int Year, Month,Day,Hour, Minute;
+    private static String provider ="io.github.tlaabs.toast_sy";
     public int mYear=2018, mMonth=5, mDay=20, mHour=12, mMinute=10;
 
     static final int DATE_DIALOG_ID = 0;
@@ -39,6 +64,7 @@ public class LockScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
 
         // 기본 잠금화면보다 우선출력,기본 잠금화면 해제시키기 - 최상위 우선순위로.
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
@@ -53,34 +79,11 @@ public class LockScreenActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_lock_screen);
 
-        btn_unlock = (ImageButton)findViewById(R.id.btn_unlock);
-        image=(ImageView)findViewById(R.id.btn_unlock);
-        linear = (LinearLayout)findViewById(R.id.linear1);
 
-        image.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Animation anim = AnimationUtils.loadAnimation(
-                        getApplicationContext(), R.anim.translate);
-                image.startAnimation(anim);
-
-
-                anim.setAnimationListener(new AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-                    }
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        finish();
-                    }
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-                    }
-
-                });
-
-            }
-        });
+        //btn_unlock = (ImageButton) findViewById(R.id.btn_unlock);
+        //image = (ImageView) findViewById(R.id.btn_unlock);
+        background = (ImageView)findViewById(R.id.background);
+        msg = (TextView)findViewById(R.id.msg);
 
         DateDisplay = (TextView) findViewById(R.id.dateDisplay);
         TimeDisplay = (TextView) findViewById(R.id.timeDisplay);
@@ -100,28 +103,130 @@ public class LockScreenActivity extends AppCompatActivity {
             }
         };
         mHandler.postDelayed(r, 1000);
+
+
+        // 손으로 화면을 미는 제스처를 취하면 잠금화면 꺼지도록.
+        detector = new GestureDetector(this, new GestureDetector.OnGestureListener() {
+            @Override
+            public boolean onDown(MotionEvent motionEvent) {
+                return false;
+            }
+
+            @Override
+            public void onShowPress(MotionEvent motionEvent) {
+
+            }
+
+            @Override
+            public boolean onSingleTapUp(MotionEvent motionEvent) {
+                return false;
+            }
+
+            @Override
+            public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+                finish();
+                return false;
+            }
+
+            @Override
+            public void onLongPress(MotionEvent motionEvent) {
+
+            }
+
+            @Override
+            public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+                return false;
+            }
+        });
+
+
+        background.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                detector.onTouchEvent(motionEvent);
+
+                return true;
+            }
+        });
     }
-    ////////////////////////////////////////////////////////// 하드웨어 back 버튼 누르기 무시//
+
+
     @Override
-    public void onBackPressed() {
-        //
+    public void onResume(){
+        super.onResume();
+
+        //하나의 랜덤 버킷 가져오기 n년이 지난...
+        String today = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        /*
+        SQLiteDatabase db = new DBmanager(getApplicationContext()).getRDB();
+        //todo 년은 다르게 하기 추가
+        String selectQuery = "SELECT * FROM " + DBmanager.TABLE_ITEM
+                + " WHERE STATE = 2 AND INSTR( " + DBmanager.KEY_COMPLETE_TIME + " , '" + today.substring(5, 10) + "')=6 AND "+DBmanager.KEY_COMPLETE_TIME+
+                " NOT LIKE '"+today.substring(0,5)+"%' ORDER BY RANDOM() LIMIT 1"; // 월,일만 같은 하나만...
+        Log.v("LOCKT", "쿼리문 : "+selectQuery);
+        Cursor cursor = db.rawQuery(selectQuery, null);*/
+        /*
+        //----------------------        String test="SELECT * FROM " + DBmanager.TABLE_ITEM + " WHERE "+DBmanager.KEY_COMPLETE_TIME+" LIKE '%06-04%'=6";
+        String test="SELECT INSTR( "+DBmanager.KEY_COMPLETE_TIME+" , '06-04') FROM " + DBmanager.TABLE_ITEM + " WHERE STATE = 2";
+        Cursor c1 = db.rawQuery(test,null);
+        c1.moveToFirst();
+        Log.v("LOCKT", "쿼리문 : " + test);
+        Log.v("LOCKT", "테스트 : " + c1.getString(0));
+        //Log.v("LOCKT", "잠금화면 날짜 : " + c1.getString(8));
+        //-----------------------*/
+
+        //선택된 item을 가지고....
+        Intent intent = getIntent();
+        Log.v("LOCKT", "지정된 잠금화면 title : " + intent.getStringExtra("title"));
+        Log.v("LCOKT", "지정된 잠금화면 날짜 : " + intent.getStringExtra("date"));
+
+        int interval = Integer.parseInt(intent.getStringExtra("date").substring(0,3))-Integer.parseInt(today.substring(0,3));
+        if(interval ==0)  msg.setText("오늘은 "+intent.getStringExtra("title")+" 했어요!");
+        else msg.setText(interval+" 년 전에는 "+intent.getStringExtra("title")+" 했어요!");
+
+
+        Uri img = Uri.parse(intent.getStringExtra("img"));
+        grantUriPermission(provider,img, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        File file = new File(getRealPathFromUri(img));
+        /*
+        if (file.exists()) {
+        Drawable d = Drawable.createFromPath(file.getAbsolutePath());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                background.setBackground(d);
+        }else{
+                Toast.makeText(this,"젤리빈 이상만 지원되는 기능입니다.",Toast.LENGTH_SHORT).show();
+        }
+    }*/
+
+        Bitmap image = BitmapFactory.decodeFile(file.getAbsolutePath());
+
+        try {
+            ExifInterface exif = new ExifInterface(file.getAbsolutePath());
+            int exifOrientataion = exif.getAttributeInt(
+                    ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+            int exifDegree = exifOrientationToDegrees(exifOrientataion);
+            image=rotate(image,exifDegree);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        background.setImageBitmap(image);
     }
 
-    //키 이벤트 무시
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    private String getRealPathFromUri(Uri img){
 
-        if((keyCode==KeyEvent.KEYCODE_HOME)
-                ||(keyCode==KeyEvent.KEYCODE_DPAD_LEFT)
-                ||(keyCode==KeyEvent.KEYCODE_DPAD_RIGHT)
-                ||(keyCode==KeyEvent.KEYCODE_DPAD_RIGHT)
-                ||(keyCode==KeyEvent.KEYCODE_CALL)
-                ||(keyCode==KeyEvent.KEYCODE_ENDCALL))
-        {
-            return true;
+        grantUriPermission(provider,img, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        Cursor c1 = getContentResolver().query(img,null,null,null,null);
+        if(c1==null){
+            return img.getPath();
+        }else{
+            c1.moveToFirst();
+            int idx = c1.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            return c1.getString(idx);
         }
-
-        // return super.onKeyDown(keyCode, event);
-        return false;
     }
 
     private void updateDisplay() {
@@ -139,7 +244,6 @@ public class LockScreenActivity extends AppCompatActivity {
 
         mHandler.postDelayed(r, 1000);
     }
-
     private static String pad(int c) {
         if (c >= 10)
             return String.valueOf(c);
@@ -147,6 +251,57 @@ public class LockScreenActivity extends AppCompatActivity {
             return "0" + String.valueOf(c);
     }
 
+    //
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
 
+        if((keyCode==KeyEvent.KEYCODE_HOME)
+                || (keyCode==KeyEvent.KEYCODE_MENU)
+                || (keyCode==KeyEvent.KEYCODE_BACK)
+                ||(keyCode==KeyEvent.KEYCODE_DPAD_LEFT)
+                ||(keyCode==KeyEvent.KEYCODE_DPAD_RIGHT)
+                ||(keyCode==KeyEvent.KEYCODE_DPAD_CENTER)
+                ||(keyCode==KeyEvent.KEYCODE_CALL)
+                ||(keyCode==KeyEvent.KEYCODE_ENDCALL))
+        {
+            return true;
+        }
+
+        // return super.onKeyDown(keyCode, event);
+        return false;
+    }
+    @Override
+    public void onBackPressed() {
+        //
+    }
+    protected int exifOrientationToDegrees(int exifOrientation){
+      if(exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) {
+          return 90;
+      } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {
+          return 180;
+      } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_270) {
+          return 270;
+      } return 0;
+    }
+
+    protected Bitmap rotate(Bitmap bitmap, int degrees){
+        if(degrees!=0 && bitmap !=null)
+        {
+            Matrix m = new Matrix();
+            m.setRotate(degrees,(float)bitmap.getWidth()/2,(float)bitmap.getHeight()/2);
+
+            try{
+                Bitmap converted = Bitmap.createBitmap(bitmap, 0,0,
+                bitmap.getWidth(),bitmap.getHeight(),m,true);
+                if(bitmap!=converted)
+                {
+                    bitmap.recycle();
+                    bitmap=converted;
+                }
+            }catch (OutOfMemoryError e){
+                Toast.makeText(getApplicationContext(),"메모리 부족으로 사진회전 실패",Toast.LENGTH_SHORT).show();
+            }
+        }
+        return bitmap;
+    }
 
 }

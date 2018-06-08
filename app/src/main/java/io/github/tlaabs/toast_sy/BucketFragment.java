@@ -26,8 +26,6 @@ import java.util.Date;
 
 import io.github.tlaabs.toast_sy.dbhelper.DBmanager;
 
-import static android.content.Context.MODE_PRIVATE;
-
 /**
  * Created by devsimMe on 2018-05-14.
  */
@@ -149,7 +147,6 @@ public class BucketFragment extends Fragment{
 
                         Calendar cal = Calendar.getInstance();
                         cal.setTime(new Date());
-
 
                         cal.add(Calendar.HOUR, +howlong); //toDo : 테스트 용으로 chfmf eksdnl
                         String end = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(cal.getTime());

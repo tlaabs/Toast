@@ -1,6 +1,8 @@
 package io.github.tlaabs.toast_sy.Alarm;
 
+import android.app.NotificationManager;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.widget.Toast;
 import io.github.tlaabs.toast_sy.BucketItem;
 import io.github.tlaabs.toast_sy.ExtendBucketActivity;
 import io.github.tlaabs.toast_sy.R;
+import io.github.tlaabs.toast_sy.dbhelper.DBmanager;
 
 public class StopOnGoingActivity extends AppCompatActivity {
     Button cancel;
@@ -33,6 +36,10 @@ public class StopOnGoingActivity extends AppCompatActivity {
         item=(BucketItem)i.getSerializableExtra("item");
         message.setText(item.getTitle().toString() + " 정말로 그만 할래요?");
 
+        //취소
+        NotificationManager nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        nm.cancel(item.getId());
+
         keep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,12 +53,12 @@ public class StopOnGoingActivity extends AppCompatActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SQLiteDatabase db = getApplicationContext().openOrCreateDatabase("sim.db", MODE_PRIVATE, null);
+                SQLiteDatabase db = new DBmanager(getApplicationContext()).getWDB();
                 ContentValues recordValues = new ContentValues();
 
-                recordValues.put("STATE", 0);
+                recordValues.put(DBmanager.KEY_STATE, 0);
 
-                db.update("simDB",recordValues,"ID=" + item.getId(),null);
+                db.update(DBmanager.TABLE_ITEM,recordValues," ID = " + item.getId(),null);
                 Toast.makeText(getApplicationContext(),"중지",Toast.LENGTH_SHORT).show();
                 finish();
             }
