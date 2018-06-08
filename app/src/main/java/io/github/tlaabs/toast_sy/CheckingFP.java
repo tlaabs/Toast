@@ -44,6 +44,9 @@ public class CheckingFP extends AppCompatActivity {
     private ImageView imageView;
 
 
+    FingerPrintHandler helper;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,35 +55,56 @@ public class CheckingFP extends AppCompatActivity {
 
         manager = (FingerprintManager)getSystemService(FINGERPRINT_SERVICE);
 
-       // KeyguardManager keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
+        // KeyguardManager keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
         generateKey();
 
-        if (cipherInit()) {
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (cipherInit() ) {
             cryptoObject =
                     new FingerprintManager.CryptoObject(cipher);
-            FingerPrintHandler helper = new FingerPrintHandler(this,this,imageView);
+            helper = new FingerPrintHandler(this,this,imageView);
             helper.startAuth(manager, cryptoObject);
         }
+
     }
-    ////////////////////////////////////////////////////////// 하드웨어 back 버튼 누르기 금지//
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        finish();
+    }
+
+    //////////////// 하드웨어 back 버튼 누르면 종료.
     public void onBackPressed(){
-        //
+        setResult(RESULT_CANCELED);
+        finish();
     }
 
     //키 이벤트 무시///
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
-        if((keyCode==KeyEvent.KEYCODE_HOME)
+        if(   (keyCode==KeyEvent.KEYCODE_MENU)
                 ||(keyCode==KeyEvent.KEYCODE_DPAD_LEFT)
-                ||(keyCode==KeyEvent.KEYCODE_DPAD_RIGHT)
-                ||(keyCode==KeyEvent.KEYCODE_DPAD_RIGHT)
                 ||(keyCode==KeyEvent.KEYCODE_CALL)
                 ||(keyCode==KeyEvent.KEYCODE_ENDCALL))
         {
             return true;
         }
-
+        if((keyCode==KeyEvent.KEYCODE_BACK) ||(keyCode==KeyEvent.KEYCODE_DPAD_RIGHT)||(keyCode==KeyEvent.KEYCODE_HOME)||(keyCode==KeyEvent.KEYCODE_DPAD_CENTER))
+        {
+            setResult(RESULT_CANCELED);
+            finish();
+        }
         // return super.onKeyDown(keyCode, event);
+        setResult(RESULT_CANCELED);
+        finish();
         return false;
     }
 
@@ -124,7 +148,7 @@ public class CheckingFP extends AppCompatActivity {
 
             editor.putString("securityType","FREE");
             editor.commit();
-            Toast.makeText(getApplicationContext(),"지문 인식을 지원하지 않는 디바이스에요. ㅠ",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"지문 인식을 지원하지 않는 디바이스에요.",Toast.LENGTH_SHORT).show();
         }
     }
 

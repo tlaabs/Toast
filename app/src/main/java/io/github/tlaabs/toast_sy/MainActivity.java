@@ -13,9 +13,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -75,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
         DBmanager db1 = new DBmanager(getApplicationContext());
 
-        Log.i("haaha",getKeyHash(this));
+        Log.i("haaha", getKeyHash(this));
     }
 
     public static String getKeyHash(final Context context) {
@@ -98,17 +101,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         SharedPreferences pref = getSharedPreferences("security", MODE_PRIVATE);
-        String set = pref.getString("securityType","FREE");
-        String pw = pref.getString("pw","0000");
+        String set = pref.getString("securityType", "FREE");
+        String pw = pref.getString("pw", "0000");
 
-        if(securityCheck == false && set.equals("PW")){
-            Intent i = new Intent(this,CheckingPW.class);
-            i.putExtra("pw",pw);
-            startActivityForResult(i,1);
-        }
-        else if(securityCheck == false && set.equals("FP")){
-            Intent i = new Intent(this,CheckingFP.class);
-            startActivityForResult(i,2);
+        if (securityCheck == false && set.equals("PW")) {
+            Intent i = new Intent(this, CheckingPW.class);
+            i.putExtra("pw", pw);
+            startActivityForResult(i, 1);
+        } else if (securityCheck == false && set.equals("FP")) {
+            Intent i = new Intent(this, CheckingFP.class);
+            startActivityForResult(i, 2);
         }
 
         //매일 하나씩 알람 하는 부분
@@ -129,6 +131,28 @@ public class MainActivity extends AppCompatActivity {
         db.close();
     }
 
+
+
+    @Override
+    public void onBackPressed() {
+        securityCheck = false;
+        finish();
+    }
+
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if((keyCode==KeyEvent.KEYCODE_BACK) ||(keyCode==KeyEvent.KEYCODE_DPAD_RIGHT)||(keyCode==KeyEvent.KEYCODE_HOME)||(keyCode==KeyEvent.KEYCODE_DPAD_CENTER))
+        {
+            securityCheck = false;
+            finish();
+        }
+
+        return false;
+    }
+
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == 1){
@@ -140,7 +164,14 @@ public class MainActivity extends AppCompatActivity {
         }
         //지문 인식 ok
         else if(requestCode == 2){
+
+            if(resultCode==RESULT_OK){
                 securityCheck = true;
+            }
+            else
+            {
+                finish();
+            }
         }
     }
 
