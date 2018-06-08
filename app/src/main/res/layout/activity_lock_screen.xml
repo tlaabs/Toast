@@ -59,15 +59,18 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_weight="2"
-            android:gravity="center_vertical">
+            android:gravity="bottom|center_horizontal">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=">> 밀어서 잠금해제 >>"
-                android:textStyle="bold"
-                android:textColor="#ffff"
                 android:gravity="center"
-                android:textSize="30sp"/>
+                android:text="--Touch Screen to Unlock--"
+                android:textColor="#ffff"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:padding="3dp"
+                android:background="#44000000"/>
         </LinearLayout>
         <!--
         <RelativeLayout

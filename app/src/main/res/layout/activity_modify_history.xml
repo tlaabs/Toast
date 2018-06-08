@@ -44,6 +44,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="공유"
+                    android:background="#44000000"
+                    android:padding="3dp"
                     android:textColor="#ffffff"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentLeft="true"
@@ -54,6 +56,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="삭제"
+                    android:background="#44000000"
+                    android:padding="3dp"
                     android:textColor="#ffffff"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
@@ -65,6 +69,8 @@
                     android:layout_height="wrap_content"
                     android:text="수정"
                     android:textColor="#ffffff"
+                    android:background="#44000000"
+                    android:padding="3dp"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
                     />
@@ -92,6 +98,7 @@
                 android:gravity="center"
                 android:layout_gravity="center_horizontal"
                 android:background="#44000000"
+                android:padding="3dp"
                 />
 
             <EditText

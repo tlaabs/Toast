@@ -77,8 +77,8 @@ public class AlarmReciver extends BroadcastReceiver {
 
                 NotiBuilder = new NotificationCompat.Builder(context, "Bucket")
                         .setSmallIcon(R.drawable.ic_stat_toast)
-                        .setContentTitle(item.getTitle() + " 지금 해볼래요?")
-                        .setContentText("지금 새로운 추억을 만들어 봐요!")
+                        .setContentTitle("'"+item.getTitle() + "' 지금 해볼래요?")
+                        .setContentText("새로운 추억을 만들어 봐요!")
                         .setDefaults(Notification.DEFAULT_SOUND)
                         .setLargeIcon(largeIcon)
                         .setPriority(NotificationCompat.PRIORITY_HIGH)
