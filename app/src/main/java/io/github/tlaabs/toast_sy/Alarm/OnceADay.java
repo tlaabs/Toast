@@ -31,11 +31,11 @@ public class OnceADay{
     }
 
 
-    public int execute(int day, int hour, int minute) {
+    public int execute(int hour, int minute) {
         Calendar cal = Calendar.getInstance();
-        int currentDate = cal.get(Calendar.DAY_OF_MONTH);
+        int currenthour = cal.get(Calendar.HOUR_OF_DAY);
 
-        if (currentDate != day && db != null) {//하루에 한번만
+        if (currenthour > hour && db != null) {//하루에 한번만
             Cursor c = db.rawQuery(selectQuery, null);
 
             //아이템이 있을시에만...

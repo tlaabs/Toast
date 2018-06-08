@@ -117,22 +117,15 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences pref2 = getSharedPreferences("alarm", MODE_PRIVATE);
 
-        int d =pref2.getInt("D",0);
         int h = pref2.getInt("H",9);
         int m = pref2.getInt("M",0);
         Log.i("tt",h + "|"+m+"|"+Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
 
-        if(d==0 && h<Calendar.getInstance().get(Calendar.HOUR_OF_DAY))//처음실행시 무시
-            d=Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-
-        int result = dailyTask.execute(d,h,m); // toDO 테스트 환경 수정
-        if(result>0){ //알람 설정이 완료 되었을때
-            SharedPreferences.Editor pref2Editor = pref2.edit();
-            Log.v("tt","Bucket 알람이 설정 되었습니다. :" + d + " " + h + " " + m + " " + result);
-            pref2Editor.putInt("D",result);
-            pref2Editor.commit();
+        int result = dailyTask.execute(h,m); // toDO 테스트 환경 수정
+        if(result>0){ //알람 설정이 완료 되었을때...
+            Log.v("tt","Bucket 알람이 설정 되었습니다. :" + " " + h + " " + m + " " + result);
         }
-        Log.v("tt","Result는 이와 같습니다 : " + d + " = " + result);
+        Log.v("tt","Result는 이와 같습니다 : " + result);
         db.close();
     }
 
@@ -147,9 +140,7 @@ public class MainActivity extends AppCompatActivity {
         }
         //지문 인식 ok
         else if(requestCode == 2){
-
                 securityCheck = true;
-
         }
     }
 
