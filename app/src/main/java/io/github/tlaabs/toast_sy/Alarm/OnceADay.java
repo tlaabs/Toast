@@ -35,7 +35,7 @@ public class OnceADay{
         Calendar cal = Calendar.getInstance();
         int currenthour = cal.get(Calendar.HOUR_OF_DAY);
 
-        if (currenthour > hour && db != null) {//하루에 한번만
+        if (currenthour < hour && db != null) {//하루에 한번만
             Cursor c = db.rawQuery(selectQuery, null);
 
             //아이템이 있을시에만...
