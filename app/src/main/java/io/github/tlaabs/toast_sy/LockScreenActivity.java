@@ -182,7 +182,9 @@ public class LockScreenActivity extends AppCompatActivity {
         Log.v("LCOKT", "지정된 잠금화면 날짜 : " + intent.getStringExtra("date"));
 
         int interval = Integer.parseInt(intent.getStringExtra("date").substring(0,3))-Integer.parseInt(today.substring(0,3));
-        msg.setText(interval+" 년 전에는 "+intent.getStringExtra("title")+" 했어요!");
+        if(interval ==0)  msg.setText("오늘은 "+intent.getStringExtra("title")+" 했어요!");
+        else msg.setText(interval+" 년 전에는 "+intent.getStringExtra("title")+" 했어요!");
+
 
         Uri img = Uri.parse(intent.getStringExtra("img"));
         grantUriPermission(provider,img, Intent.FLAG_GRANT_READ_URI_PERMISSION);

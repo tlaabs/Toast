@@ -106,21 +106,21 @@ public class AlarmReciver extends BroadcastReceiver {
                         context, 1,
                         new Intent(context, StopOnGoingActivity.class).putExtra("item",item),
                         PendingIntent.FLAG_UPDATE_CURRENT);
-                NotificationCompat.Action cancelAction = new NotificationCompat.Action.Builder(R.drawable.d_icon, "안할래", cancelPendingIntent).build();
+                NotificationCompat.Action cancelAction = new NotificationCompat.Action.Builder(R.drawable.d_icon, "취소", cancelPendingIntent).build();
 
                 //완료 눌렀을때 실행할 activity
                 PendingIntent confirmPendingIntent = PendingIntent.getActivity(
                         context, 1,
                         new Intent(context, AddHistoryBucketActivity.class).putExtra("item",item),
                         PendingIntent.FLAG_UPDATE_CURRENT);
-                NotificationCompat.Action confirmAction = new NotificationCompat.Action.Builder(R.drawable.c_icon, "완료했어요", confirmPendingIntent).build();
+                NotificationCompat.Action confirmAction = new NotificationCompat.Action.Builder(R.drawable.c_icon, "완료", confirmPendingIntent).build();
 
                 //연장 눌렀을때 실행할 activity
                 PendingIntent extendPendingIntent = PendingIntent.getActivity(
                         context, 1,
                         new Intent(context, ExtendBucketActivity.class).putExtra("item",item),
                         PendingIntent.FLAG_UPDATE_CURRENT);
-                NotificationCompat.Action extendAction = new NotificationCompat.Action.Builder(R.drawable.t_icon, "시간을 조금만 더..", extendPendingIntent).build();
+                NotificationCompat.Action extendAction = new NotificationCompat.Action.Builder(R.drawable.t_icon, "시간 연장", extendPendingIntent).build();
 
                 //notification channel 설정
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -138,8 +138,8 @@ public class AlarmReciver extends BroadcastReceiver {
 
                 NotiBuilder = new NotificationCompat.Builder(context, "Ongoing")
                         .setSmallIcon(R.drawable.ic_done)
-                        .setContentTitle(item.getTitle() + " 시간 만료")
-                        .setContentText(item.getTitle()+" 어떻게 할래요?")
+                        .setContentTitle("'"+item.getTitle() + "' 시간 만료")
+                        .setContentText("어떻게 하실래요?")
                         .setDefaults(Notification.DEFAULT_SOUND)
                         .setLargeIcon(largeIcon)
                         .setPriority(NotificationCompat.PRIORITY_HIGH)
