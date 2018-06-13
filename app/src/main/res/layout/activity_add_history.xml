@@ -47,7 +47,6 @@
                     android:text="뒤로"
                     android:textColor="#ffffff"
                     android:padding="3dp"
-                    android:background="#44000000"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentLeft="true"
                     />
@@ -59,7 +58,6 @@
                     android:text="등록"
                     android:textColor="#ffffff"
                     android:padding="3dp"
-                    android:background="#44000000"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
                     />
@@ -87,7 +85,6 @@
                 android:textStyle="bold"
                 android:gravity="center"
                 android:layout_gravity="center_horizontal"
-                android:background="#44000000"
                 />
 
             <EditText
